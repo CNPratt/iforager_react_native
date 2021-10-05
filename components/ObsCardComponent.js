@@ -22,7 +22,7 @@ class ObsCard extends Component {
         obsid={this.props.obsid}
         id={this.props.obsid}
         key={this.props.observation.trueID}
-        image={this.props.observation.image}
+        image={{ uri: this.props.observation.image }}
         title={
           this.props.observation.species
             ? this.props.observation.species

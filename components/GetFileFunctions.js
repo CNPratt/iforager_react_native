@@ -38,31 +38,22 @@ function extractObservation(element, lat, lon) {
 export const getFile = async (latlon, type) => {
   obsArray = [];
 
-  // console.log("getfile ", idObject[type].ids, type, latlon);
+  console.log("getfile ", idObject[type].ids, type, latlon);
 
-  // console.log(
-  //   fetch(
-  //     `https://cors.bridged.cc/https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}&quality_grade=research&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`
-  //   )
+  // const response = await fetch(
+  //   `https://cors.bridged.cc/https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}&quality_grade=research&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`
+
   // );
 
-  const response = await fetch(
-    `https://cors.bridged.cc/https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}&quality_grade=research&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`
-    // {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    // }
-  );
+  const url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}&quality_grade=research&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
 
-  // console.log(`https://cors.bridged.cc/https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}&quality_grade=research&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`)
+  const response = await fetch(url);
 
   // console.log(response);
 
   const resultsObject = await response.json();
 
-  // console.log(resultsObject);
+  console.log(resultsObject);
 
   resultsObject.results.forEach((element) => {
     extractObservation(element, latlon[0], latlon[1]);

@@ -31,7 +31,8 @@ class CardDisplay extends Component {
       loading: true,
     });
 
-    getFile(this.props.screenProps.latlon, this.props.screenProps.type)
+    getFile(this.props.latlon, this.props.type)
+      // getFile([42, -83], "fruit")
       .then((value) => {
         this.setState({
           observations: value,

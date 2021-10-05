@@ -6,6 +6,13 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
 import Home from "./HomeComponent";
 import CardDisplay from "./CardDisplayComponent";
+import * as Location from "expo-location";
+import {
+  MushroomsPage,
+  FruitPage,
+  BerriesPage,
+  AlliumsPage,
+} from "./FinderPageComponents";
 
 const test = async () => {
   let response = await fetch("https://quotes.rest/qod");
@@ -34,9 +41,60 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
-const CardsNavigator = createStackNavigator(
+const MushroomsNav = createStackNavigator(
   {
-    Cards: { screen: CardDisplay },
+    Mushrooms: { screen: MushroomsPage },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "black",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+    },
+  }
+);
+
+const BerriesNav = createStackNavigator(
+  {
+    Mushrooms: { screen: BerriesPage },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "black",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+    },
+  }
+);
+
+const FruitNav = createStackNavigator(
+  {
+    Fruit: { screen: FruitPage },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "black",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+    },
+  }
+);
+
+const AlliumsNav = createStackNavigator(
+  {
+    Alliums: { screen: AlliumsPage },
   },
   {
     defaultNavigationOptions: {
@@ -54,7 +112,10 @@ const CardsNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     Home: { screen: HomeNavigator },
-    Cards: { screen: CardsNavigator },
+    Mushrooms: { screen: MushroomsNav },
+    Berries: { screen: BerriesNav },
+    Fruit: { screen: FruitNav },
+    Alliums: { screen: AlliumsNav },
   },
   {
     drawerBackgroundColor: "grey",
@@ -79,6 +140,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    Location.installWebGeolocationPolyfill();
     this.getLocation();
     test().then((quote) =>
       this.setState({
