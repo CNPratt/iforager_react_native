@@ -14,7 +14,7 @@ export default class TestMap extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.marker) {
-      console.log(this.marker);
+      // console.log(this.marker);
       this.marker.showCallout();
     }
 
@@ -30,9 +30,6 @@ export default class TestMap extends Component {
 
   render() {
     const markers = this.props.observations.map((element) => {
-      if (element.trueID === this.props.selectedMarker) {
-        // thisMarker = React.createRef();
-      }
       return (
         <Marker
           stopPropagation="true"
@@ -41,7 +38,11 @@ export default class TestMap extends Component {
               ? (ref) => (this.marker = ref)
               : null
           }
-          title={element.species}
+          title={
+            element.trueID === this.props.selectedMarker
+              ? element.species
+              : null
+          }
           coordinate={{ latitude: element.obsLat, longitude: element.obsLon }}
           pinColor={
             element.trueID === this.props.selectedMarker ? "blue" : "green"
