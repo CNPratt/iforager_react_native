@@ -134,7 +134,10 @@ class CardDisplay extends Component {
                       selectedId={this.state.selectedMarker}
                     />
                   ))} */}
-          <TestMap latlon={this.props.latlon} />
+          <TestMap
+            latlon={this.props.latlon}
+            observations={this.state.observations}
+          />
           <CardFlatList
             observations={this.state.observations}
             handleMarkerClick={this.handleMarkerClick}
