@@ -24,6 +24,24 @@ class CardDisplay extends Component {
     title: "Cards",
   };
 
+  handleMarkerClick = (id) => {
+    // console.log("handlemarkerclick");
+    this.setState({
+      selected: this.state.observations
+        .filter((obs) => obs.trueID === id)
+        .map((obs) => (
+          <ObsCard
+            id="selectedCard"
+            style={{ borderColor: "#CFBF00" }}
+            obsid={`s${obs.trueID}`}
+            key={obs.trueID}
+            observation={obs}
+          />
+        )),
+      selectedMarker: id,
+    });
+  };
+
   getData() {
     this.setState({
       observations: [],
@@ -81,70 +99,26 @@ class CardDisplay extends Component {
     //        console.log("carddisplay props",  this.props);
     //        console.log("carddisplay state",  this.state);
 
-    // console.log(this.state.loading);
+    // console.log(this.state.selectedMarker);
 
     if (this.state.errorMsg) {
-      return (
-        //   <TitleDisplay
-        //     typeName={this.props.type}
-        //     error={this.state.errorMsg}
-        //   />
-        <Text>{this.state.errorMsg}</Text>
-      );
+      return <Text>{this.state.errorMsg}</Text>;
     }
 
     if (this.state.observations) {
       return (
         <View>
-          {/* <TitleDisplay
-            typeName={this.props.type}
-            loading={this.state.loading}
-          /> */}
-
-          {/* <SimpleMap
-            latlon={this.props.latlon}
-            observations={this.state.observations}
-            selected={this.state.selected}
-            handler={this.handleMarkerClick}
-            selectedMarker={this.state.selectedMarker}
-            transKey={this.props.location.pathname}
-          /> */}
-
-          {/* <MainMap
-            latlon={this.props.latlon}
-            observations={this.state.observations}
-            selected={this.state.selected}
-            handler={this.handleMarkerClick}
-            selectedMarker={this.state.selectedMarker}
-            transKey={this.props.location.pathname}
-          /> */}
-
-          {/* <LocationForm relay={this.props.relay} /> */}
-
-          {/* <div className="col" id="cardCol"> */}
-          {/* <Stagger in> */}
-          {/* {this.state.observations
-                  .sort((a, b) => (a.trueDistance > b.trueDistance ? 1 : -1))
-                  .map((obs) => (
-                    <ObsCard
-                      click={this.handleMarkerClick}
-                      obsid={obs.trueID}
-                      key={obs.trueID}
-                      observation={obs}
-                      selectedId={this.state.selectedMarker}
-                    />
-                  ))} */}
           <TestMap
             latlon={this.props.latlon}
             observations={this.state.observations}
+            handler={this.handleMarkerClick}
+            selectedMarker={this.state.selectedMarker}
           />
           <CardFlatList
             observations={this.state.observations}
             handleMarkerClick={this.handleMarkerClick}
             selectedMarker={this.state.selectedMarker}
           />
-          {/* </Stagger> */}
-          {/* </div> */}
         </View>
       );
     } else {

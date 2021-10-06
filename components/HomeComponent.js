@@ -15,9 +15,6 @@ class Home extends Component {
   render() {
     return (
       <ScrollView>
-        <Card title="Quote of the Day API Tester">
-          <Text>{this.props.screenProps.quote}</Text>
-        </Card>
         <Card title="Welcome to iForager!">
           <Text style={{ marginBottom: 10 }}>
             This is a page built on the iNaturalist API to make it easier to

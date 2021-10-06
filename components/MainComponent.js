@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Constants from "expo-constants";
-import { View } from "react-native";
+import { View, StyleSheet, Text, TextInput, Switch } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
-import { createDrawerNavigator } from "react-navigation-drawer";
+import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
 import Home from "./HomeComponent";
-import CardDisplay from "./CardDisplayComponent";
 import * as Location from "expo-location";
 import {
   MushroomsPage,
@@ -13,16 +12,75 @@ import {
   BerriesPage,
   AlliumsPage,
 } from "./FinderPageComponents";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { withTheme } from "react-native-elements";
+import { inputRelay } from "./GetFileFunctions";
 
-const test = async () => {
-  let response = await fetch("https://quotes.rest/qod");
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: "white",
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
 
-  let responseObject = await response.json();
+  switch: {
+    padding: 10,
+  },
+});
 
-  console.log(responseObject.contents.quotes[0].quote);
+class FinderOptions extends Component {
+  constructor(props) {
+    super(props);
 
-  return responseObject.contents.quotes[0].quote;
-};
+    this.state = {
+      addressText: "",
+      unfiltered: false,
+    };
+  }
+
+  render() {
+    // console.log(this.props.screenProps.latlon);
+    return (
+      <View>
+        <SafeAreaView>
+          <DrawerItems {...this.props} />
+
+          <View style={styles.switch}>
+            <Text>
+              <Switch
+                value={this.state.unfiltered}
+                onValueChange={() =>
+                  this.setState({
+                    unfiltered: !this.state.unfiltered,
+                  })
+                }
+                trackColor={{ false: "white", true: "black" }}
+                thumbColor="darkgrey"
+                ios_backgroundColor="white"
+              />
+
+              {"Unfiltered Mode"}
+            </Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Address"
+            onChangeText={(text) =>
+              this.setState({
+                addressText: text,
+              })
+            }
+            onSubmitEditing={() =>
+              this.props.screenProps.relay(this.state.addressText)
+            }
+          />
+        </SafeAreaView>
+      </View>
+    );
+  }
+}
 
 const HomeNavigator = createStackNavigator(
   {
@@ -60,7 +118,7 @@ const MushroomsNav = createStackNavigator(
 
 const BerriesNav = createStackNavigator(
   {
-    Mushrooms: { screen: BerriesPage },
+    Berries: { screen: BerriesPage },
   },
   {
     defaultNavigationOptions: {
@@ -124,6 +182,7 @@ const MainNavigator = createDrawerNavigator(
         color: "white",
       },
     },
+    contentComponent: (props) => <FinderOptions {...props} />,
   }
 );
 
@@ -135,19 +194,29 @@ class Main extends Component {
 
     this.state = {
       latlon: [0, 0],
-      quote: "Loading...",
     };
   }
 
   componentDidMount() {
     Location.installWebGeolocationPolyfill();
     this.getLocation();
-    test().then((quote) =>
-      this.setState({
-        quote: quote,
-      })
-    );
   }
+
+  handleSubmit = async (text) => {
+    // console.log("handlesubmit " + text);
+    // e.preventDefault();
+
+    const receivedLocation = await inputRelay(text);
+
+    // console.log(receivedLocation);
+
+    this.setState({
+      latlon: [
+        parseFloat(receivedLocation.lat),
+        parseFloat(receivedLocation.lon),
+      ],
+    });
+  };
 
   getLocation = () => {
     const positionRelay = (position) => {
@@ -171,8 +240,7 @@ class Main extends Component {
   };
 
   render() {
-    console.log(this.state.latlon);
-    console.log(this.state.quote);
+    // console.log(this.state.latlon);
 
     return (
       <View style={{ flex: 1 }}>
@@ -180,7 +248,7 @@ class Main extends Component {
           screenProps={{
             type: "berries",
             latlon: this.state.latlon,
-            quote: this.state.quote,
+            relay: this.handleSubmit,
           }}
         />
       </View>
