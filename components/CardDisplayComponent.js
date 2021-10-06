@@ -5,6 +5,7 @@ import { CardStack, CardFlatList } from "./CardStackComponent";
 import { Text, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
+import TestMap from "./TestMapComponent";
 
 class CardDisplay extends Component {
   constructor(props) {
@@ -133,6 +134,7 @@ class CardDisplay extends Component {
                       selectedId={this.state.selectedMarker}
                     />
                   ))} */}
+          <TestMap latlon={this.props.latlon} />
           <CardFlatList
             observations={this.state.observations}
             handleMarkerClick={this.handleMarkerClick}
