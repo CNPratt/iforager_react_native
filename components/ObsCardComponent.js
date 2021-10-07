@@ -10,8 +10,12 @@ class ObsCard extends Component {
   render() {
     let thisColor;
 
-    if (this.props.obsid == this.props.selectedId) {
-      thisColor = "#b8aea2";
+    // console.log(this.props.selectedMarker);
+
+    if (this.props.obsid === this.props.selectedMarker) {
+      thisColor = "gray";
+    } else {
+      thisColor = "white";
     }
 
     return (
@@ -19,6 +23,7 @@ class ObsCard extends Component {
         onPress={
           this.props.click ? () => this.props.click(this.props.obsid) : null
         }
+        containerStyle={{ backgroundColor: thisColor }}
         obsid={this.props.obsid}
         id={this.props.obsid}
         key={this.props.observation.trueID}

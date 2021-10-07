@@ -32,7 +32,6 @@ export default class TestMap extends Component {
     const markers = this.props.observations.map((element) => {
       return (
         <Marker
-          stopPropagation="true"
           ref={
             element.trueID === this.props.selectedMarker
               ? (ref) => (this.marker = ref)
@@ -47,6 +46,9 @@ export default class TestMap extends Component {
           pinColor={
             element.trueID === this.props.selectedMarker ? "blue" : "green"
           }
+          style={{
+            zIndex: element.trueID === this.props.selectedMarker ? 100 : 0,
+          }}
           key={element.trueID}
           onPress={() => {
             this.props.handler(element.trueID);

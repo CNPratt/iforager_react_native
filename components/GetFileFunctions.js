@@ -5,8 +5,6 @@ import { idObject } from "./IDObject";
 let obsArray = [];
 
 function extractObservation(element, lat, lon) {
-  // console.log(element.id);
-
   let coordSplit = element.location.split(",");
 
   let thisLat = parseFloat(coordSplit[0]);
