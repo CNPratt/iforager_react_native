@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card } from "react-native-elements";
-import { Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 class ObsCard extends Component {
   constructor(props) {
@@ -10,8 +10,6 @@ class ObsCard extends Component {
   render() {
     let thisColor;
 
-    // console.log(this.props.selectedMarker);
-
     if (this.props.obsid === this.props.selectedMarker) {
       thisColor = "gray";
     } else {
@@ -19,34 +17,41 @@ class ObsCard extends Component {
     }
 
     return (
-      <Card
-        onPress={
+      <TouchableOpacity
+        onLongPress={
           this.props.click ? () => this.props.click(this.props.obsid) : null
         }
-        containerStyle={{ backgroundColor: thisColor }}
-        obsid={this.props.obsid}
-        id={this.props.obsid}
-        key={this.props.observation.trueID}
-        image={{ uri: this.props.observation.image }}
-        title={
-          this.props.observation.species
-            ? this.props.observation.species
-                .toLowerCase()
-                .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
-                .join(" ")
-            : this.props.observation.name
-                .toLowerCase()
-                .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
-                .join(" ")
-        }
-        subtitle={this.props.observation.name}
       >
-        <Text>{this.props.observation.genLocation}</Text>
-        <Text>{this.props.observation.distance}</Text>
-        <Text>{this.props.observation.createDate}</Text>
-      </Card>
+        <Card
+          containerStyle={{ backgroundColor: thisColor }}
+          obsid={this.props.obsid}
+          id={this.props.obsid}
+          key={this.props.observation.trueID}
+          image={{ uri: this.props.observation.image }}
+          title={
+            this.props.observation.species
+              ? this.props.observation.species
+                  .toLowerCase()
+                  .split(" ")
+                  .map(
+                    (word) => word.charAt(0).toUpperCase() + word.substring(1)
+                  )
+                  .join(" ")
+              : this.props.observation.name
+                  .toLowerCase()
+                  .split(" ")
+                  .map(
+                    (word) => word.charAt(0).toUpperCase() + word.substring(1)
+                  )
+                  .join(" ")
+          }
+          subtitle={this.props.observation.name}
+        >
+          <Text>{this.props.observation.genLocation}</Text>
+          <Text>{this.props.observation.distance}</Text>
+          <Text>{this.props.observation.createDate}</Text>
+        </Card>
+      </TouchableOpacity>
     );
   }
 }

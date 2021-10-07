@@ -26,11 +26,12 @@ const renderItem = (props) => {
   let { item } = props;
   return (
     <ObsCard
-      click={item.handleMarkerClick}
+      click={item.click}
       obsid={item.trueID}
       key={item.trueID}
       observation={item}
       selectedMarker={item.selectedMarker}
+      color={item.color}
     />
   );
 };
@@ -40,8 +41,21 @@ export function CardFlatList(props) {
     a.trueDistance > b.trueDistance ? 1 : -1
   );
 
-  let selectedArray = sortedArray.map((element) => {
-    let thisElement = { ...element, selectedMarker: props.selectedMarker };
+  let updatedArray = sortedArray.map((element) => {
+    let thisColor;
+
+    if (element.obsid === props.selectedMarker) {
+      thisColor = "gray";
+    } else {
+      thisColor = "white";
+    }
+
+    let thisElement = {
+      ...element,
+      selectedMarker: props.selectedMarker,
+      click: props.handleMarkerClick,
+      color: thisColor,
+    };
     return thisElement;
   });
 
@@ -49,7 +63,7 @@ export function CardFlatList(props) {
 
   return (
     <FlatList
-      data={selectedArray}
+      data={updatedArray}
       renderItem={renderItem}
       keyExtractor={(item) => item.trueID.toString()}
     />
