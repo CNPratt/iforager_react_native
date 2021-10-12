@@ -23,12 +23,17 @@ class ObsCard extends Component {
         }
       >
         <Card
-          containerStyle={{ backgroundColor: thisColor }}
+          containerStyle={{
+            backgroundColor: thisColor,
+            // flex: 1,
+            // flexDirection: "row",
+          }}
           obsid={this.props.obsid}
           id={this.props.obsid}
           key={this.props.observation.trueID}
           image={{ uri: this.props.observation.image }}
-          title={
+          imageStyle={{ height: 50 }}
+          featuredTitle={
             this.props.observation.species
               ? this.props.observation.species
                   .toLowerCase()
@@ -45,7 +50,7 @@ class ObsCard extends Component {
                   )
                   .join(" ")
           }
-          subtitle={this.props.observation.name}
+          featuredSubtitle={this.props.observation.name}
         >
           <Text>{this.props.observation.genLocation}</Text>
           <Text>{this.props.observation.distance}</Text>

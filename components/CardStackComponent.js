@@ -1,7 +1,9 @@
 import ObsCard from "./ObsCardComponent";
 import { ListItem } from "react-native-elements";
 import { FlatList } from "react-native";
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
+
+let lastVisibileIndex = 0;
 
 // export function CardStack(props) {
 //   let sortedArray = props.observations.sort((a, b) =>
@@ -37,24 +39,22 @@ const renderItem = (props) => {
 };
 
 export function CardFlatList(props) {
+  const onViewableItemsChanged = ({ viewableItems }) => {
+    console.log(viewableItems[0].index);
+    // console.log(this.flatlist);
+    // this.flatlist.scrollToIndex({ index: viewableItems[0].index });
+  };
+  const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
+
   let sortedArray = props.observations.sort((a, b) =>
     a.trueDistance > b.trueDistance ? 1 : -1
   );
 
   let updatedArray = sortedArray.map((element) => {
-    let thisColor;
-
-    if (element.obsid === props.selectedMarker) {
-      thisColor = "gray";
-    } else {
-      thisColor = "white";
-    }
-
     let thisElement = {
       ...element,
       selectedMarker: props.selectedMarker,
       click: props.handleMarkerClick,
-      color: thisColor,
     };
     return thisElement;
   });
@@ -63,9 +63,11 @@ export function CardFlatList(props) {
 
   return (
     <FlatList
+      ref={(ref) => (this.flatlist = ref)}
       data={updatedArray}
       renderItem={renderItem}
       keyExtractor={(item) => item.trueID.toString()}
+      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
     />
   );
 }
