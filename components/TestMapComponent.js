@@ -3,6 +3,7 @@ import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useRef, useEffect, Component } from "react";
 import { render } from "react-dom";
+import { styles } from "../shared/Styles";
 
 const mapRef = React.createRef();
 // let thisMarker;
@@ -29,6 +30,8 @@ export default class TestMap extends Component {
   }
 
   render() {
+    console.log("TestMap rendered.");
+
     const markers = this.props.observations.map((element) => {
       return (
         <Marker
@@ -58,7 +61,7 @@ export default class TestMap extends Component {
     });
 
     return (
-      <View style={styles.container}>
+      <View style={styles.mapContainer}>
         <MapView
           ref={mapRef}
           provider={PROVIDER_GOOGLE}
@@ -84,17 +87,3 @@ export default class TestMap extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  map: {
-    width: 300,
-    height: 300,
-  },
-});

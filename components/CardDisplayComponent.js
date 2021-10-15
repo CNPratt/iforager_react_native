@@ -7,6 +7,7 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "../shared/Styles";
 
 class CardDisplay extends Component {
   constructor(props) {
@@ -24,6 +25,11 @@ class CardDisplay extends Component {
   static navigationOptions = {
     title: "Cards",
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedMarker !== this.state.selectedMarker) {
+    }
+  }
 
   handleMarkerClick = (id) => {
     // console.log("handlemarkerclick");
@@ -108,14 +114,14 @@ class CardDisplay extends Component {
 
     if (this.state.observations) {
       return (
-        <View>
+        <View style={styles.pageBackground}>
           <TestMap
             latlon={this.props.latlon}
             observations={this.state.observations}
             handler={this.handleMarkerClick}
             selectedMarker={this.state.selectedMarker}
           />
-          <View style={{ height: 200 }}>
+          <View style={styles.cardstackContainer}>
             <CardFlatList
               observations={this.state.observations}
               handleMarkerClick={this.handleMarkerClick}
@@ -125,7 +131,7 @@ class CardDisplay extends Component {
         </View>
       );
     } else {
-      return <View></View>;
+      return <View style={styles.pageBackground}></View>;
     }
   }
 }

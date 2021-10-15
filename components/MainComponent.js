@@ -15,20 +15,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { withTheme } from "react-native-elements";
 import { inputRelay } from "./GetFileFunctions";
-
-const styles = StyleSheet.create({
-  input: {
-    backgroundColor: "white",
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-
-  switch: {
-    padding: 10,
-  },
-});
+import { styles } from "../shared/Styles";
 
 class FinderOptions extends Component {
   constructor(props) {
@@ -65,7 +52,7 @@ class FinderOptions extends Component {
             </Text>
           </View>
           <TextInput
-            style={styles.input}
+            style={styles.addressInput}
             placeholder="Address"
             onChangeText={(text) =>
               this.setState({
@@ -89,7 +76,7 @@ const HomeNavigator = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#8dc08d",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -106,7 +93,7 @@ const MushroomsNav = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#8dc08d",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -123,7 +110,7 @@ const BerriesNav = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#8dc08d",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -140,7 +127,7 @@ const FruitNav = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#8dc08d",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -157,7 +144,7 @@ const AlliumsNav = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#8dc08d",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -176,7 +163,7 @@ const MainNavigator = createDrawerNavigator(
     Alliums: { screen: AlliumsNav },
   },
   {
-    drawerBackgroundColor: "grey",
+    drawerBackgroundColor: "#8dc08d",
     contentOptions: {
       labelStyle: {
         color: "white",

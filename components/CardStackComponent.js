@@ -1,7 +1,8 @@
 import ObsCard from "./ObsCardComponent";
 import { ListItem } from "react-native-elements";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import React, { Component, useRef } from "react";
+import { styles } from "../shared/Styles";
 
 let lastVisibileIndex = 0;
 
@@ -39,12 +40,12 @@ const renderItem = (props) => {
 };
 
 export function CardFlatList(props) {
-  const onViewableItemsChanged = ({ viewableItems }) => {
-    console.log(viewableItems[0].index);
-    // console.log(this.flatlist);
-    // this.flatlist.scrollToIndex({ index: viewableItems[0].index });
-  };
-  const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
+  // const onViewableItemsChanged = ({ viewableItems }) => {
+  //   console.log(viewableItems[0].index);
+  //   console.log(this.flatlist);
+  //   this.flatlist.scrollToIndex({ index: viewableItems[0].index });
+  // };
+  // const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
 
   let sortedArray = props.observations.sort((a, b) =>
     a.trueDistance > b.trueDistance ? 1 : -1
@@ -67,7 +68,9 @@ export function CardFlatList(props) {
       data={updatedArray}
       renderItem={renderItem}
       keyExtractor={(item) => item.trueID.toString()}
-      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+      // viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+      style={styles.flatlist}
+      ListFooterComponent={<View style={{ height: 15 }}></View>}
     />
   );
 }

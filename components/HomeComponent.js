@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, Platform } from "react-native";
+import { Text, View, Platform, Image } from "react-native";
 import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import { styles } from "../shared/Styles";
 
 class Home extends Component {
   constructor(props) {
@@ -14,8 +15,8 @@ class Home extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Card title="Welcome to iForager!">
+      <ScrollView style={styles.pageBackground}>
+        <Card title="Welcome to iForager!" containerStyle={styles.card}>
           <Text style={{ marginBottom: 10 }}>
             This is a page built on the iNaturalist API to make it easier to
             find edible plants and mushrooms near you! You may click an image to

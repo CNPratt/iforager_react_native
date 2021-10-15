@@ -1,5 +1,6 @@
 import CardDisplay from "./CardDisplayComponent";
 import React, { Component } from "react";
+import { styles } from "../shared/Styles";
 
 export class MushroomsPage extends Component {
   static navigationOptions = {
