@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { getFile } from "./GetFileFunctions";
 import ObsCard from "./ObsCardComponent";
 import { CardStack, CardFlatList } from "./CardStackComponent";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../shared/Styles";
+
+let sortMethodArray = ["dist", "date"];
 
 class CardDisplay extends Component {
   constructor(props) {
@@ -15,8 +17,8 @@ class CardDisplay extends Component {
 
     this.state = {
       observations: [],
-      selected: null,
       selectedMarker: null,
+      sortBy: "dist",
       errorMsg: null,
       loading: false,
     };
@@ -26,35 +28,31 @@ class CardDisplay extends Component {
     title: "Cards",
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.selectedMarker !== this.state.selectedMarker) {
-    }
+  handleSortSwitch(method) {
+    this.setState({
+      sortBy: method,
+    });
   }
 
   handleMarkerClick = (id) => {
-    // console.log("handlemarkerclick");
-    this.setState({
-      selected: this.state.observations
-        .filter((obs) => obs.trueID === id)
-        .map((obs) => (
-          <ObsCard
-            id="selectedCard"
-            style={{ borderColor: "#CFBF00" }}
-            obsid={`s${obs.trueID}`}
-            key={obs.trueID}
-            observation={obs}
-          />
-        )),
-      selectedMarker: id,
-    });
+    if (id === this.state.selectedMarker) {
+      this.setState({
+        animateToMarker: id,
+      });
+    } else {
+      // console.log("handlemarkerclick: " + id);
+      this.setState({
+        selectedMarker: id,
+      });
+    }
   };
 
   getData() {
     this.setState({
       observations: [],
-      selected: null,
       selectedMarker: null,
       loading: true,
+      animateToMarker: null,
     });
 
     getFile(this.props.latlon, this.props.type)
@@ -106,7 +104,7 @@ class CardDisplay extends Component {
     //        console.log("carddisplay props",  this.props);
     //        console.log("carddisplay state",  this.state);
 
-    // console.log(this.state.selectedMarker);
+    // console.log("carddisplay rendered");
 
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
@@ -120,12 +118,51 @@ class CardDisplay extends Component {
             observations={this.state.observations}
             handler={this.handleMarkerClick}
             selectedMarker={this.state.selectedMarker}
+            animateToMarker={this.state.animateToMarker}
           />
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                console.log(
+                  // sortMethodArray.indexOf(this.state.sortBy),
+                  sortMethodArray.length
+                );
+                if (
+                  sortMethodArray.indexOf(this.state.sortBy) !==
+                  sortMethodArray.length - 1
+                ) {
+                  this.handleSortSwitch(
+                    sortMethodArray[
+                      sortMethodArray.indexOf(this.state.sortBy) + 1
+                    ]
+                  );
+                } else {
+                  this.handleSortSwitch("dist");
+                }
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.swipeBtnText,
+                  marginLeft: 10,
+                  marginVertical: 10,
+                  padding: 10,
+                }}
+              >
+                {this.state.sortBy}
+              </Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.cardstackContainer}>
             <CardFlatList
               observations={this.state.observations}
               handleMarkerClick={this.handleMarkerClick}
               selectedMarker={this.state.selectedMarker}
+              sortBy={this.state.sortBy}
             />
           </View>
         </View>

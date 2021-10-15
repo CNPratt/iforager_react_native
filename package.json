@@ -23,11 +23,13 @@
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-web": "^0.13.18",
     "react-navigation": "4",
     "react-navigation-drawer": "^2.7.1",
     "react-navigation-stack": "^1.10.3",
-    "set-value": "^4.1.0"
+    "set-value": "^4.1.0",
+    "expo-linking": "~2.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

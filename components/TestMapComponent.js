@@ -11,6 +11,15 @@ const mapRef = React.createRef();
 export default class TestMap extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentRegion: {
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.5,
+      },
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -27,31 +36,48 @@ export default class TestMap extends Component {
         longitudeDelta: 0.5,
       });
     }
+
+    if (
+      this.props.selectedMarker &&
+      this.props.animateToMarker !== prevProps.animateToMarker
+    ) {
+      mapRef.current.animateToRegion({
+        latitude: this.props.observations.filter(
+          (obs) => obs.trueID === this.props.selectedMarker
+        )[0].obsLat,
+        longitude: this.props.observations.filter(
+          (obs) => obs.trueID === this.props.selectedMarker
+        )[0].obsLon,
+        latitudeDelta: this.state.currentRegion.latitudeDelta,
+        longitudeDelta: this.state.currentRegion.longitudeDelta,
+      });
+    }
   }
 
   render() {
-    console.log("TestMap rendered.");
+    // console.log("testmap rendered");
+
+    // if (this.props.animateToMarker) {
+    //   console.log(this.props.animateToMarker);
+    // }
 
     const markers = this.props.observations.map((element) => {
+      let thisColor =
+        element.trueID === this.props.selectedMarker ? "blue" : "green";
+      let thisRef =
+        element.trueID === this.props.selectedMarker
+          ? (ref) => (this.marker = ref)
+          : null;
+      let thisTitle =
+        element.trueID === this.props.selectedMarker ? element.species : null;
+      let thisZ = element.trueID === this.props.selectedMarker ? 100 : 0;
       return (
         <Marker
-          ref={
-            element.trueID === this.props.selectedMarker
-              ? (ref) => (this.marker = ref)
-              : null
-          }
-          title={
-            element.trueID === this.props.selectedMarker
-              ? element.species
-              : null
-          }
+          ref={thisRef}
+          title={thisTitle}
           coordinate={{ latitude: element.obsLat, longitude: element.obsLon }}
-          pinColor={
-            element.trueID === this.props.selectedMarker ? "blue" : "green"
-          }
-          style={{
-            zIndex: element.trueID === this.props.selectedMarker ? 100 : 0,
-          }}
+          pinColor={thisColor}
+          style={{ zIndex: thisZ }}
           key={element.trueID}
           onPress={() => {
             this.props.handler(element.trueID);
@@ -72,6 +98,11 @@ export default class TestMap extends Component {
             latitudeDelta: 0.5,
             longitudeDelta: 0.5,
           }}
+          onRegionChange={(region, isGesture) =>
+            this.setState({
+              currentRegion: region,
+            })
+          }
         >
           <Marker
             title="Home"

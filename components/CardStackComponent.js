@@ -39,7 +39,30 @@ const renderItem = (props) => {
   );
 };
 
-export function CardFlatList(props) {
+export class CardFlatList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.selectedMarker !== this.props.selectedMarker) {
+  //     let sortedArray = this.props.observations.sort((a, b) =>
+  //       a.trueDistance > b.trueDistance ? 1 : -1
+  //     );
+  //     this.flatlist.scrollToIndex({
+  //       index: sortedArray.findIndex((element) => {
+  //         // console.log(
+  //         //   "scrollto: " +
+  //         //     this.props.selectedMarker +
+  //         //     " elementID: " +
+  //         //     element.trueID
+  //         // );
+  //         return element.trueID === this.props.selectedMarker;
+  //       }),
+  //     });
+  //   }
+  // }
+
   // const onViewableItemsChanged = ({ viewableItems }) => {
   //   console.log(viewableItems[0].index);
   //   console.log(this.flatlist);
@@ -47,30 +70,49 @@ export function CardFlatList(props) {
   // };
   // const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
 
-  let sortedArray = props.observations.sort((a, b) =>
-    a.trueDistance > b.trueDistance ? 1 : -1
-  );
-
-  let updatedArray = sortedArray.map((element) => {
-    let thisElement = {
-      ...element,
-      selectedMarker: props.selectedMarker,
-      click: props.handleMarkerClick,
-    };
-    return thisElement;
-  });
-
   // console.log(selectedArray);
 
-  return (
-    <FlatList
-      ref={(ref) => (this.flatlist = ref)}
-      data={updatedArray}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.trueID.toString()}
-      // viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-      style={styles.flatlist}
-      ListFooterComponent={<View style={{ height: 15 }}></View>}
-    />
-  );
+  render() {
+    const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
+    const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
+
+    let sortMethod = (method) => {
+      switch (method) {
+        case "dist":
+          return distMethod;
+          break;
+        case "date":
+          return dateMethod;
+          break;
+        default:
+          return distMethod;
+      }
+    };
+
+    let sortedArray = this.props.observations.sort(
+      sortMethod(this.props.sortBy)
+    );
+
+    let updatedArray = sortedArray.map((element) => {
+      let thisElement = {
+        ...element,
+        selectedMarker: this.props.selectedMarker,
+        click: this.props.handleMarkerClick,
+      };
+
+      return thisElement;
+    });
+
+    return (
+      <FlatList
+        ref={(ref) => (this.flatlist = ref)}
+        data={updatedArray}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.trueID.toString()}
+        // viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+        style={styles.flatlist}
+        ListFooterComponent={<View style={{ height: 15 }}></View>}
+      />
+    );
+  }
 }

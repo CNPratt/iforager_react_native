@@ -74,6 +74,7 @@ export const styles = StyleSheet.create({
   },
   mapContainer: {
     padding: 20,
+    paddingBottom: 5,
     backgroundColor: "#796d5b",
     alignItems: "center",
     justifyContent: "center",
@@ -97,5 +98,20 @@ export const styles = StyleSheet.create({
   },
   switch: {
     padding: 10,
+  },
+  swipeButtons: {
+    marginRight: 20,
+    marginTop: 15,
+    // height: 106,
+    backgroundColor: "#f8ecdb",
+    borderStyle: "solid",
+    borderColor: "#575046",
+    borderWidth: 1,
+    padding: 2,
+  },
+  swipeBtnText: {
+    backgroundColor: "#f8ecdb",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });

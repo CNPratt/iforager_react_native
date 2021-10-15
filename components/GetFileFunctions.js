@@ -29,6 +29,7 @@ function extractObservation(element, lat, lon) {
   );
 
   if (!obsArray.includes(thisObs)) {
+    // console.log(thisObs.trueID);
     obsArray.push(thisObs);
   }
 }
