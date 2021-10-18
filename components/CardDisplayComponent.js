@@ -21,11 +21,25 @@ class CardDisplay extends Component {
       sortBy: "dist",
       errorMsg: null,
       loading: false,
+      animateToMarker: null,
+      scrollToCard: false,
     };
   }
 
   static navigationOptions = {
     title: "Cards",
+  };
+
+  handleScrollTo = () => {
+    this.setState({
+      scrollToCard: true,
+    });
+  };
+
+  scrollFulfilled = () => {
+    this.setState({
+      scrollToCard: false,
+    });
   };
 
   handleSortSwitch(method) {
@@ -38,6 +52,7 @@ class CardDisplay extends Component {
     if (id === this.state.selectedMarker) {
       this.setState({
         animateToMarker: id,
+        scrollToCard: true,
       });
     } else {
       // console.log("handlemarkerclick: " + id);
@@ -89,12 +104,15 @@ class CardDisplay extends Component {
     this.getData();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.props.type !== prevProps.type ||
       this.props.latlon !== prevProps.latlon
     ) {
       this.getData();
+    }
+
+    if (prevState.observations !== this.state.observations) {
     }
 
     // console.log(this.state.observations)
@@ -127,10 +145,10 @@ class CardDisplay extends Component {
           >
             <TouchableOpacity
               onPress={() => {
-                console.log(
-                  // sortMethodArray.indexOf(this.state.sortBy),
-                  sortMethodArray.length
-                );
+                // console.log(
+                // sortMethodArray.indexOf(this.state.sortBy),
+                // sortMethodArray.length
+                // );
                 if (
                   sortMethodArray.indexOf(this.state.sortBy) !==
                   sortMethodArray.length - 1
@@ -163,6 +181,8 @@ class CardDisplay extends Component {
               handleMarkerClick={this.handleMarkerClick}
               selectedMarker={this.state.selectedMarker}
               sortBy={this.state.sortBy}
+              scrollToCard={this.state.scrollToCard}
+              scrollFulfilled={this.scrollFulfilled}
             />
           </View>
         </View>

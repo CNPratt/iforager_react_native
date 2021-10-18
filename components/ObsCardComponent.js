@@ -12,6 +12,7 @@ class ObsCard extends Component {
 
   render() {
     let thisColor;
+    let thisPressFunction;
 
     let titleName = this.props.observation.species
       ? this.props.observation.species
@@ -83,6 +84,7 @@ class ObsCard extends Component {
               backgroundColor: thisColor,
               // flex: 1,
               ...styles.cardContainerStyle,
+              margin: 0,
             }}
             obsid={this.props.obsid}
             id={this.props.obsid}
