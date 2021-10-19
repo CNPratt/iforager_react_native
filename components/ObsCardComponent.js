@@ -1,16 +1,31 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Card, Image, withTheme } from "react-native-elements";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../shared/Styles";
 import { SwipeRow } from "react-native-swipe-list-view";
 import * as Linking from "expo-linking";
 
-class ObsCard extends Component {
+class ObsCard extends PureComponent {
   constructor(props) {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (
+      this.props.obsid === nextProps.selectedMarker ||
+      this.props.obsid === this.props.selectedMarker
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
+    // console.log(this.props.observation.trueDistance);
+    // console.log(this.props.observation.image.replace("original", "thumb"));
+    console.log(this.props.selectedMarker, this.props.obsid);
+
     let thisColor;
     let thisPressFunction;
 
@@ -135,7 +150,12 @@ class ObsCard extends Component {
                   </Text>
                 </View>
                 <Image
-                  source={{ uri: this.props.observation.image }}
+                  source={{
+                    uri: this.props.observation.image.replace(
+                      "original",
+                      "thumb"
+                    ),
+                  }}
                   style={styles.cardImg}
                 />
               </TouchableOpacity>

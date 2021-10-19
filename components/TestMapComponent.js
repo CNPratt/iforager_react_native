@@ -24,7 +24,6 @@ export default class TestMap extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.marker) {
-      // console.log(this.marker);
       this.marker.showCallout();
     }
 
@@ -55,12 +54,6 @@ export default class TestMap extends Component {
   }
 
   render() {
-    // console.log("testmap rendered");
-
-    // if (this.props.animateToMarker) {
-    //   console.log(this.props.animateToMarker);
-    // }
-
     const markers = this.props.observations.map((element) => {
       let thisColor =
         element.trueID === this.props.selectedMarker ? "blue" : "green";

@@ -9,7 +9,11 @@ export class MushroomsPage extends Component {
 
   render() {
     return (
-      <CardDisplay latlon={this.props.screenProps.latlon} type="mushrooms" />
+      <CardDisplay
+        unfiltered={this.props.screenProps.unfiltered}
+        latlon={this.props.screenProps.latlon}
+        type="mushrooms"
+      />
     );
   }
 }
@@ -21,7 +25,11 @@ export class BerriesPage extends Component {
 
   render() {
     return (
-      <CardDisplay latlon={this.props.screenProps.latlon} type="berries" />
+      <CardDisplay
+        unfiltered={this.props.screenProps.unfiltered}
+        latlon={this.props.screenProps.latlon}
+        type="berries"
+      />
     );
   }
 }
@@ -32,7 +40,13 @@ export class FruitPage extends Component {
   };
 
   render() {
-    return <CardDisplay latlon={this.props.screenProps.latlon} type="fruit" />;
+    return (
+      <CardDisplay
+        unfiltered={this.props.screenProps.unfiltered}
+        latlon={this.props.screenProps.latlon}
+        type="fruit"
+      />
+    );
   }
 }
 
@@ -43,7 +57,11 @@ export class AlliumsPage extends Component {
 
   render() {
     return (
-      <CardDisplay latlon={this.props.screenProps.latlon} type="alliums" />
+      <CardDisplay
+        unfiltered={this.props.screenProps.unfiltered}
+        latlon={this.props.screenProps.latlon}
+        type="alliums"
+      />
     );
   }
 }

@@ -9,7 +9,7 @@ import TestMap from "./TestMapComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../shared/Styles";
 
-let sortMethodArray = ["dist", "date"];
+let sortMethodArray = ["dist", "date", "species"];
 
 class CardDisplay extends Component {
   constructor(props) {
@@ -55,7 +55,6 @@ class CardDisplay extends Component {
         scrollToCard: true,
       });
     } else {
-      // console.log("handlemarkerclick: " + id);
       this.setState({
         selectedMarker: id,
       });
@@ -70,7 +69,7 @@ class CardDisplay extends Component {
       animateToMarker: null,
     });
 
-    getFile(this.props.latlon, this.props.type)
+    getFile(this.props.latlon, this.props.type, this.props.unfiltered)
       // getFile([42, -83], "fruit")
       .then((value) => {
         this.setState({
@@ -115,14 +114,13 @@ class CardDisplay extends Component {
     if (prevState.observations !== this.state.observations) {
     }
 
-    // console.log(this.state.observations)
+    if (prevProps.unfiltered !== this.props.unfiltered) {
+      this.getData();
+    }
   }
 
   render() {
-    //        console.log("carddisplay props",  this.props);
-    //        console.log("carddisplay state",  this.state);
-
-    // console.log("carddisplay rendered");
+    // console.log(this.props.unfiltered);
 
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
@@ -145,10 +143,6 @@ class CardDisplay extends Component {
           >
             <TouchableOpacity
               onPress={() => {
-                // console.log(
-                // sortMethodArray.indexOf(this.state.sortBy),
-                // sortMethodArray.length
-                // );
                 if (
                   sortMethodArray.indexOf(this.state.sortBy) !==
                   sortMethodArray.length - 1

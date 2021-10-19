@@ -23,12 +23,11 @@ class FinderOptions extends Component {
 
     this.state = {
       addressText: "",
-      unfiltered: false,
     };
   }
 
   render() {
-    // console.log(this.props.screenProps.latlon);
+    // console.log(this.props.screenProps.unfiltered);
     return (
       <View>
         <SafeAreaView>
@@ -37,12 +36,8 @@ class FinderOptions extends Component {
           <View style={styles.switch}>
             <Text>
               <Switch
-                value={this.state.unfiltered}
-                onValueChange={() =>
-                  this.setState({
-                    unfiltered: !this.state.unfiltered,
-                  })
-                }
+                value={this.props.screenProps.unfiltered}
+                onValueChange={() => this.props.screenProps.toggleFilter()}
                 trackColor={{ false: "white", true: "black" }}
                 thumbColor="darkgrey"
                 ios_backgroundColor="white"
@@ -181,8 +176,14 @@ class Main extends Component {
 
     this.state = {
       latlon: [0, 0],
+      unfiltered: false,
     };
   }
+
+  toggleFilter = () =>
+    this.setState({
+      unfiltered: !this.state.unfiltered,
+    });
 
   componentDidMount() {
     Location.installWebGeolocationPolyfill();
@@ -190,12 +191,7 @@ class Main extends Component {
   }
 
   handleSubmit = async (text) => {
-    // console.log("handlesubmit " + text);
-    // e.preventDefault();
-
     const receivedLocation = await inputRelay(text);
-
-    // console.log(receivedLocation);
 
     this.setState({
       latlon: [
@@ -227,8 +223,6 @@ class Main extends Component {
   };
 
   render() {
-    // console.log(this.state.latlon);
-
     return (
       <View style={{ flex: 1 }}>
         <AppNavigator
@@ -236,6 +230,8 @@ class Main extends Component {
             type: "berries",
             latlon: this.state.latlon,
             relay: this.handleSubmit,
+            unfiltered: this.state.unfiltered,
+            toggleFilter: this.toggleFilter,
           }}
         />
       </View>
