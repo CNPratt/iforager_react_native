@@ -13,9 +13,9 @@ import {
   AlliumsPage,
 } from "./FinderPageComponents";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { withTheme } from "react-native-elements";
 import { inputRelay } from "./GetFileFunctions";
 import { styles } from "../shared/Styles";
+import { Icon } from "react-native-elements";
 
 class FinderOptions extends Component {
   constructor(props) {
@@ -37,7 +37,9 @@ class FinderOptions extends Component {
             <Text>
               <Switch
                 value={this.props.screenProps.unfiltered}
-                onValueChange={() => this.props.screenProps.toggleFilter()}
+                onValueChange={() => {
+                  this.props.screenProps.toggleFilter();
+                }}
                 trackColor={{ false: "white", true: "black" }}
                 thumbColor="darkgrey"
                 ios_backgroundColor="white"
@@ -69,7 +71,7 @@ const HomeNavigator = createStackNavigator(
     Home: { screen: Home },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -77,7 +79,15 @@ const HomeNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
   }
 );
 
@@ -86,7 +96,7 @@ const MushroomsNav = createStackNavigator(
     Mushrooms: { screen: MushroomsPage },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -94,7 +104,16 @@ const MushroomsNav = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          color="#796d5b"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
   }
 );
 
@@ -103,7 +122,7 @@ const BerriesNav = createStackNavigator(
     Berries: { screen: BerriesPage },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -111,7 +130,16 @@ const BerriesNav = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          color="#796d5b"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
   }
 );
 
@@ -120,7 +148,7 @@ const FruitNav = createStackNavigator(
     Fruit: { screen: FruitPage },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -128,7 +156,16 @@ const FruitNav = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          color="#796d5b"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
   }
 );
 
@@ -137,7 +174,7 @@ const AlliumsNav = createStackNavigator(
     Alliums: { screen: AlliumsPage },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -145,23 +182,95 @@ const AlliumsNav = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          color="#796d5b"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
   }
 );
 
 const MainNavigator = createDrawerNavigator(
   {
-    Home: { screen: HomeNavigator },
-    Mushrooms: { screen: MushroomsNav },
-    Berries: { screen: BerriesNav },
-    Fruit: { screen: FruitNav },
-    Alliums: { screen: AlliumsNav },
+    Home: {
+      screen: HomeNavigator,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    Mushrooms: {
+      screen: MushroomsNav,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    Berries: {
+      screen: BerriesNav,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    Fruit: {
+      screen: FruitNav,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    Alliums: {
+      screen: AlliumsNav,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
   },
   {
     drawerBackgroundColor: "#8dc08d",
     contentOptions: {
       labelStyle: {
         color: "white",
+        textShadowColor: "black",
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 5,
       },
     },
     contentComponent: (props) => <FinderOptions {...props} />,
@@ -227,7 +336,7 @@ class Main extends Component {
       <View style={{ flex: 1 }}>
         <AppNavigator
           screenProps={{
-            type: "berries",
+            // type: "berries",
             latlon: this.state.latlon,
             relay: this.handleSubmit,
             unfiltered: this.state.unfiltered,

@@ -12,15 +12,36 @@ export default class TestMap extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentRegion: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      },
-    };
+    // this.state = {
+    //   currentRegion: {
+    //     latitude: 0,
+    //     longitude: 0,
+    //     latitudeDelta: 0.5,
+    //     longitudeDelta: 0.5,
+    //   },
+    // };
   }
+
+  cameraSetter = async () => {
+    const camera = await mapRef.current.getCamera();
+
+    console.log("camera set");
+    // Note that we do not have to pass a full camera object to setCamera().
+    // Similar to setState(), we can pass only the properties you like to change.
+
+    mapRef.current.setCamera({
+      center: {
+        latitude: this.props.observations.filter(
+          (obs) => obs.trueID === this.props.selectedMarker
+        )[0].obsLat,
+        longitude: this.props.observations.filter(
+          (obs) => obs.trueID === this.props.selectedMarker
+        )[0].obsLon,
+      },
+    });
+
+    this.props.handleCameraFulfilled();
+  };
 
   componentDidUpdate(prevProps) {
     if (this.marker) {
@@ -38,18 +59,21 @@ export default class TestMap extends Component {
 
     if (
       this.props.selectedMarker &&
-      this.props.animateToMarker !== prevProps.animateToMarker
+      this.props.animateToMarker !== prevProps.animateToMarker &&
+      this.props.animateToMarker !== null
     ) {
-      mapRef.current.animateToRegion({
-        latitude: this.props.observations.filter(
-          (obs) => obs.trueID === this.props.selectedMarker
-        )[0].obsLat,
-        longitude: this.props.observations.filter(
-          (obs) => obs.trueID === this.props.selectedMarker
-        )[0].obsLon,
-        latitudeDelta: this.state.currentRegion.latitudeDelta,
-        longitudeDelta: this.state.currentRegion.longitudeDelta,
-      });
+      // mapRef.current.animateToRegion({
+      //   latitude: this.props.observations.filter(
+      //     (obs) => obs.trueID === this.props.selectedMarker
+      //   )[0].obsLat,
+      //   longitude: this.props.observations.filter(
+      //     (obs) => obs.trueID === this.props.selectedMarker
+      //   )[0].obsLon,
+      //   latitudeDelta: this.state.currentRegion.latitudeDelta,
+      //   longitudeDelta: this.state.currentRegion.longitudeDelta,
+      // });
+
+      this.cameraSetter();
     }
   }
 
@@ -73,7 +97,7 @@ export default class TestMap extends Component {
           style={{ zIndex: thisZ }}
           key={element.trueID}
           onPress={() => {
-            this.props.handler(element.trueID);
+            this.props.handler(element.trueID, "map");
           }}
         />
       );
@@ -91,11 +115,11 @@ export default class TestMap extends Component {
             latitudeDelta: 0.5,
             longitudeDelta: 0.5,
           }}
-          onRegionChange={(region, isGesture) =>
-            this.setState({
-              currentRegion: region,
-            })
-          }
+          // onRegionChange={(region, isGesture) =>
+          //   this.setState({
+          //     currentRegion: region,
+          //   })
+          // }
         >
           <Marker
             title="Home"

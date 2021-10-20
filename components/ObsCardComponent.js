@@ -24,7 +24,7 @@ class ObsCard extends PureComponent {
   render() {
     // console.log(this.props.observation.trueDistance);
     // console.log(this.props.observation.image.replace("original", "thumb"));
-    console.log(this.props.selectedMarker, this.props.obsid);
+    // console.log(this.props.selectedMarker, this.props.obsid);
 
     let thisColor;
     let thisPressFunction;
@@ -99,7 +99,7 @@ class ObsCard extends PureComponent {
               backgroundColor: thisColor,
               // flex: 1,
               ...styles.cardContainerStyle,
-              margin: 0,
+              margin: 10,
             }}
             obsid={this.props.obsid}
             id={this.props.obsid}
@@ -110,7 +110,7 @@ class ObsCard extends PureComponent {
                 activeOpacity={0.7}
                 onPress={
                   this.props.click
-                    ? () => this.props.click(this.props.obsid)
+                    ? () => this.props.click(this.props.obsid, "flatlist")
                     : null
                 }
                 style={{ zIndex: 1 }}

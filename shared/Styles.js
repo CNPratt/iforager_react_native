@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
   },
   swipeButtons: {
     marginRight: 20,
-    marginTop: 15,
+    marginTop: 12,
     // height: 106,
     backgroundColor: "#f8ecdb",
     borderStyle: "solid",
@@ -113,5 +113,9 @@ export const styles = StyleSheet.create({
     backgroundColor: "#f8ecdb",
     textAlign: "center",
     fontWeight: "bold",
+  },
+  stackicon: {
+    marginLeft: 10,
+    color: "#575046",
   },
 });

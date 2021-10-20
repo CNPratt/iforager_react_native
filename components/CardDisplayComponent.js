@@ -30,6 +30,12 @@ class CardDisplay extends Component {
     title: "Cards",
   };
 
+  handleCameraFulfilled = () => {
+    this.setState({
+      animateToMarker: null,
+    });
+  };
+
   handleScrollTo = () => {
     this.setState({
       scrollToCard: true,
@@ -48,12 +54,20 @@ class CardDisplay extends Component {
     });
   }
 
-  handleMarkerClick = (id) => {
+  handleMarkerClick = (id, source) => {
     if (id === this.state.selectedMarker) {
-      this.setState({
-        animateToMarker: id,
-        scrollToCard: true,
-      });
+      if (source === "map") {
+        this.setState({
+          animateToMarker: id,
+          scrollToCard: true,
+        });
+      }
+
+      if (source === "flatlist") {
+        this.setState({
+          animateToMarker: id,
+        });
+      }
     } else {
       this.setState({
         selectedMarker: id,
@@ -69,9 +83,11 @@ class CardDisplay extends Component {
       animateToMarker: null,
     });
 
+    // console.log(this.props.type);
+
     getFile(this.props.latlon, this.props.type, this.props.unfiltered)
-      // getFile([42, -83], "fruit")
       .then((value) => {
+        // console.log("value: " + value.length, this.props.type);
         this.setState({
           observations: value,
           errorMsg: null,
@@ -120,7 +136,9 @@ class CardDisplay extends Component {
   }
 
   render() {
-    // console.log(this.props.unfiltered);
+    // if (this.state.observations.length) {
+    //   console.log("state obs: " + this.state.observations.length);
+    // }
 
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
@@ -135,6 +153,7 @@ class CardDisplay extends Component {
             handler={this.handleMarkerClick}
             selectedMarker={this.state.selectedMarker}
             animateToMarker={this.state.animateToMarker}
+            handleCameraFulfilled={this.handleCameraFulfilled}
           />
           <View
             style={{

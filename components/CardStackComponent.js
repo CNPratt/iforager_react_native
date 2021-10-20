@@ -35,8 +35,8 @@ const keyExtractor = (item) => {
 };
 
 const getItemLayout = (data, index) => ({
-  length: 106,
-  offset: 106 * index,
+  length: 116,
+  offset: 116 * index,
   index,
 });
 

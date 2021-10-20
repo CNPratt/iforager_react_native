@@ -2,7 +2,7 @@ import { Observation } from "./ObsClass";
 import { getDistance } from "./DistanceFunc";
 import { idObject } from "./IDObject";
 
-let obsArray = [];
+// let obsArray = [];
 
 function extractObservation(element, lat, lon) {
   let coordSplit = element.location.split(",");
@@ -28,20 +28,20 @@ function extractObservation(element, lat, lon) {
     element.id
   );
 
-  if (!obsArray.includes(thisObs)) {
-    obsArray.push(thisObs);
-  }
+  return thisObs;
+
+  // if (!obsArray.includes(thisObs)) {
+  //   obsArray.push(thisObs);
+  // }
 }
 
 export const getFile = async (latlon, type, unfiltered) => {
-  obsArray = [];
+  let obsArray = [];
   let filterMode = "&quality_grade=research";
 
   if (unfiltered) {
     filterMode = "";
   }
-
-  console.log(filterMode);
 
   const url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
 
@@ -50,7 +50,11 @@ export const getFile = async (latlon, type, unfiltered) => {
   const resultsObject = await response.json();
 
   resultsObject.results.forEach((element) => {
-    extractObservation(element, latlon[0], latlon[1]);
+    let thisObs = extractObservation(element, latlon[0], latlon[1]);
+
+    if (!obsArray.includes(thisObs)) {
+      obsArray.push(thisObs);
+    }
   });
 
   return obsArray;

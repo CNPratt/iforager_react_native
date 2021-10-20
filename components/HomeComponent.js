@@ -11,6 +11,11 @@ class Home extends Component {
 
   static navigationOptions = {
     title: "Home",
+    headerTitleStyle: {
+      textShadowColor: "black",
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 5,
+    },
   };
 
   render() {
