@@ -116,10 +116,13 @@ class CardDisplay extends Component {
   }
 
   componentDidMount() {
+    // console.log("mounted");
     this.getData();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log("updated");
+    // console.log(prevState.selectedMarker, this.state.selectedMarker);
     if (
       this.props.type !== prevProps.type ||
       this.props.latlon !== prevProps.latlon

@@ -4,32 +4,36 @@ import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useRef, useEffect, Component } from "react";
 import { render } from "react-dom";
 import { styles } from "../shared/Styles";
-
-const mapRef = React.createRef();
 // let thisMarker;
 
 export default class TestMap extends Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   currentRegion: {
-    //     latitude: 0,
-    //     longitude: 0,
-    //     latitudeDelta: 0.5,
-    //     longitudeDelta: 0.5,
-    //   },
-    // };
+    this.state = {
+      // currentRegion: {
+      //   latitude: 0,
+      //   longitude: 0,
+      //   latitudeDelta: 0.5,
+      //   longitudeDelta: 0.5,
+      // },
+      mapRef: null,
+    };
   }
 
   cameraSetter = async () => {
-    const camera = await mapRef.current.getCamera();
+    // const camera = await mapRef.current.getCamera();
 
-    console.log("camera set");
+    // console.log(
+    //   "camera set",
+    //   this.props.observations.filter(
+    //     (obs) => obs.trueID === this.props.selectedMarker
+    //   )[0]
+    // );
     // Note that we do not have to pass a full camera object to setCamera().
     // Similar to setState(), we can pass only the properties you like to change.
 
-    mapRef.current.setCamera({
+    this.state.mapRef.current.setCamera({
       center: {
         latitude: this.props.observations.filter(
           (obs) => obs.trueID === this.props.selectedMarker
@@ -43,13 +47,20 @@ export default class TestMap extends Component {
     this.props.handleCameraFulfilled();
   };
 
+  componentDidMount() {
+    const mapRef = React.createRef();
+    this.setState({
+      mapRef: mapRef,
+    });
+  }
+
   componentDidUpdate(prevProps) {
     if (this.marker) {
       this.marker.showCallout();
     }
 
     if (prevProps.latlon !== this.props.latlon) {
-      mapRef.current.animateToRegion({
+      this.state.mapRef.current.animateToRegion({
         latitude: this.props.latlon[0],
         longitude: this.props.latlon[1],
         latitudeDelta: 0.5,
@@ -78,6 +89,8 @@ export default class TestMap extends Component {
   }
 
   render() {
+    // const mapRef = React.createRef();
+
     const markers = this.props.observations.map((element) => {
       let thisColor =
         element.trueID === this.props.selectedMarker ? "blue" : "green";
@@ -106,7 +119,7 @@ export default class TestMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <MapView
-          ref={mapRef}
+          ref={this.state.mapRef}
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           initialRegion={{

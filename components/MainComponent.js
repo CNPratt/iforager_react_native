@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { inputRelay } from "./GetFileFunctions";
 import { styles } from "../shared/Styles";
 import { Icon } from "react-native-elements";
+import CardDisplay from "./CardDisplayComponent";
 
 class FinderOptions extends Component {
   constructor(props) {
@@ -91,109 +92,118 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
-const MushroomsNav = createStackNavigator(
-  {
-    Mushrooms: { screen: MushroomsPage },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#8dc08d",
+const FinderNav = (type) =>
+  createStackNavigator(
+    {
+      type: {
+        screen: (props) => (
+          <CardDisplay {...props.screenProps} type={type.toLowerCase()} />
+        ),
       },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-      headerLeft: (
-        <Icon
-          onPress={() => navigation.toggleDrawer()}
-          name="sprout-outline"
-          color="#796d5b"
-          type="material-community"
-          iconStyle={styles.stackicon}
-        />
-      ),
-    }),
-  }
-);
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        title: type,
+        headerStyle: {
+          backgroundColor: "#8dc08d",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          color: "#fff",
+          textShadowColor: "black",
+          textShadowOffset: { width: -1, height: 1 },
+          textShadowRadius: 5,
+        },
+        headerLeft: (
+          <Icon
+            onPress={() => navigation.toggleDrawer()}
+            name="sprout-outline"
+            color="#796d5b"
+            type="material-community"
+            iconStyle={styles.stackicon}
+          />
+        ),
+      }),
+    }
+  );
 
-const BerriesNav = createStackNavigator(
-  {
-    Berries: { screen: BerriesPage },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#8dc08d",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-      headerLeft: (
-        <Icon
-          onPress={() => navigation.toggleDrawer()}
-          name="sprout-outline"
-          color="#796d5b"
-          type="material-community"
-          iconStyle={styles.stackicon}
-        />
-      ),
-    }),
-  }
-);
+// const BerriesNav = createStackNavigator(
+//   {
+//     Berries: { screen: BerriesPage },
+//   },
+//   {
+//     defaultNavigationOptions: ({ navigation }) => ({
+//       headerStyle: {
+//         backgroundColor: "#8dc08d",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//       headerLeft: (
+//         <Icon
+//           onPress={() => navigation.toggleDrawer()}
+//           name="sprout-outline"
+//           color="#796d5b"
+//           type="material-community"
+//           iconStyle={styles.stackicon}
+//         />
+//       ),
+//     }),
+//   }
+// );
 
-const FruitNav = createStackNavigator(
-  {
-    Fruit: { screen: FruitPage },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#8dc08d",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-      headerLeft: (
-        <Icon
-          onPress={() => navigation.toggleDrawer()}
-          name="sprout-outline"
-          color="#796d5b"
-          type="material-community"
-          iconStyle={styles.stackicon}
-        />
-      ),
-    }),
-  }
-);
+// const FruitNav = createStackNavigator(
+//   {
+//     Fruit: { screen: FruitPage },
+//   },
+//   {
+//     defaultNavigationOptions: ({ navigation }) => ({
+//       headerStyle: {
+//         backgroundColor: "#8dc08d",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//       headerLeft: (
+//         <Icon
+//           onPress={() => navigation.toggleDrawer()}
+//           name="sprout-outline"
+//           color="#796d5b"
+//           type="material-community"
+//           iconStyle={styles.stackicon}
+//         />
+//       ),
+//     }),
+//   }
+// );
 
-const AlliumsNav = createStackNavigator(
-  {
-    Alliums: { screen: AlliumsPage },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#8dc08d",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-      headerLeft: (
-        <Icon
-          onPress={() => navigation.toggleDrawer()}
-          name="sprout-outline"
-          color="#796d5b"
-          type="material-community"
-          iconStyle={styles.stackicon}
-        />
-      ),
-    }),
-  }
-);
+// const AlliumsNav = createStackNavigator(
+//   {
+//     Alliums: { screen: AlliumsPage },
+//   },
+//   {
+//     defaultNavigationOptions: ({ navigation }) => ({
+//       headerStyle: {
+//         backgroundColor: "#8dc08d",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//       headerLeft: (
+//         <Icon
+//           onPress={() => navigation.toggleDrawer()}
+//           name="sprout-outline"
+//           color="#796d5b"
+//           type="material-community"
+//           iconStyle={styles.stackicon}
+//         />
+//       ),
+//     }),
+//   }
+// );
 
 const MainNavigator = createDrawerNavigator(
   {
@@ -211,7 +221,7 @@ const MainNavigator = createDrawerNavigator(
       },
     },
     Mushrooms: {
-      screen: MushroomsNav,
+      screen: FinderNav("Mushrooms"),
       navigationOptions: {
         drawerIcon: () => (
           <Icon
@@ -224,7 +234,7 @@ const MainNavigator = createDrawerNavigator(
       },
     },
     Berries: {
-      screen: BerriesNav,
+      screen: FinderNav("Berries"),
       navigationOptions: {
         drawerIcon: () => (
           <Icon
@@ -237,7 +247,7 @@ const MainNavigator = createDrawerNavigator(
       },
     },
     Fruit: {
-      screen: FruitNav,
+      screen: FinderNav("Fruit"),
       navigationOptions: {
         drawerIcon: () => (
           <Icon
@@ -250,7 +260,7 @@ const MainNavigator = createDrawerNavigator(
       },
     },
     Alliums: {
-      screen: AlliumsNav,
+      screen: FinderNav("Alliums"),
       navigationOptions: {
         drawerIcon: () => (
           <Icon
