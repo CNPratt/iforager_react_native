@@ -375,16 +375,22 @@ class Main extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <AppNavigator
-          screenProps={{
-            // type: "berries",
-            latlon: this.state.latlon,
-            relay: this.handleSubmit,
-            unfiltered: this.state.unfiltered,
-            toggleFilter: this.toggleFilter,
-          }}
-        />
+      <View style={{ flex: 1, backgroundColor: "#796d5b" }}>
+        <ImageBackground
+          source={pageBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        >
+          <AppNavigator
+            screenProps={{
+              // type: "berries",
+              latlon: this.state.latlon,
+              relay: this.handleSubmit,
+              unfiltered: this.state.unfiltered,
+              toggleFilter: this.toggleFilter,
+            }}
+          />
+        </ImageBackground>
       </View>
     );
   }
