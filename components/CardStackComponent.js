@@ -1,6 +1,6 @@
 import ObsCard from "./ObsCardComponent";
 import { ListItem } from "react-native-elements";
-import { FlatList, View } from "react-native";
+import { FlatList, View, ActivityIndicator } from "react-native";
 import React, { Component, useRef } from "react";
 import { styles } from "../shared/Styles";
 
@@ -82,6 +82,13 @@ export class CardFlatList extends Component {
       ];
     });
 
+    if (this.props.loading) {
+      return (
+        <View style={{ ...styles.flatlist, flex: 1 }}>
+          <ActivityIndicator color="#796d5b" size="large" style={{ flex: 1 }} />
+        </View>
+      );
+    }
     return (
       <FlatList
         ref={(ref) => (this.flatlist = ref)}
@@ -93,6 +100,9 @@ export class CardFlatList extends Component {
         ListFooterComponent={<View style={{ height: 15 }}></View>}
         getItemLayout={getItemLayout}
         maxToRenderPerBatch={4}
+        // contentContainerStyle={{
+
+        // }}
       />
     );
   }

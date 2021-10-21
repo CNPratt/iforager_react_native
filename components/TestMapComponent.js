@@ -1,9 +1,17 @@
 import * as React from "react";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import { useRef, useEffect, Component } from "react";
 import { render } from "react-dom";
 import { styles } from "../shared/Styles";
+import pageBG from "../assets/textures/fabric-dark.png";
+
 // let thisMarker;
 
 export default class TestMap extends Component {
@@ -118,32 +126,38 @@ export default class TestMap extends Component {
 
     return (
       <View style={styles.mapContainer}>
-        <MapView
-          ref={this.state.mapRef}
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          initialRegion={{
-            latitude: this.props.latlon[0],
-            longitude: this.props.latlon[1],
-            latitudeDelta: 0.5,
-            longitudeDelta: 0.5,
-          }}
-          // onRegionChange={(region, isGesture) =>
-          //   this.setState({
-          //     currentRegion: region,
-          //   })
-          // }
+        <ImageBackground
+          source={pageBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
         >
-          <Marker
-            title="Home"
-            coordinate={{
+          <MapView
+            ref={this.state.mapRef}
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            initialRegion={{
               latitude: this.props.latlon[0],
               longitude: this.props.latlon[1],
+              latitudeDelta: 0.5,
+              longitudeDelta: 0.5,
             }}
-            pinColor="brown"
-          />
-          {markers}
-        </MapView>
+            // onRegionChange={(region, isGesture) =>
+            //   this.setState({
+            //     currentRegion: region,
+            //   })
+            // }
+          >
+            <Marker
+              title="Home"
+              coordinate={{
+                latitude: this.props.latlon[0],
+                longitude: this.props.latlon[1],
+              }}
+              pinColor="brown"
+            />
+            {markers}
+          </MapView>
+        </ImageBackground>
       </View>
     );
   }

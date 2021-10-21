@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import Constants from "expo-constants";
-import { View, StyleSheet, Text, TextInput, Switch } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Switch,
+  ImageBackground,
+  Image,
+  StatusBar,
+} from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
@@ -17,8 +26,10 @@ import { inputRelay } from "./GetFileFunctions";
 import { styles } from "../shared/Styles";
 import { Icon } from "react-native-elements";
 import CardDisplay from "./CardDisplayComponent";
+import pageBG from "../assets/textures/fabric-dark.png";
+import drawerBG from "../assets/textures/black-linen.png";
 
-class FinderOptions extends Component {
+class CustomDrawer extends Component {
   constructor(props) {
     super(props);
 
@@ -32,35 +43,42 @@ class FinderOptions extends Component {
     return (
       <View>
         <SafeAreaView>
-          <DrawerItems {...this.props} />
+          <ImageBackground
+            source={drawerBG}
+            resizeMode="repeat"
+            style={{ height: "100%", width: "100%" }}
+          >
+            <StatusBar />
+            <DrawerItems {...this.props} />
 
-          <View style={styles.switch}>
-            <Text>
-              <Switch
-                value={this.props.screenProps.unfiltered}
-                onValueChange={() => {
-                  this.props.screenProps.toggleFilter();
-                }}
-                trackColor={{ false: "white", true: "black" }}
-                thumbColor="darkgrey"
-                ios_backgroundColor="white"
-              />
+            <View style={styles.switch}>
+              <Text>
+                <Switch
+                  value={this.props.screenProps.unfiltered}
+                  onValueChange={() => {
+                    this.props.screenProps.toggleFilter();
+                  }}
+                  trackColor={{ false: "white", true: "black" }}
+                  thumbColor="darkgrey"
+                  ios_backgroundColor="white"
+                />
 
-              {"Unfiltered Mode"}
-            </Text>
-          </View>
-          <TextInput
-            style={styles.addressInput}
-            placeholder="Address"
-            onChangeText={(text) =>
-              this.setState({
-                addressText: text,
-              })
-            }
-            onSubmitEditing={() =>
-              this.props.screenProps.relay(this.state.addressText)
-            }
-          />
+                {"Unfiltered Mode"}
+              </Text>
+            </View>
+            <TextInput
+              style={styles.addressInput}
+              placeholder="Address"
+              onChangeText={(text) =>
+                this.setState({
+                  addressText: text,
+                })
+              }
+              onSubmitEditing={() =>
+                this.props.screenProps.relay(this.state.addressText)
+              }
+            />
+          </ImageBackground>
         </SafeAreaView>
       </View>
     );
@@ -76,6 +94,13 @@ const HomeNavigator = createStackNavigator(
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
       headerTintColor: "#fff",
       headerTitleStyle: {
         color: "#fff",
@@ -107,6 +132,13 @@ const FinderNav = (type) =>
         headerStyle: {
           backgroundColor: "#8dc08d",
         },
+        headerBackground: () => (
+          <Image
+            source={drawerBG}
+            resizeMode="repeat"
+            style={{ height: "100%", width: "100%" }}
+          />
+        ),
         headerTintColor: "#fff",
         headerTitleStyle: {
           color: "#fff",
@@ -283,7 +315,7 @@ const MainNavigator = createDrawerNavigator(
         textShadowRadius: 5,
       },
     },
-    contentComponent: (props) => <FinderOptions {...props} />,
+    contentComponent: (props) => <CustomDrawer {...props} />,
   }
 );
 

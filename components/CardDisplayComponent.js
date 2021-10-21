@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { getFile } from "./GetFileFunctions";
 import ObsCard from "./ObsCardComponent";
 import { CardStack, CardFlatList } from "./CardStackComponent";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../shared/Styles";
+import pageBG from "../assets/textures/fabric-dark.png";
 
 let sortMethodArray = ["dist", "date", "species"];
 
@@ -150,57 +151,64 @@ class CardDisplay extends Component {
     if (this.state.observations) {
       return (
         <View style={styles.pageBackground}>
-          <TestMap
-            latlon={this.props.latlon}
-            observations={this.state.observations}
-            handler={this.handleMarkerClick}
-            selectedMarker={this.state.selectedMarker}
-            animateToMarker={this.state.animateToMarker}
-            handleCameraFulfilled={this.handleCameraFulfilled}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-            }}
+          <ImageBackground
+            source={pageBG}
+            resizeMode="repeat"
+            style={{ height: "100%", width: "100%" }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                if (
-                  sortMethodArray.indexOf(this.state.sortBy) !==
-                  sortMethodArray.length - 1
-                ) {
-                  this.handleSortSwitch(
-                    sortMethodArray[
-                      sortMethodArray.indexOf(this.state.sortBy) + 1
-                    ]
-                  );
-                } else {
-                  this.handleSortSwitch("dist");
-                }
+            <TestMap
+              latlon={this.props.latlon}
+              observations={this.state.observations}
+              handler={this.handleMarkerClick}
+              selectedMarker={this.state.selectedMarker}
+              animateToMarker={this.state.animateToMarker}
+              handleCameraFulfilled={this.handleCameraFulfilled}
+            />
+            <View
+              style={{
+                flexDirection: "row",
               }}
             >
-              <Text
-                style={{
-                  ...styles.swipeBtnText,
-                  marginLeft: 10,
-                  marginVertical: 10,
-                  padding: 10,
+              <TouchableOpacity
+                onPress={() => {
+                  if (
+                    sortMethodArray.indexOf(this.state.sortBy) !==
+                    sortMethodArray.length - 1
+                  ) {
+                    this.handleSortSwitch(
+                      sortMethodArray[
+                        sortMethodArray.indexOf(this.state.sortBy) + 1
+                      ]
+                    );
+                  } else {
+                    this.handleSortSwitch("dist");
+                  }
                 }}
               >
-                {this.state.sortBy}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.cardstackContainer}>
-            <CardFlatList
-              observations={this.state.observations}
-              handleMarkerClick={this.handleMarkerClick}
-              selectedMarker={this.state.selectedMarker}
-              sortBy={this.state.sortBy}
-              scrollToCard={this.state.scrollToCard}
-              scrollFulfilled={this.scrollFulfilled}
-            />
-          </View>
+                <Text
+                  style={{
+                    ...styles.swipeBtnText,
+                    marginLeft: 10,
+                    marginVertical: 10,
+                    padding: 10,
+                  }}
+                >
+                  {this.state.sortBy}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.cardstackContainer}>
+              <CardFlatList
+                observations={this.state.observations}
+                handleMarkerClick={this.handleMarkerClick}
+                selectedMarker={this.state.selectedMarker}
+                sortBy={this.state.sortBy}
+                scrollToCard={this.state.scrollToCard}
+                scrollFulfilled={this.scrollFulfilled}
+                loading={this.state.loading}
+              />
+            </View>
+          </ImageBackground>
         </View>
       );
     } else {

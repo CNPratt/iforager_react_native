@@ -1,9 +1,12 @@
 import React, { PureComponent } from "react";
 import { Card, Image, withTheme } from "react-native-elements";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../shared/Styles";
 import { SwipeRow } from "react-native-swipe-list-view";
 import * as Linking from "expo-linking";
+import cardBG from "../assets/textures/cloth-alike.png";
+
+// const cardBG = require("../assets/textures/cloth-alike.png");
 
 class ObsCard extends PureComponent {
   constructor(props) {
@@ -27,6 +30,7 @@ class ObsCard extends PureComponent {
     // console.log(this.props.selectedMarker, this.props.obsid);
 
     let thisColor;
+    let borderColor;
     let thisPressFunction;
 
     let titleName = this.props.observation.species
@@ -42,9 +46,11 @@ class ObsCard extends PureComponent {
           .join(" ");
 
     if (this.props.obsid === this.props.selectedMarker) {
-      thisColor = "gray";
+      thisColor = "#aea599";
+      borderColor = "#d4c980";
     } else {
       thisColor = "#f8ecdb";
+      borderColor = "#575046";
     }
 
     return (
@@ -100,97 +106,103 @@ class ObsCard extends PureComponent {
               // flex: 1,
               ...styles.cardContainerStyle,
               margin: 10,
+              borderColor: borderColor,
+              borderRadius: 25,
+              overflow: "hidden",
             }}
             obsid={this.props.obsid}
             id={this.props.obsid}
             key={this.props.observation.trueID}
           >
-            <View style={styles.mainCardBody}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={
-                  this.props.click
-                    ? () => this.props.click(this.props.obsid, "flatlist")
-                    : null
-                }
-                style={{ zIndex: 1 }}
-              >
-                <View
-                  style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    height: 100,
-                    width: 100,
-                    flex: 1,
-                    // backgroundColor: "grey",
-                    // opacity: 0.7,
-                  }}
+            <ImageBackground source={cardBG} style={{ flex: 1 }}>
+              <View style={styles.mainCardBody}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={
+                    this.props.click
+                      ? () => this.props.click(this.props.obsid, "flatlist")
+                      : null
+                  }
+                  style={{ zIndex: 1 }}
                 >
-                  <Text
+                  <View
                     style={{
-                      color: "white",
-                      backgroundColor: "rgba(0, 0, 0, .3)",
-                      flexShrink: 1,
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    {this.props.observation.distance}
-                  </Text>
-                  <View style={{ flexGrow: 1 }}></View>
-                  <Text
-                    style={{
-                      color: "white",
-                      alignSelf: "flex-end",
-                      backgroundColor: "rgba(0, 0, 0, .3)",
-                      flexShrink: 1,
+                      position: "absolute",
+                      zIndex: 1,
+                      height: 100,
+                      width: 100,
+                      flex: 1,
+                      // backgroundColor: "grey",
                       // opacity: 0.7,
                     }}
                   >
-                    {this.props.observation.createDate}
-                  </Text>
-                </View>
-                <Image
-                  source={{
-                    uri: this.props.observation.image.replace(
-                      "original",
-                      "thumb"
-                    ),
-                  }}
-                  style={styles.cardImg}
-                />
-              </TouchableOpacity>
-              <View style={{ flex: 1 }}>
+                    <Text
+                      style={{
+                        color: "white",
+                        backgroundColor: "rgba(0, 0, 0, .3)",
+                        flexShrink: 1,
+                        alignSelf: "flex-start",
+                        paddingLeft: 10,
+                      }}
+                    >
+                      {this.props.observation.distance}
+                    </Text>
+                    <View style={{ flexGrow: 1 }}></View>
+                    <Text
+                      style={{
+                        color: "white",
+                        alignSelf: "flex-end",
+                        backgroundColor: "rgba(0, 0, 0, .3)",
+                        flexShrink: 1,
+                        // opacity: 0.7,
+                      }}
+                    >
+                      {this.props.observation.createDate}
+                    </Text>
+                  </View>
+                  <Image
+                    source={{
+                      uri: this.props.observation.image.replace(
+                        "original",
+                        "thumb"
+                      ),
+                    }}
+                    style={styles.cardImg}
+                  />
+                </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                  <Text
-                    adjustsFontSizeToFit
-                    numberOfLines={2}
-                    style={{ ...styles.cardHeader }}
-                  >
-                    {titleName}
-                  </Text>
-                  <Text style={styles.cardSubheader}>
-                    {this.props.observation.name}
-                  </Text>
-                </View>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      adjustsFontSizeToFit
+                      numberOfLines={2}
+                      style={{ ...styles.cardHeader }}
+                    >
+                      {titleName}
+                    </Text>
+                    <Text style={styles.cardSubheader}>
+                      {this.props.observation.name}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    flexShrink: 1,
-                    // backgroundColor: "blue",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
-                    adjustsFontSizeToFit
-                    numberOfLines={2}
-                    style={styles.cardLocation}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flexShrink: 1,
+                      // backgroundColor: "blue",
+                      justifyContent: "center",
+                    }}
                   >
-                    {this.props.observation.genLocation}
-                  </Text>
+                    <Text
+                      adjustsFontSizeToFit
+                      numberOfLines={2}
+                      style={styles.cardLocation}
+                    >
+                      {this.props.observation.genLocation}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
+            </ImageBackground>
           </Card>
         </TouchableOpacity>
       </SwipeRow>

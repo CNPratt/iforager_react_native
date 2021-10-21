@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Text, View, Platform, Image } from "react-native";
+import { Text, View, Platform, Image, ImageBackground } from "react-native";
 import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "../shared/Styles";
+import cardBG from "../assets/textures/cloth-alike.png";
+import pageBG from "../assets/textures/fabric-dark.png";
 
 class Home extends Component {
   constructor(props) {
@@ -20,38 +22,68 @@ class Home extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.pageBackground}>
-        <Card title="Welcome to iForager!" containerStyle={styles.card}>
-          <Text style={{ marginBottom: 10 }}>
-            This is a page built on the iNaturalist API to make it easier to
-            find edible plants and mushrooms near you! You may click an image to
-            be taken to the original observation in full detail.
-          </Text>
-          <Text style={{ marginBottom: 10 }}>
-            Please ensure that geolocation services are on for a seamless
-            experience. Results may take a moment or two to display. If the
-            results pages still seem to do nothing, you may have been
-            temporarily denied because of call frequency. In this case, simply
-            wait a minute or two and reload the page.
-          </Text>
-          <Text style={{ marginBottom: 10 }}>
-            And as always, please forage with care! Though we do our best to
-            include the most common and easily identifiable edible species, we
-            cannot guaruntee the accuracy of the observations or the edibility
-            of any foraged products that you might find. Additionally, people
-            react to wild goods in different ways. Always do your own research.
-            Additionally, we cannot guarantee that all observations are
-            accessible to the public, and all local and regional foraging laws
-            should be adhered to.
-          </Text>
+      <ScrollView
+        contentContainerStyle={{
+          ...styles.pageBackground,
+        }}
+        bounces={false}
+      >
+        <ImageBackground
+          source={pageBG}
+          resizeMode="repeat"
+          style={{ flex: 1 }}
+        >
+          <Card
+            // title="Welcome to iForager!"
+            containerStyle={{
+              ...styles.card,
+              padding: 0,
+              alignItems: "center",
+            }}
+          >
+            <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+              <View style={{ padding: 20, alignItems: "center" }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontWeight: "bold",
+                    fontSize: 24,
+                  }}
+                >
+                  Welcome to iForager!
+                </Text>
+                <Text style={styles.homeCardText}>
+                  This is a page built on the iNaturalist API to make it easier
+                  to find edible plants and mushrooms near you! You may click an
+                  image to be taken to the original observation in full detail.
+                </Text>
+                <Text style={styles.homeCardText}>
+                  Please ensure that geolocation services are on for a seamless
+                  experience. Results may take a moment or two to display. If
+                  the results pages still seem to do nothing, you may have been
+                  temporarily denied because of call frequency. In this case,
+                  simply wait a minute or two and reload the page.
+                </Text>
+                <Text style={styles.homeCardText}>
+                  And as always, please forage with care! Though we do our best
+                  to include the most common and easily identifiable edible
+                  species, we cannot guaruntee the accuracy of the observations
+                  or the edibility of any foraged products that you might find.
+                  Additionally, people react to wild goods in different ways.
+                  Always do your own research. Additionally, we cannot guarantee
+                  that all observations are accessible to the public, and all
+                  local and regional foraging laws should be adhered to.
+                </Text>
 
-          <Text style={{ marginBottom: 10 }}>
-            {this.props.screenProps.latlon[0]},{" "}
-            {this.props.screenProps.latlon[1]}
-          </Text>
-
-          {/* <Text>{Platform.OS}</Text> */}
-        </Card>
+                <Text style={styles.homeCardText}>
+                  {this.props.screenProps.latlon[0]},{" "}
+                  {this.props.screenProps.latlon[1]}
+                </Text>
+              </View>
+            </ImageBackground>
+            {/* <Text>{Platform.OS}</Text> */}
+          </Card>
+        </ImageBackground>
       </ScrollView>
     );
   }
