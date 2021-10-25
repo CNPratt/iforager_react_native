@@ -128,6 +128,7 @@ export const styles = StyleSheet.create({
   },
   stackicon: {
     marginLeft: 10,
-    color: "#575046",
+    // color: "#575046",
+    color: '#34302A'
   },
 });

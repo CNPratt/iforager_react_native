@@ -29,6 +29,8 @@ import CardDisplay from "./CardDisplayComponent";
 import pageBG from "../assets/textures/fabric-dark.png";
 import drawerBG from "../assets/textures/black-linen.png";
 
+const statusBarHeight = Constants.statusBarHeight;
+
 class CustomDrawer extends Component {
   constructor(props) {
     super(props);
@@ -42,44 +44,45 @@ class CustomDrawer extends Component {
     // console.log(this.props.screenProps.unfiltered);
     return (
       <View>
-        <SafeAreaView>
-          <ImageBackground
-            source={drawerBG}
-            resizeMode="repeat"
-            style={{ height: "100%", width: "100%" }}
-          >
-            <StatusBar />
-            <DrawerItems {...this.props} />
+        <ImageBackground
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <StatusBar />
+          <DrawerItems {...this.props} />
 
-            <View style={styles.switch}>
-              <Text>
-                <Switch
-                  value={this.props.screenProps.unfiltered}
-                  onValueChange={() => {
-                    this.props.screenProps.toggleFilter();
-                  }}
-                  trackColor={{ false: "white", true: "black" }}
-                  thumbColor="darkgrey"
-                  ios_backgroundColor="white"
-                />
+          <View style={styles.switch}>
+            <Text>
+              <Switch
+                value={this.props.screenProps.unfiltered}
+                onValueChange={() => {
+                  this.props.screenProps.toggleFilter();
+                }}
+                trackColor={{ false: "white", true: "black" }}
+                thumbColor="darkgrey"
+                ios_backgroundColor="white"
+              />
 
-                {"Unfiltered Mode"}
-              </Text>
-            </View>
-            <TextInput
-              style={styles.addressInput}
-              placeholder="Address"
-              onChangeText={(text) =>
-                this.setState({
-                  addressText: text,
-                })
-              }
-              onSubmitEditing={() =>
-                this.props.screenProps.relay(this.state.addressText)
-              }
-            />
-          </ImageBackground>
-        </SafeAreaView>
+              {"Unfiltered Mode"}
+            </Text>
+          </View>
+          <TextInput
+            style={styles.addressInput}
+            placeholder="Address"
+            onChangeText={(text) =>
+              this.setState({
+                addressText: text,
+              })
+            }
+            onSubmitEditing={() =>
+              this.props.screenProps.relay(this.state.addressText)
+            }
+          />
+        </ImageBackground>
       </View>
     );
   }
@@ -245,7 +248,7 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: () => (
           <Icon
             name="sprout-outline"
-            color="#796d5b"
+            color="#34302A"
             type="material-community"
             size={24}
           />
@@ -258,7 +261,7 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: () => (
           <Icon
             name="sprout-outline"
-            color="#796d5b"
+            color="#34302A"
             type="material-community"
             size={24}
           />
@@ -271,7 +274,7 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: () => (
           <Icon
             name="sprout-outline"
-            color="#796d5b"
+            color="#34302A"
             type="material-community"
             size={24}
           />
@@ -284,7 +287,7 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: () => (
           <Icon
             name="sprout-outline"
-            color="#796d5b"
+            color="#34302A"
             type="material-community"
             size={24}
           />
@@ -297,7 +300,7 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: () => (
           <Icon
             name="sprout-outline"
-            color="#796d5b"
+            color="#34302A"
             type="material-community"
             size={24}
           />
@@ -313,6 +316,9 @@ const MainNavigator = createDrawerNavigator(
         textShadowColor: "black",
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 5,
+      },
+      itemsContainerStyle: {
+        paddingTop: statusBarHeight,
       },
     },
     contentComponent: (props) => <CustomDrawer {...props} />,

@@ -76,16 +76,21 @@ class Home extends Component {
                         <Text style={styles.homeCardText}>
                           This is a page built on the iNaturalist API to make it
                           easier to find edible plants and mushrooms near you!
-                          You may click an image to be taken to the original
-                          observation in full detail.
+                          You may click an image to select an observation and
+                          click again to center the map. You can similarly
+                          select by clicking on a map marker, and click a
+                          selected marker will both center the map and scroll to
+                          the selected observation. Swipe a card left to drop a
+                          pin or go to the source.
                         </Text>
                         <Text style={styles.homeCardText}>
                           Please ensure that geolocation services are on for a
                           seamless experience. Results may take a moment or two
-                          to display. If the results pages still seem to do
+                          to display.
+                          {/* If the results pages still seem to do
                           nothing, you may have been temporarily denied because
                           of call frequency. In this case, simply wait a minute
-                          or two and reload the page.
+                          or two and reload the page. */}
                         </Text>
                         <Text style={styles.homeCardText}>
                           And as always, please forage with care! Though we do
