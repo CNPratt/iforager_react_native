@@ -25,6 +25,9 @@ class CardDisplay extends Component {
       loading: false,
       animateToMarker: null,
       scrollToCard: false,
+      acronymArray: ["all"],
+      fullnameArray: ["all"],
+      sortSpecies: "all",
     };
   }
 
@@ -51,10 +54,48 @@ class CardDisplay extends Component {
   };
 
   handleSortSwitch(method) {
+    console.log("sort switch");
     this.setState({
       sortBy: method,
     });
   }
+
+  handleSpeciesSwitch() {
+    console.log("species switch");
+
+    if (
+      this.state.acronymArray[
+        this.state.acronymArray.indexOf(this.state.sortSpecies) + 1
+      ]
+    ) {
+      this.setState({
+        sortSpecies:
+          this.state.acronymArray[
+            this.state.acronymArray.indexOf(this.state.sortSpecies) + 1
+          ],
+      });
+    } else {
+      this.setState({
+        sortSpecies: "all",
+      });
+    }
+  }
+
+  speciesSortMethod = () => {
+    let speciesIndex = this.state.acronymArray.indexOf(this.state.sortSpecies);
+    if (this.state.sortSpecies !== "all") {
+      let speciesIndex = this.state.acronymArray.indexOf(
+        this.state.sortSpecies
+      );
+
+      let sortSpeciesArray = this.state.observations.filter(
+        (element) => element.species === this.state.fullnameArray[speciesIndex]
+      );
+
+      return sortSpeciesArray;
+    }
+    return this.state.observations;
+  };
 
   handleMarkerClick = (id, source) => {
     if (id === this.state.selectedMarker) {
@@ -83,6 +124,9 @@ class CardDisplay extends Component {
       selectedMarker: null,
       loading: true,
       animateToMarker: null,
+      acronymArray: ["all"],
+      fullnameArray: ["all"],
+      sortSpecies: "all",
     });
 
     // console.log(this.props.type);
@@ -117,6 +161,44 @@ class CardDisplay extends Component {
       });
   }
 
+  generateSpeciesList = (observations) => {
+    let speciesAcronymArray = ["all"];
+    let speciesFullnameArray = ["all"];
+
+    this.state.observations.forEach((element) => {
+      if (element.species) {
+        let thisWordArray = element.species.split(" ");
+
+        let thisAcronym = thisWordArray
+          .map((word) => {
+            return word[0].toLowerCase();
+          })
+          .join("");
+
+        // console.log(thisAcronym);
+
+        if (
+          !speciesAcronymArray.includes(thisAcronym) ||
+          !speciesFullnameArray.includes(element.species)
+        ) {
+          speciesAcronymArray.push(thisAcronym);
+        }
+
+        if (!speciesFullnameArray.includes(element.species)) {
+          speciesFullnameArray.push(element.species);
+        }
+      }
+    });
+
+    // console.log(speciesAcronymArray);
+    // console.log(speciesFullnameArray);
+
+    this.setState({
+      acronymArray: speciesAcronymArray,
+      fullnameArray: speciesFullnameArray,
+    });
+  };
+
   componentDidMount() {
     // console.log("mounted");
     this.getData();
@@ -133,6 +215,7 @@ class CardDisplay extends Component {
     }
 
     if (prevState.observations !== this.state.observations) {
+      this.generateSpeciesList(this.state.observations);
     }
 
     if (prevProps.unfiltered !== this.props.unfiltered) {
@@ -144,6 +227,8 @@ class CardDisplay extends Component {
     // if (this.state.observations.length) {
     //   console.log("state obs: " + this.state.observations.length);
     // }
+
+    // console.log(this.state.acronymArray);
 
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
@@ -174,6 +259,8 @@ class CardDisplay extends Component {
                   selectedMarker={this.state.selectedMarker}
                   animateToMarker={this.state.animateToMarker}
                   handleCameraFulfilled={this.handleCameraFulfilled}
+                  sortSpecies={this.state.sortSpecies}
+                  sorted={this.speciesSortMethod()}
                 />
                 <View
                   style={{
@@ -181,6 +268,9 @@ class CardDisplay extends Component {
                   }}
                 >
                   <TouchableOpacity
+                    style={{
+                      flex: 1,
+                    }}
                     onPress={() => {
                       if (
                         sortMethodArray.indexOf(this.state.sortBy) !==
@@ -199,12 +289,29 @@ class CardDisplay extends Component {
                     <Text
                       style={{
                         ...styles.swipeBtnText,
-                        marginLeft: 10,
-                        marginVertical: 10,
+                        margin: 10,
                         padding: 10,
                       }}
                     >
                       {this.state.sortBy}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                    }}
+                    onPress={() => {
+                      this.handleSpeciesSwitch();
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...styles.swipeBtnText,
+                        margin: 10,
+                        padding: 10,
+                      }}
+                    >
+                      {this.state.sortSpecies}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -217,6 +324,10 @@ class CardDisplay extends Component {
                     scrollToCard={this.state.scrollToCard}
                     scrollFulfilled={this.scrollFulfilled}
                     loading={this.state.loading}
+                    sortSpecies={this.state.sortSpecies}
+                    acronymArray={this.state.acronymArray}
+                    fullnameArray={this.state.fullnameArray}
+                    sorted={this.speciesSortMethod()}
                   />
                 </View>
               </ImageBackground>

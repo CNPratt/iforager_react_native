@@ -99,7 +99,7 @@ export default class TestMap extends Component {
   render() {
     // const mapRef = React.createRef();
 
-    const markers = this.props.observations.map((element) => {
+    const markers = this.props.sorted.map((element) => {
       let thisColor =
         element.trueID === this.props.selectedMarker ? "blue" : "green";
       let thisRef =

@@ -9,7 +9,7 @@ const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
 const speciesMethod = (a, b) => (a.species > b.species ? -1 : 1);
 
-let sortMethod = (method) => {
+const sortMethod = (method) => {
   switch (method) {
     case "dist":
       return distMethod;
@@ -64,9 +64,9 @@ export class CardFlatList extends Component {
   }
 
   render() {
-    let sortedArray = this.props.observations.sort(
-      sortMethod(this.props.sortBy)
-    );
+    let sortSpeciesArray = this.props.sorted;
+
+    sortedArray = sortSpeciesArray.sort(sortMethod(this.props.sortBy));
 
     let cardStateArray = sortedArray.map((item) => {
       return [
