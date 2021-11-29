@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Constants from "expo-constants";
 import {
   View,
-  StyleSheet,
   Text,
   TextInput,
   Switch,
@@ -15,19 +14,13 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
 import Home from "./HomeComponent";
 import * as Location from "expo-location";
-import {
-  MushroomsPage,
-  FruitPage,
-  BerriesPage,
-  AlliumsPage,
-} from "./FinderPageComponents";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { inputRelay } from "./GetFileFunctions";
+import { inputRelay } from "./data/GetFileFunctions";
 import { styles } from "../shared/Styles";
 import { Icon } from "react-native-elements";
 import CardDisplay from "./CardDisplayComponent";
 import pageBG from "../assets/textures/fabric-dark.png";
 import drawerBG from "../assets/textures/black-linen.png";
+import TaxaDirectory from "./TaxaDirectoryComponent";
 
 const statusBarHeight = Constants.statusBarHeight;
 
@@ -162,83 +155,37 @@ const FinderNav = (type) =>
     }
   );
 
-// const BerriesNav = createStackNavigator(
-//   {
-//     Berries: { screen: BerriesPage },
-//   },
-//   {
-//     defaultNavigationOptions: ({ navigation }) => ({
-//       headerStyle: {
-//         backgroundColor: "#8dc08d",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//       headerLeft: (
-//         <Icon
-//           onPress={() => navigation.toggleDrawer()}
-//           name="sprout-outline"
-//           color="#796d5b"
-//           type="material-community"
-//           iconStyle={styles.stackicon}
-//         />
-//       ),
-//     }),
-//   }
-// );
-
-// const FruitNav = createStackNavigator(
-//   {
-//     Fruit: { screen: FruitPage },
-//   },
-//   {
-//     defaultNavigationOptions: ({ navigation }) => ({
-//       headerStyle: {
-//         backgroundColor: "#8dc08d",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//       headerLeft: (
-//         <Icon
-//           onPress={() => navigation.toggleDrawer()}
-//           name="sprout-outline"
-//           color="#796d5b"
-//           type="material-community"
-//           iconStyle={styles.stackicon}
-//         />
-//       ),
-//     }),
-//   }
-// );
-
-// const AlliumsNav = createStackNavigator(
-//   {
-//     Alliums: { screen: AlliumsPage },
-//   },
-//   {
-//     defaultNavigationOptions: ({ navigation }) => ({
-//       headerStyle: {
-//         backgroundColor: "#8dc08d",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//       headerLeft: (
-//         <Icon
-//           onPress={() => navigation.toggleDrawer()}
-//           name="sprout-outline"
-//           color="#796d5b"
-//           type="material-community"
-//           iconStyle={styles.stackicon}
-//         />
-//       ),
-//     }),
-//   }
-// );
+const TaxaDirectoryNavigator = createStackNavigator(
+  {
+    TaxaDirectory: { screen: TaxaDirectory },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
+  }
+);
 
 const MainNavigator = createDrawerNavigator(
   {
@@ -296,6 +243,19 @@ const MainNavigator = createDrawerNavigator(
     },
     Alliums: {
       screen: FinderNav("Alliums"),
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#34302A"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    TaxaDirectory: {
+      screen: TaxaDirectoryNavigator,
       navigationOptions: {
         drawerIcon: () => (
           <Icon

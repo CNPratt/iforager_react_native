@@ -13,13 +13,13 @@ export const styles = StyleSheet.create({
     padding: 5,
   },
   homeCardText: {
-    marginBottom: 10,
+    margin: 10,
     textAlign: "center",
   },
   card: {
     backgroundColor: "#f8ecdb",
-    borderStyle: "solid",
     borderColor: "#575046",
+    borderStyle: "solid",
     borderWidth: 3,
   },
   cardContainerStyle: {
@@ -129,6 +129,18 @@ export const styles = StyleSheet.create({
   stackicon: {
     marginLeft: 10,
     // color: "#575046",
-    color: '#34302A'
+    color: "#34302A",
+  },
+  taxaHeader: {
+    fontSize: 24,
+    fontWeight: "bold",
+    // alignSelf: "center",
+    textAlign: "center",
+    paddingTop: 5,
+    paddingHorizontal: 5,
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 3,
   },
 });

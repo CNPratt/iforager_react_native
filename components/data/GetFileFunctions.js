@@ -1,4 +1,4 @@
-import { Observation } from "./ObsClass";
+import { Observation } from "../ObsClass";
 import { getDistance } from "./DistanceFunc";
 import { idObject } from "./IDObject";
 

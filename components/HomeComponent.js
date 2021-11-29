@@ -51,11 +51,16 @@ class Home extends Component {
                   style={{ flex: 1 }}
                 >
                   <Card
-                    // title="Welcome to iForager!"
                     containerStyle={{
-                      ...styles.card,
+                      // flex: 1,
+                      borderStyle: "solid",
+                      borderWidth: 3,
                       padding: 0,
-                      alignItems: "center",
+                      margin: 10,
+                      borderRadius: 25,
+                      backgroundColor: "#f8ecdb",
+                      borderColor: "#575046",
+                      overflow: "hidden",
                     }}
                   >
                     <ImageBackground
@@ -63,12 +68,19 @@ class Home extends Component {
                       resizeMode="repeat"
                       style={{}}
                     >
-                      <View style={{ padding: 20, alignItems: "center" }}>
+                      <View
+                        style={{
+                          minWidth: "100%",
+                          maxWidth: "100%",
+                        }}
+                      >
                         <Text
                           style={{
                             marginBottom: 10,
                             fontWeight: "bold",
                             fontSize: 24,
+                            textAlign: "center",
+                            marginVertical: 10,
                           }}
                         >
                           Welcome to iForager!

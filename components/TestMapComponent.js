@@ -1,13 +1,7 @@
 import * as React from "react";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ImageBackground,
-} from "react-native";
-import { useRef, useEffect, Component } from "react";
+import { View, ImageBackground } from "react-native";
+import { Component } from "react";
 import { render } from "react-dom";
 import { styles } from "../shared/Styles";
 import pageBG from "../assets/textures/fabric-dark.png";

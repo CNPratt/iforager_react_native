@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { getFile } from "./GetFileFunctions";
-import ObsCard from "./ObsCardComponent";
-import { CardStack, CardFlatList } from "./CardStackComponent";
+import { getFile } from "./data/GetFileFunctions";
+import { CardFlatList } from "./CardStackComponent";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../shared/Styles";
 import pageBG from "../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";

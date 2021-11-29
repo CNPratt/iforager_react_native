@@ -1,10 +1,9 @@
 import ObsCard from "./ObsCardComponent";
-import { ListItem } from "react-native-elements";
 import { FlatList, View, ActivityIndicator } from "react-native";
 import React, { Component, useRef } from "react";
 import { styles } from "../shared/Styles";
 
-let lastVisibileIndex = 0;
+// let lastVisibileIndex = 0;
 const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
 const speciesMethod = (a, b) => (a.species > b.species ? -1 : 1);

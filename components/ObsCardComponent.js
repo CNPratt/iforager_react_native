@@ -119,7 +119,7 @@ class ObsCard extends PureComponent {
               id={this.props.obsid}
               key={this.props.observation.trueID}
             >
-              <ImageBackground source={cardBG} style={{ flex: 1 }}>
+              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
                 <View style={styles.mainCardBody}>
                   <TouchableOpacity
                     activeOpacity={0.7}
