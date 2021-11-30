@@ -21,8 +21,15 @@ import CardDisplay from "./CardDisplayComponent";
 import pageBG from "../assets/textures/fabric-dark.png";
 import drawerBG from "../assets/textures/black-linen.png";
 import TaxaDirectory from "./TaxaDirectoryComponent";
+import TaxaInfoClass from "./TaxaInfoClassComponent";
 
 const statusBarHeight = Constants.statusBarHeight;
+
+class NullLabel extends Component {
+  render() {
+    return null;
+  }
+}
 
 class CustomDrawer extends Component {
   constructor(props) {
@@ -187,6 +194,38 @@ const TaxaDirectoryNavigator = createStackNavigator(
   }
 );
 
+const TaxaInfoClassNavigator = createStackNavigator(
+  {
+    TaxaInfoClass: { screen: TaxaInfoClass },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
+  }
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -265,6 +304,12 @@ const MainNavigator = createDrawerNavigator(
             size={24}
           />
         ),
+      },
+    },
+    TaxaInfo: {
+      screen: TaxaInfoClassNavigator,
+      navigationOptions: {
+        drawerLabel: <NullLabel />,
       },
     },
   },

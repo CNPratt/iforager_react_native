@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
     color: "#34302A",
   },
   taxaHeader: {
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: "bold",
     // alignSelf: "center",
     textAlign: "center",
@@ -142,5 +142,6 @@ export const styles = StyleSheet.create({
     textShadowColor: "black",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 3,
+    margin: 10,
   },
 });

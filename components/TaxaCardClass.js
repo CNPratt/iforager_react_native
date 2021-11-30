@@ -29,11 +29,11 @@ export class TaxaCard extends Component {
           <View style={styles.mainCardBody}>
             <TouchableOpacity
               activeOpacity={0.7}
-              // onPress={
-              //   this.props.click
-              //     ? () => this.props.click(this.props.obsid, "flatlist")
-              //     : null
-              // }
+              onPress={() => {
+                this.props.nav.navigate("TaxaInfo", {
+                  taxaName: `${this.props.taxaName}`,
+                });
+              }}
               style={{ zIndex: 1 }}
             >
               <View
