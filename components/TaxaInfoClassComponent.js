@@ -15,6 +15,10 @@ import pageBG from "../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
 
 import { withNavigationFocus } from "react-navigation";
+import { taxaPagesObject } from "./data/TaxaPagesObject";
+import { Linking } from "react-native";
+
+import { ActivityIndicator } from "react-native";
 
 class TaxaInfoClass extends Component {
   constructor(props) {
@@ -37,87 +41,142 @@ class TaxaInfoClass extends Component {
   }
 
   render() {
-    console.log(
-      this.props.navigation.dangerouslyGetParent().getParam("taxaName", 0)
-    );
-    return (
-      <View style={styles.pageBackground}>
-        <ImageBackground
-          source={pageBG}
-          resizeMode="repeat"
-          style={{ height: "100%", width: "100%" }}
-        >
-          <Animatable.View
-            style={styles.pageBackground}
-            animation="fadeIn"
-            useNativeDriver={true}
+    // console.log(
+    //   this.props.navigation.dangerouslyGetParent().getParam("taxaName", 0)
+    // );
+
+    let imageVisibility;
+
+    const taxaNameParameter = this.props.navigation
+      .dangerouslyGetParent()
+      .getParam("taxaName", "laetiporus");
+
+    if (this.props.isFocused) {
+      return (
+        <View style={styles.pageBackground}>
+          <ImageBackground
+            source={pageBG}
+            resizeMode="repeat"
+            style={{ height: "100%", width: "100%" }}
           >
-            <ImageBackground
-              source={pageBG}
-              resizeMode="repeat"
-              style={{ height: "100%", width: "100%" }}
-            >
-              <ScrollView
-                contentContainerStyle={{
-                  ...styles.pageBackground,
-                }}
-                bounces={false}
+            <ScrollView>
+              <Animatable.View
+                style={styles.pageBackground}
+                animation="fadeIn"
+                useNativeDriver={true}
               >
                 <ImageBackground
                   source={pageBG}
                   resizeMode="repeat"
-                  style={{ flex: 1 }}
+                  style={{ height: "100%", width: "100%" }}
                 >
-                  <Card
-                    containerStyle={{
-                      // flex: 1,
-                      borderStyle: "solid",
-                      borderWidth: 3,
-                      padding: 0,
-                      margin: 10,
-                      borderRadius: 25,
-                      backgroundColor: "#f8ecdb",
-                      borderColor: "#575046",
-                      overflow: "hidden",
+                  <ScrollView
+                    contentContainerStyle={{
+                      ...styles.pageBackground,
                     }}
+                    bounces={false}
                   >
                     <ImageBackground
-                      source={cardBG}
+                      source={pageBG}
                       resizeMode="repeat"
                       style={{}}
                     >
                       <View
                         style={{
-                          minWidth: "100%",
-                          maxWidth: "100%",
+                          flex: 1,
+                          // backgroundColor: "white",
+                          width: "100%",
+                          height: 200,
+                          paddingTop: 20,
+                          paddingLeft: 20,
                         }}
                       >
-                        <Text
+                        <Image
+                          source={
+                            taxaPagesObject[taxaNameParameter].mainImage
+                              .imageUri
+                          }
                           style={{
-                            marginBottom: 10,
-                            fontWeight: "bold",
-                            fontSize: 24,
-                            textAlign: "center",
-                            marginVertical: 10,
+                            alignSelf: "center",
+                            flex: 1,
+                            resizeMode: "contain",
                           }}
+                          onLoadStart={(ImageLoadEvent) =>
+                            console.log("started")
+                          }
+                          onLoad={(ImageLoadEvent) => {
+                            console.log("loaded");
+                          }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          ...styles.cardHeader,
+                          fontWeight: "bold",
+                          fontSize: 24,
+                          textAlign: "center",
+                          marginVertical: 10,
+                        }}
+                      >
+                        {taxaPagesObject[taxaNameParameter].taxaLevel + ": "}
+                        {taxaPagesObject[taxaNameParameter].taxaName}
+                      </Text>
+                      <Text
+                        style={{
+                          ...styles.cardSubheader,
+                          marginBottom: 10,
+                          fontSize: 18,
+                          textAlign: "center",
+                        }}
+                      >
+                        {taxaPagesObject[taxaNameParameter].taxaSubname}
+                      </Text>
+                      <Text
+                        style={{
+                          ...styles.homeCardText,
+                          color: "white",
+                          textShadowColor: "black",
+                          textShadowOffset: { width: -1, height: 1 },
+                          textShadowRadius: 3,
+                        }}
+                      >
+                        {taxaPagesObject[taxaNameParameter].mainContent}
+                      </Text>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate("TaxaDirectory")
+                          }
                         >
-                          {this.props.navigation
-                            .dangerouslyGetParent()
-                            .getParam("taxaName", 0)}
-                        </Text>
-                        <Text style={styles.homeCardText}>
-                          This is where the information goes.
-                        </Text>
+                          <Text style={{}}>GO BACK</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() =>
+                            Linking.openURL(
+                              `https://www.inaturalist.org/taxa/${taxaPagesObject[taxaNameParameter].id}`
+                            )
+                          }
+                        >
+                          <Text style={{}}>SOURCE</Text>
+                        </TouchableOpacity>
                       </View>
                     </ImageBackground>
-                  </Card>
+                  </ScrollView>
                 </ImageBackground>
-              </ScrollView>
-            </ImageBackground>
-          </Animatable.View>
-        </ImageBackground>
-      </View>
-    );
+              </Animatable.View>
+            </ScrollView>
+          </ImageBackground>
+        </View>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
