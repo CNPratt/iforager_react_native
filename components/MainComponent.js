@@ -23,6 +23,31 @@ import drawerBG from "../assets/textures/black-linen.png";
 import TaxaDirectory from "./TaxaDirectoryComponent";
 import TaxaInfoClass from "./TaxaInfoClassComponent";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    console.log(e);
+    // saving error
+  }
+};
+
+const getData = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      console.log(value);
+      return value;
+      // value previously stored
+    }
+  } catch (e) {
+    console.log(e);
+    // error reading value
+  }
+};
+
 const statusBarHeight = Constants.statusBarHeight;
 
 class NullLabel extends Component {
@@ -342,14 +367,32 @@ class Main extends Component {
     };
   }
 
-  toggleFilter = () =>
+  toggleFilter = () => {
+    storeData("unfiltered", `${!this.state.unfiltered}`).then(
+      getData("unfiltered").then((value) =>
+        console.log("unfiltered mode: " + value)
+      )
+    );
     this.setState({
       unfiltered: !this.state.unfiltered,
     });
+  };
 
   componentDidMount() {
     Location.installWebGeolocationPolyfill();
     this.getLocation();
+
+    getData("unfiltered").then((value) => {
+      if (value) {
+        value === "true"
+          ? this.setState({
+              unfiltered: true,
+            })
+          : this.setState({
+              unfiltered: false,
+            });
+      }
+    });
   }
 
   handleSubmit = async (text) => {
