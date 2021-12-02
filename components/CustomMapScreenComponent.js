@@ -19,6 +19,8 @@ import { TaxaCard } from "./TaxaCardClass";
 import { taxaSections } from "./data/TaxaSections";
 import { CustomMapCard } from "./CustomMapCardClass";
 
+let idRegex = /^[-,0-9]+$/;
+
 class CustomMapScreen extends Component {
   constructor(props) {
     super(props);
@@ -104,14 +106,17 @@ class CustomMapScreen extends Component {
                       title: this.state.newMapName,
                       ids: this.state.newMapIds,
                     };
-                    this.props.addCustomMap(newMap);
-                    this.setState({
-                      newMapName: "",
-                      newMapIds: "",
-                    });
 
-                    this.idInput.clear();
-                    this.nameInput.clear();
+                    if (idRegex.test(this.state.newMapIds)) {
+                      this.props.addCustomMap(newMap);
+                      this.setState({
+                        newMapName: "",
+                        newMapIds: "",
+                      });
+
+                      this.idInput.clear();
+                      this.nameInput.clear();
+                    }
                   }}
                   color="#f8ecdb"
                 />

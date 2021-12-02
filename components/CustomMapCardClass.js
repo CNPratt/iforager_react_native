@@ -13,6 +13,11 @@ export class CustomMapCard extends Component {
   }
 
   render() {
+    let thisMap = {
+      title: this.props.title,
+      ids: this.props.ids,
+    };
+
     return (
       <Card
         containerStyle={{
@@ -34,6 +39,9 @@ export class CustomMapCard extends Component {
                   ids: `${this.props.ids}`,
                   mapName: `${this.props.title}`,
                 });
+              }}
+              onLongPress={() => {
+                this.props.deleteCustomMap(thisMap);
               }}
               style={{ zIndex: 1 }}
             >

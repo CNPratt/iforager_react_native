@@ -20,7 +20,7 @@ const getData = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {
-      console.log(value);
+      // console.log(value);
       return value;
       // value previously stored
     }
@@ -37,8 +37,22 @@ class Main extends Component {
     this.state = {
       latlon: [0, 0],
       unfiltered: false,
-      customMapsArray: [{ title: "My Custom Map", ids: "51886" }],
+      customMapsArray: [],
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.customMapsArray !== this.state.customMapsArray) {
+      storeData(
+        "customMapsArray",
+        JSON.stringify(this.state.customMapsArray)
+      ).then(
+        getData("customMapsArray").then((value) =>
+          // console.log("maps: " + value)
+          console.log()
+        )
+      );
+    }
   }
 
   toggleFilter = () => {
@@ -65,6 +79,14 @@ class Main extends Component {
           : this.setState({
               unfiltered: false,
             });
+      }
+    });
+
+    getData("customMapsArray").then((value) => {
+      if (value) {
+        this.setState({
+          customMapsArray: JSON.parse(value),
+        });
       }
     });
   }
@@ -108,8 +130,11 @@ class Main extends Component {
   };
 
   deleteCustomMap = (map) => {
+    console.log(map);
     this.setState({
-      customMapsArray: customMapsArray.filter((element) => element !== map),
+      customMapsArray: this.state.customMapsArray.filter(
+        (element) => element.ids !== map.ids && element.title !== map.title
+      ),
     });
   };
 
