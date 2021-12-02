@@ -108,6 +108,13 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  newMapNameInput: {
+    backgroundColor: "white",
+    // height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
   switch: {
     padding: 10,
   },

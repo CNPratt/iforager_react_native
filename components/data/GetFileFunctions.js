@@ -43,7 +43,13 @@ export const getFile = async (latlon, type, unfiltered) => {
     filterMode = "";
   }
 
-  const url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
+  let url;
+
+  if (idObject[type]) {
+    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
+  } else {
+    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
+  }
 
   const response = await fetch(url);
 

@@ -36,32 +36,18 @@ class TaxaDirectoryComponent extends Component {
         >
           <ScrollView>
             <Animatable.View
-              style={styles.pageBackground}
+              style={{ flex: 1 }}
               animation="fadeIn"
               useNativeDriver={true}
             >
-              <ImageBackground
-                source={pageBG}
-                resizeMode="repeat"
-                style={{ height: "100%", width: "100%" }}
+              <ScrollView
+                contentContainerStyle={{
+                  flex: 1,
+                }}
+                bounces={false}
               >
-                <ScrollView
-                  contentContainerStyle={{
-                    ...styles.pageBackground,
-                  }}
-                  bounces={false}
-                >
-                  <ImageBackground
-                    source={pageBG}
-                    resizeMode="repeat"
-                    style={{ flex: 1 }}
-                  >
-                    <AccordionView
-                      sections={taxaSections(this.props.navigation)}
-                    />
-                  </ImageBackground>
-                </ScrollView>
-              </ImageBackground>
+                <AccordionView sections={taxaSections(this.props.navigation)} />
+              </ScrollView>
             </Animatable.View>
           </ScrollView>
         </ImageBackground>

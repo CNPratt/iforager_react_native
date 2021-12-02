@@ -7,7 +7,7 @@ import * as Linking from "expo-linking";
 import cardBG from "../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
-export class TaxaCard extends Component {
+export class CustomMapCard extends Component {
   constructor(props) {
     super(props);
   }
@@ -30,15 +30,13 @@ export class TaxaCard extends Component {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                this.props.nav.navigate("TaxaInfo", {
-                  taxaName: `${this.props.taxaName}`,
-                });
+                this.props.nav.navigate("TaxaInfo");
               }}
               style={{ zIndex: 1 }}
             >
               <View
                 style={{
-                  position: "absolute",
+                  //   position: "absolute",
                   //   zIndex: 1,
                   height: 100,
                   width: 100,
@@ -47,7 +45,7 @@ export class TaxaCard extends Component {
                   //   opacity: 0.7,
                 }}
               ></View>
-              <Image source={this.props.uri} style={styles.cardImg} />
+              {/* <Image source={this.props.uri} style={styles.cardImg} /> */}
             </TouchableOpacity>
             <View style={{ flex: 1 }}>
               <View

@@ -22,6 +22,7 @@ class Home extends Component {
   };
 
   render() {
+    console.log(this.props.navigation.state);
     return (
       <View style={styles.pageBackground}>
         <ImageBackground
