@@ -37,7 +37,7 @@ class Main extends Component {
     this.state = {
       latlon: [0, 0],
       unfiltered: false,
-      customMapsArray: [{ title: "My Custom Map", ids: "47886" }],
+      customMapsArray: [{ title: "My Custom Map", ids: "51886" }],
     };
   }
 

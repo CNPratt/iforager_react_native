@@ -20,6 +20,7 @@ import drawerBG from "../assets/textures/black-linen.png";
 import TaxaDirectory from "./TaxaDirectoryComponent";
 import TaxaInfoClass from "./TaxaInfoClassComponent";
 import CustomMapScreen from "./CustomMapScreenComponent";
+import CMapMaster from "./CMapMaster";
 
 const statusBarHeight = Constants.statusBarHeight;
 
@@ -119,14 +120,14 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
-const FinderNav = (type) =>
+export const FinderNav = (type) =>
   createStackNavigator(
     {
-      type: {
-        screen: (props) => (
-          <CardDisplay {...props.screenProps} type={type.toLowerCase()} />
-        ),
-      },
+      //   [type]: {
+      screen: (props) => (
+        <CardDisplay {...props.screenProps} type={type.toLowerCase()} />
+      ),
+      //   },
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -261,6 +262,45 @@ const CustomMapScreenNavigator = createStackNavigator(
   }
 );
 
+const CMapMasterNavigator = createStackNavigator(
+  {
+    CMapMasterScreen: {
+      screen: (props) => (
+        <CMapMaster {...props.screenProps} navigation={props.navigation} />
+      ),
+    },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: navigation
+        .dangerouslyGetParent()
+        .getParam("mapName", "Custom Map"),
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+        />
+      ),
+    }),
+  }
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -356,6 +396,12 @@ const MainNavigator = createDrawerNavigator(
     },
     TaxaInfo: {
       screen: TaxaInfoClassNavigator,
+      navigationOptions: {
+        drawerLabel: <NullLabel />,
+      },
+    },
+    CMapMaster: {
+      screen: CMapMasterNavigator,
       navigationOptions: {
         drawerLabel: <NullLabel />,
       },

@@ -228,6 +228,8 @@ class CardDisplay extends Component {
 
     // console.log(this.state.acronymArray);
 
+    // console.log("display: " + this.props.type);
+
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
     }

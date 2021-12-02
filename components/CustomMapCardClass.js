@@ -30,7 +30,10 @@ export class CustomMapCard extends Component {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                this.props.nav.navigate("TaxaInfo");
+                this.props.nav.navigate("CMapMaster", {
+                  ids: `${this.props.ids}`,
+                  mapName: `${this.props.title}`,
+                });
               }}
               style={{ zIndex: 1 }}
             >
@@ -63,7 +66,7 @@ export class CustomMapCard extends Component {
                 >
                   {this.props.title}
                 </Text>
-                <Text style={styles.cardSubheader}>{this.props.subtitle}</Text>
+                <Text style={styles.cardSubheader}>{this.props.ids}</Text>
               </View>
             </View>
           </View>

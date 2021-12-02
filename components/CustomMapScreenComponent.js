@@ -44,7 +44,7 @@ class CustomMapScreen extends Component {
       mapCardArray.push(
         <CustomMapCard
           title={map.title}
-          subtitle={map.ids}
+          ids={map.ids}
           nav={this.props.navigation}
           addCustomMap={this.props.addCustomMap}
           deleteCustomMap={this.props.deleteCustomMap}
