@@ -34,12 +34,6 @@ class TaxaInfoClass extends Component {
     },
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.isFocused !== this.props.isFocused) {
-      return true;
-    }
-  }
-
   render() {
     // console.log(
     //   this.props.navigation.dangerouslyGetParent().getParam("taxaName", 0)
@@ -138,16 +132,21 @@ class TaxaInfoClass extends Component {
                   >
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.navigation.navigate("TaxaDirectory")
+                        this.props.navigation.navigate("Taxa Directory")
                       }
                     >
                       <Text style={{}}>GO BACK</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                      // onPress={() =>
+                      //   Linking.openURL(
+                      //     `https://www.inaturalist.org/taxa/${taxaPagesObject[taxaNameParameter].id}`
+                      //   )
+                      // }
                       onPress={() =>
-                        Linking.openURL(
-                          `https://www.inaturalist.org/taxa/${taxaPagesObject[taxaNameParameter].id}`
-                        )
+                        this.props.navigation.navigate("WebViewer", {
+                          uri: `https://www.inaturalist.org/taxa/${taxaPagesObject[taxaNameParameter].id}`,
+                        })
                       }
                     >
                       <Text style={{}}>SOURCE</Text>

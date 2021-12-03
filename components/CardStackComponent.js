@@ -6,7 +6,7 @@ import { styles } from "../shared/Styles";
 // let lastVisibileIndex = 0;
 const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
-const speciesMethod = (a, b) => (a.species > b.species ? -1 : 1);
+const speciesMethod = (a, b) => (a.species > b.species ? 1 : -1);
 
 const sortMethod = (method) => {
   switch (method) {
@@ -75,6 +75,7 @@ export class CardFlatList extends Component {
           key={item.trueID}
           observation={item}
           selectedMarker={this.props.selectedMarker}
+          navigation={this.props.navigation}
           // color={item.color}
         />,
         item.trueID,

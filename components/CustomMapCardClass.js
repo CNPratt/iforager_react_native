@@ -89,7 +89,11 @@ export class CustomMapCard extends Component {
                 >
                   {this.props.title}
                 </Text>
-                <Text style={styles.cardSubheader}>
+                <Text
+                  // adjustsFontSizeToFit
+                  numberOfLines={2}
+                  style={styles.cardSubheader}
+                >
                   {this.props.ids.split(",").join(", ")}
                 </Text>
               </View>

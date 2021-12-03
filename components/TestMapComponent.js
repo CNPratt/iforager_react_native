@@ -61,12 +61,15 @@ export default class TestMap extends Component {
       this.marker.showCallout();
     }
 
-    if (prevProps.latlon !== this.props.latlon) {
+    if (
+      prevProps.latlon !== this.props.latlon ||
+      prevProps.radius !== this.props.radius
+    ) {
       this.state.mapRef.current.animateToRegion({
         latitude: this.props.latlon[0],
         longitude: this.props.latlon[1],
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
+        latitudeDelta: this.adjustRadiusDelta(this.props.radius),
+        longitudeDelta: this.adjustRadiusDelta(this.props.radius),
       });
     }
 
@@ -87,6 +90,25 @@ export default class TestMap extends Component {
       // });
 
       this.cameraSetter();
+    }
+  }
+
+  adjustRadiusDelta(radius) {
+    switch (radius) {
+      case "1":
+        return 0.05;
+        break;
+      case "5":
+        return 0.2;
+        break;
+      case "10":
+        return 0.35;
+        break;
+      case "15":
+        return 0.5;
+        break;
+      default:
+        return distMethod;
     }
   }
 
@@ -132,8 +154,8 @@ export default class TestMap extends Component {
             initialRegion={{
               latitude: this.props.latlon[0],
               longitude: this.props.latlon[1],
-              latitudeDelta: 0.5,
-              longitudeDelta: 0.5,
+              latitudeDelta: this.adjustRadiusDelta(this.props.radius),
+              longitudeDelta: this.adjustRadiusDelta(this.props.radius),
             }}
             // onRegionChange={(region, isGesture) =>
             //   this.setState({

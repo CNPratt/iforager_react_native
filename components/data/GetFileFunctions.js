@@ -4,6 +4,10 @@ import { idObject } from "./IDObject";
 
 // let obsArray = [];
 
+function milesToKM(miles) {
+  return miles * 1.60934;
+}
+
 function extractObservation(element, lat, lon) {
   let coordSplit = element.location.split(",");
 
@@ -35,7 +39,7 @@ function extractObservation(element, lat, lon) {
   // }
 }
 
-export const getFile = async (latlon, type, unfiltered) => {
+export const getFile = async (latlon, type, unfiltered, radius) => {
   let obsArray = [];
   let filterMode = "&quality_grade=research";
 
@@ -43,12 +47,24 @@ export const getFile = async (latlon, type, unfiltered) => {
     filterMode = "";
   }
 
+  // console.log(radius);
+
   let url;
 
   if (idObject[type]) {
-    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${idObject[type].ids}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
+    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${
+      idObject[type].ids
+    }${filterMode}&captive=false&lat=${latlon[0]}&lng=${
+      latlon[1]
+    }&radius=${milesToKM(
+      radius
+    )}&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
   } else {
-    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${type}${filterMode}&captive=false&lat=${latlon[0]}&lng=${latlon[1]}&radius=24&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
+    url = `https://api.inaturalist.org/v1/observations/?taxon_id=${type}${filterMode}&captive=false&lat=${
+      latlon[0]
+    }&lng=${latlon[1]}&radius=${milesToKM(
+      radius
+    )}&per_page=200&acc_below=100&geoprivacy=open&photos=true`;
   }
 
   const response = await fetch(url);

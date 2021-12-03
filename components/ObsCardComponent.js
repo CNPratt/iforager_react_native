@@ -62,7 +62,7 @@ class ObsCard extends PureComponent {
             justifyContent: "flex-end",
             alignItems: "center",
             flexDirection: "row",
-            paddingTop: 3,
+            paddingTop: 12,
           }}
           animation="fadeIn"
           delay={1000}
@@ -70,29 +70,64 @@ class ObsCard extends PureComponent {
         >
           <View style={{ justifyContent: "space-evenly" }}>
             <View style={styles.swipeButtons}>
-              <TouchableOpacity
-                onPress={() =>
-                  Linking.openURL(
-                    `https://www.google.com/maps/search/?api=1&query=${this.props.observation.obsLat}%2C${this.props.observation.obsLon}`
-                  )
-                }
-              >
-                <Text style={styles.swipeBtnText}>DROP PIN</Text>
-              </TouchableOpacity>
+              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://www.google.com/maps/search/?api=1&query=${this.props.observation.obsLat}%2C${this.props.observation.obsLon}`
+                    )
+                  }
+                >
+                  <Text
+                    style={{
+                      ...styles.swipeBtnText,
+                      backgroundColor: "none",
+                      padding: 3,
+                    }}
+                  >
+                    DROP PIN
+                  </Text>
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
             <View style={styles.swipeButtons}>
-              <TouchableOpacity
-                onPress={() => Linking.openURL(this.props.observation.url)}
-              >
-                <Text style={styles.swipeBtnText}>SOURCE</Text>
-              </TouchableOpacity>
+              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                <TouchableOpacity
+                  // onPress={() => Linking.openURL(this.props.observation.url)}
+                  onPress={() =>
+                    this.props.navigation.navigate("WebViewer", {
+                      uri: this.props.observation.url,
+                    })
+                  }
+                >
+                  <Text
+                    style={{
+                      ...styles.swipeBtnText,
+                      backgroundColor: "none",
+                      padding: 3,
+                    }}
+                  >
+                    SOURCE
+                  </Text>
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
             <View style={{ ...styles.swipeButtons }}>
-              <TouchableOpacity
-                onPress={() => Linking.openURL("https://google.com")}
-              >
-                <Text style={styles.swipeBtnText}>FAVORITE</Text>
-              </TouchableOpacity>
+              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL("https://google.com")}
+                >
+                  <Text
+                    style={{
+                      ...styles.swipeBtnText,
+                      backgroundColor: "none",
+                      padding: 3,
+                    }}
+                  >
+                    FAVORITE
+                  </Text>
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
           </View>
         </Animatable.View>

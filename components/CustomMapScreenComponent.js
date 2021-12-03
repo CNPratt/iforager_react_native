@@ -119,6 +119,7 @@ class CustomMapScreen extends Component {
 
                     console.log(customMapFilter);
                     if (
+                      this.state.newMapName &&
                       idRegex.test(this.state.newMapIds) &&
                       !staticNameFilter &&
                       !customMapFilter.length

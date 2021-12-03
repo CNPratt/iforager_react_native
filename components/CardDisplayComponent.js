@@ -7,6 +7,7 @@ import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
 import { styles } from "../shared/Styles";
 import pageBG from "../assets/textures/fabric-dark.png";
+import cardBG from "../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
 let sortMethodArray = ["dist", "date", "species"];
@@ -129,7 +130,12 @@ class CardDisplay extends Component {
 
     // console.log(this.props.type);
 
-    getFile(this.props.latlon, this.props.type, this.props.unfiltered)
+    getFile(
+      this.props.latlon,
+      this.props.type,
+      this.props.unfiltered,
+      this.props.radius
+    )
       .then((value) => {
         // console.log("value: " + value.length, this.props.type);
         this.setState({
@@ -207,7 +213,8 @@ class CardDisplay extends Component {
     // console.log(prevState.selectedMarker, this.state.selectedMarker);
     if (
       this.props.type !== prevProps.type ||
-      this.props.latlon !== prevProps.latlon
+      this.props.latlon !== prevProps.latlon ||
+      this.props.radius !== prevProps.radius
     ) {
       this.getData();
     }
@@ -261,6 +268,7 @@ class CardDisplay extends Component {
                   handleCameraFulfilled={this.handleCameraFulfilled}
                   sortSpecies={this.state.sortSpecies}
                   sorted={this.speciesSortMethod()}
+                  radius={this.props.radius}
                 />
                 <View
                   style={{
@@ -270,6 +278,12 @@ class CardDisplay extends Component {
                   <TouchableOpacity
                     style={{
                       flex: 1,
+                      margin: 10,
+                      borderStyle: "solid",
+                      borderColor: "#575046",
+                      borderWidth: 3,
+                      borderRadius: 15,
+                      overflow: "hidden",
                     }}
                     onPress={() => {
                       if (
@@ -286,33 +300,70 @@ class CardDisplay extends Component {
                       }
                     }}
                   >
-                    <Text
-                      style={{
-                        ...styles.swipeBtnText,
-                        margin: 10,
-                        padding: 10,
-                      }}
-                    >
-                      {this.state.sortBy}
-                    </Text>
+                    <View style={{ flexGrow: 1, backgroundColor: "#AFA392" }}>
+                      <ImageBackground
+                        source={cardBG}
+                        resizeMode="repeat"
+                        style={{}}
+                      >
+                        <Text
+                          style={{
+                            ...styles.swipeBtnText,
+                            // margin: 10,
+                            padding: 10,
+                            fontSize: 14,
+                            fontWeight: "bold",
+                            color: "white",
+                            textShadowColor: "black",
+                            textShadowOffset: { width: -1, height: 1 },
+                            textShadowRadius: 3,
+                            // backgroundColor: "#AFA392",
+                            backgroundColor: "none",
+                          }}
+                        >
+                          {"Sort: " + this.state.sortBy.toUpperCase()}
+                        </Text>
+                      </ImageBackground>
+                    </View>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{
                       flex: 1,
+                      margin: 10,
+                      borderStyle: "solid",
+                      borderColor: "#575046",
+                      borderWidth: 3,
+                      borderRadius: 15,
+                      overflow: "hidden",
                     }}
                     onPress={() => {
                       this.handleSpeciesSwitch();
                     }}
                   >
-                    <Text
-                      style={{
-                        ...styles.swipeBtnText,
-                        margin: 10,
-                        padding: 10,
-                      }}
-                    >
-                      {this.state.sortSpecies}
-                    </Text>
+                    <View style={{ flexGrow: 1, backgroundColor: "#AFA392" }}>
+                      <ImageBackground
+                        source={cardBG}
+                        resizeMode="repeat"
+                        style={{}}
+                      >
+                        <Text
+                          style={{
+                            ...styles.swipeBtnText,
+                            // margin: 10,
+                            padding: 10,
+                            fontSize: 14,
+                            fontWeight: "bold",
+                            color: "white",
+                            textShadowColor: "black",
+                            textShadowOffset: { width: -1, height: 1 },
+                            textShadowRadius: 3,
+                            backgroundColor: "none",
+                          }}
+                        >
+                          {"Species: " + this.state.sortSpecies.toUpperCase()}
+                        </Text>
+                      </ImageBackground>
+                    </View>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.cardstackContainer}>
@@ -328,6 +379,7 @@ class CardDisplay extends Component {
                     acronymArray={this.state.acronymArray}
                     fullnameArray={this.state.fullnameArray}
                     sorted={this.speciesSortMethod()}
+                    navigation={this.props.navigation}
                   />
                 </View>
               </ImageBackground>

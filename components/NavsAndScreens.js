@@ -21,6 +21,11 @@ import TaxaDirectory from "./TaxaDirectoryComponent";
 import TaxaInfoClass from "./TaxaInfoClassComponent";
 import CustomMapScreen from "./CustomMapScreenComponent";
 import CMapMaster from "./CMapMaster";
+import WebViewerComponent from "./WebViewerComponent";
+
+import SelectDropdown from "react-native-select-dropdown";
+
+const radiusOptions = ["1", "5", "10", "15"];
 
 const statusBarHeight = Constants.statusBarHeight;
 
@@ -41,6 +46,7 @@ class CustomDrawer extends Component {
 
   render() {
     // console.log(this.props.screenProps.unfiltered);
+
     return (
       <View>
         <ImageBackground
@@ -54,20 +60,93 @@ class CustomDrawer extends Component {
           <StatusBar />
           <DrawerItems {...this.props} />
 
-          <View style={styles.switch}>
-            <Text>
-              <Switch
-                value={this.props.screenProps.unfiltered}
-                onValueChange={() => {
-                  this.props.screenProps.toggleFilter();
-                }}
-                trackColor={{ false: "white", true: "black" }}
-                thumbColor="darkgrey"
-                ios_backgroundColor="white"
-              />
-
-              {"Unfiltered Mode"}
+          <View
+            style={{
+              ...styles.switch,
+              flexDirection: "row",
+              // backgroundColor: "white",
+            }}
+          >
+            <Switch
+              value={this.props.screenProps.unfiltered}
+              onValueChange={() => {
+                this.props.screenProps.toggleFilter();
+              }}
+              trackColor={{ false: "white", true: "black" }}
+              thumbColor="darkgrey"
+              ios_backgroundColor="white"
+            />
+            <Text
+              style={{
+                flex: 2,
+                textAlign: "center",
+                alignSelf: "center",
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "white",
+                textShadowColor: "black",
+                textShadowOffset: { width: -1, height: 1 },
+                textShadowRadius: 3,
+              }}
+            >
+              {"Unfiltered Mode: "}
             </Text>
+            <Text
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                textAlign: "start",
+                alignSelf: "center",
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "white",
+                textShadowColor: "black",
+                textShadowOffset: { width: -1, height: 1 },
+                textShadowRadius: 3,
+              }}
+            >
+              {this.props.screenProps.unfiltered ? "On" : "Off"}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexShrink: 1,
+              flexDirection: "row",
+              margin: 12,
+            }}
+          >
+            <SelectDropdown
+              data={radiusOptions}
+              defaultValue={this.props.screenProps.radius}
+              buttonStyle={{
+                width: "20%",
+                borderStyle: "solid",
+                borderColor: "#575046",
+                borderWidth: 3,
+                borderRadius: 15,
+              }}
+              buttonTextStyle={{
+                fontSize: 12,
+              }}
+              onSelect={(value) => this.props.screenProps.toggleRadius(value)}
+            />
+            <Text
+              style={{
+                flex: 2,
+                flexDirection: "row",
+                textAlign: "center",
+                alignSelf: "center",
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "white",
+                textShadowColor: "black",
+                textShadowOffset: { width: -1, height: 1 },
+                textShadowRadius: 3,
+              }}
+            >
+              Radius(in miles)
+            </Text>
+            <View style={{ flex: 1 }} />
           </View>
           <TextInput
             style={styles.addressInput}
@@ -114,6 +193,7 @@ const HomeNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
+          size="45"
         />
       ),
     }),
@@ -124,8 +204,12 @@ export const FinderNav = (type) =>
   createStackNavigator(
     {
       //   [type]: {
-      screen: (props) => (
-        <CardDisplay {...props.screenProps} type={type.toLowerCase()} />
+      [type]: (props) => (
+        <CardDisplay
+          {...props.screenProps}
+          navigation={props.navigation}
+          type={type.toLowerCase()}
+        />
       ),
       //   },
     },
@@ -156,6 +240,7 @@ export const FinderNav = (type) =>
             color="#796d5b"
             type="material-community"
             iconStyle={styles.stackicon}
+            size="45"
           />
         ),
       }),
@@ -188,6 +273,7 @@ const TaxaDirectoryNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
+          size="45"
         />
       ),
     }),
@@ -220,6 +306,7 @@ const TaxaInfoClassNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
+          size="45"
         />
       ),
     }),
@@ -259,6 +346,7 @@ const CustomMapScreenNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
+          size="45"
         />
       ),
     }),
@@ -298,6 +386,41 @@ const CMapMasterNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
+          size="45"
+        />
+      ),
+    }),
+  }
+);
+
+const WebNavigator = createStackNavigator(
+  {
+    WebViewer: { screen: WebViewerComponent },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "Web Viewer",
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+          size="45"
         />
       ),
     }),
@@ -371,7 +494,7 @@ const MainNavigator = createDrawerNavigator(
         ),
       },
     },
-    TaxaDirectory: {
+    "Taxa Directory": {
       screen: TaxaDirectoryNavigator,
       navigationOptions: {
         drawerIcon: () => (
@@ -384,7 +507,7 @@ const MainNavigator = createDrawerNavigator(
         ),
       },
     },
-    CustomMapScreen: {
+    "Custom Maps": {
       screen: CustomMapScreenNavigator,
       navigationOptions: {
         drawerIcon: () => (
@@ -405,6 +528,12 @@ const MainNavigator = createDrawerNavigator(
     },
     CMapMaster: {
       screen: CMapMasterNavigator,
+      navigationOptions: {
+        drawerLabel: <NullLabel />,
+      },
+    },
+    WebViewer: {
+      screen: WebNavigator,
       navigationOptions: {
         drawerLabel: <NullLabel />,
       },

@@ -37,32 +37,28 @@ class Main extends Component {
     this.state = {
       latlon: [0, 0],
       unfiltered: false,
+      radius: "15",
       customMapsArray: [],
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.customMapsArray !== this.state.customMapsArray) {
-      storeData(
-        "customMapsArray",
-        JSON.stringify(this.state.customMapsArray)
-      ).then(
-        getData("customMapsArray").then((value) =>
-          // console.log("maps: " + value)
-          console.log()
-        )
-      );
+      storeData("customMapsArray", JSON.stringify(this.state.customMapsArray));
     }
   }
 
   toggleFilter = () => {
-    storeData("unfiltered", `${!this.state.unfiltered}`).then(
-      getData("unfiltered").then((value) =>
-        console.log("unfiltered mode: " + value)
-      )
-    );
+    storeData("unfiltered", `${!this.state.unfiltered}`);
     this.setState({
       unfiltered: !this.state.unfiltered,
+    });
+  };
+
+  toggleRadius = (value) => {
+    storeData("radius", value);
+    this.setState({
+      radius: value,
     });
   };
 
@@ -86,6 +82,14 @@ class Main extends Component {
       if (value) {
         this.setState({
           customMapsArray: JSON.parse(value),
+        });
+      }
+    });
+
+    getData("radius").then((value) => {
+      if (value) {
+        this.setState({
+          radius: value,
         });
       }
     });
@@ -139,6 +143,12 @@ class Main extends Component {
   };
 
   render() {
+    // AsyncStorage.getAllKeys()
+    //   .then((keys) => AsyncStorage.multiRemove(keys))
+    //   .then(() => alert("success"));
+
+    // console.log(this.state.radius);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#796d5b" }}>
         <ImageBackground
@@ -156,6 +166,8 @@ class Main extends Component {
               customMapsArray: this.state.customMapsArray,
               addCustomMap: this.addCustomMap,
               deleteCustomMap: this.deleteCustomMap,
+              toggleRadius: this.toggleRadius,
+              radius: this.state.radius,
             }}
           />
         </ImageBackground>

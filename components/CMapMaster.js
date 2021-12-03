@@ -19,12 +19,6 @@ class CMapMaster extends Component {
     },
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.isFocused !== this.props.isFocused) {
-      return true;
-    }
-  }
-
   render() {
     // console.log(
     //   this.props.navigation.dangerouslyGetParent().getParam("ids", "0")
