@@ -133,7 +133,7 @@ class Main extends Component {
     console.log(map);
     this.setState({
       customMapsArray: this.state.customMapsArray.filter(
-        (element) => element.ids !== map.ids && element.title !== map.title
+        (element) => element.title !== map.title
       ),
     });
   };

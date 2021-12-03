@@ -11,6 +11,14 @@ class CMapMaster extends Component {
     };
   }
 
+  static navigationOptions = {
+    headerTitleStyle: {
+      textShadowColor: "black",
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 5,
+    },
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.isFocused !== this.props.isFocused) {
       return true;

@@ -236,6 +236,7 @@ const CustomMapScreenNavigator = createStackNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      title: "Custom Maps",
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -248,7 +249,9 @@ const CustomMapScreenNavigator = createStackNavigator(
       ),
       headerTintColor: "#fff",
       headerTitleStyle: {
-        color: "#fff",
+        textShadowColor: "black",
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 5,
       },
       headerLeft: (
         <Icon

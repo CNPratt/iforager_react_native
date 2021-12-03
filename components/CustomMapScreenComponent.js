@@ -18,6 +18,7 @@ import * as Animatable from "react-native-animatable";
 import { TaxaCard } from "./TaxaCardClass";
 import { taxaSections } from "./data/TaxaSections";
 import { CustomMapCard } from "./CustomMapCardClass";
+import { idObject } from "./data/IDObject";
 
 let idRegex = /^[-,0-9]+$/;
 
@@ -107,7 +108,21 @@ class CustomMapScreen extends Component {
                       ids: this.state.newMapIds,
                     };
 
-                    if (idRegex.test(this.state.newMapIds)) {
+                    let staticNameFilter =
+                      idObject[
+                        this.state.newMapName.split(" ").join("").toLowerCase()
+                      ];
+
+                    let customMapFilter = this.props.customMapsArray.filter(
+                      (element) => element.title === this.state.newMapName
+                    );
+
+                    console.log(customMapFilter);
+                    if (
+                      idRegex.test(this.state.newMapIds) &&
+                      !staticNameFilter &&
+                      !customMapFilter.length
+                    ) {
                       this.props.addCustomMap(newMap);
                       this.setState({
                         newMapName: "",
