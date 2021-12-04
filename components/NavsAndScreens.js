@@ -15,6 +15,7 @@ import { createAppContainer } from "react-navigation";
 import Home from "./HomeComponent";
 import { styles } from "../shared/Styles";
 import { Icon } from "react-native-elements";
+import pageBG from "../assets/textures/fabric-dark.png";
 import CardDisplay from "./CardDisplayComponent";
 import drawerBG from "../assets/textures/black-linen.png";
 import TaxaDirectory from "./TaxaDirectoryComponent";
@@ -59,108 +60,130 @@ class CustomDrawer extends Component {
         >
           <StatusBar />
           <DrawerItems {...this.props} />
-
           <View
             style={{
-              ...styles.switch,
-              flexDirection: "row",
-              // backgroundColor: "white",
+              flex: 1,
+              justifyContent: "center",
             }}
           >
-            <Switch
-              value={this.props.screenProps.unfiltered}
-              onValueChange={() => {
-                this.props.screenProps.toggleFilter();
-              }}
-              trackColor={{ false: "white", true: "black" }}
-              thumbColor="darkgrey"
-              ios_backgroundColor="white"
-            />
-            <Text
+            <View
               style={{
-                flex: 2,
-                textAlign: "center",
-                alignSelf: "center",
-                fontSize: 14,
-                fontWeight: "bold",
-                color: "white",
-                textShadowColor: "black",
-                textShadowOffset: { width: -1, height: 1 },
-                textShadowRadius: 3,
-              }}
-            >
-              {"Unfiltered Mode: "}
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                textAlign: "start",
-                alignSelf: "center",
-                fontSize: 14,
-                fontWeight: "bold",
-                color: "white",
-                textShadowColor: "black",
-                textShadowOffset: { width: -1, height: 1 },
-                textShadowRadius: 3,
-              }}
-            >
-              {this.props.screenProps.unfiltered ? "On" : "Off"}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexShrink: 1,
-              flexDirection: "row",
-              margin: 12,
-            }}
-          >
-            <SelectDropdown
-              data={radiusOptions}
-              defaultValue={this.props.screenProps.radius}
-              buttonStyle={{
-                width: "20%",
+                backgroundColor: "white",
+                margin: 10,
                 borderStyle: "solid",
                 borderColor: "#575046",
                 borderWidth: 3,
                 borderRadius: 15,
-              }}
-              buttonTextStyle={{
-                fontSize: 12,
-              }}
-              onSelect={(value) => this.props.screenProps.toggleRadius(value)}
-            />
-            <Text
-              style={{
-                flex: 2,
-                flexDirection: "row",
-                textAlign: "center",
-                alignSelf: "center",
-                fontSize: 14,
-                fontWeight: "bold",
-                color: "white",
-                textShadowColor: "black",
-                textShadowOffset: { width: -1, height: 1 },
-                textShadowRadius: 3,
+                backgroundColor: "#796d5b",
               }}
             >
-              Radius(in miles)
-            </Text>
-            <View style={{ flex: 1 }} />
+              <ImageBackground source={pageBG} resizeMode="repeat" style={{}}>
+                <View
+                  style={{
+                    ...styles.switch,
+                    flexDirection: "row",
+                    // backgroundColor: "white",
+                  }}
+                >
+                  <Switch
+                    value={this.props.screenProps.unfiltered}
+                    onValueChange={() => {
+                      this.props.screenProps.toggleFilter();
+                    }}
+                    trackColor={{ false: "white", true: "black" }}
+                    thumbColor="darkgrey"
+                    ios_backgroundColor="white"
+                  />
+                  <Text
+                    style={{
+                      flex: 2,
+                      textAlign: "center",
+                      alignSelf: "center",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                    }}
+                  >
+                    {"Unfiltered Mode: "}
+                  </Text>
+                  <Text
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      textAlign: "start",
+                      alignSelf: "center",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                    }}
+                  >
+                    {this.props.screenProps.unfiltered ? "On" : "Off"}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexShrink: 1,
+                    flexDirection: "row",
+                    margin: 7,
+                  }}
+                >
+                  <SelectDropdown
+                    data={radiusOptions}
+                    defaultValue={this.props.screenProps.radius}
+                    buttonStyle={{
+                      width: "25%",
+                      borderStyle: "solid",
+                      borderColor: "#575046",
+                      borderWidth: 3,
+                      borderRadius: 15,
+                    }}
+                    buttonTextStyle={{
+                      fontSize: 12,
+                    }}
+                    onSelect={(value) =>
+                      this.props.screenProps.toggleRadius(value)
+                    }
+                  />
+                  <Text
+                    style={{
+                      flex: 2,
+                      flexDirection: "row",
+                      textAlign: "center",
+                      alignSelf: "center",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                    }}
+                  >
+                    Radius(in miles)
+                  </Text>
+                  <View style={{ flex: 1 }} />
+                </View>
+                <TextInput
+                  style={styles.addressInput}
+                  placeholder="Address"
+                  text={this.state.addressText}
+                  onChangeText={(text) =>
+                    this.setState({
+                      addressText: text,
+                    })
+                  }
+                  onSubmitEditing={() =>
+                    this.props.screenProps.relay(this.state.addressText)
+                  }
+                />
+              </ImageBackground>
+            </View>
           </View>
-          <TextInput
-            style={styles.addressInput}
-            placeholder="Address"
-            text={this.state.addressText}
-            onChangeText={(text) =>
-              this.setState({
-                addressText: text,
-              })
-            }
-            onSubmitEditing={() =>
-              this.props.screenProps.relay(this.state.addressText)
-            }
-          />
         </ImageBackground>
       </View>
     );

@@ -10,7 +10,7 @@ import pageBG from "../assets/textures/fabric-dark.png";
 import cardBG from "../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
-import { NavigationEvents } from "react-navigation";
+import { withNavigationFocus } from "react-navigation";
 
 let sortMethodArray = ["dist", "date", "species"];
 
@@ -127,6 +127,7 @@ class CardDisplay extends Component {
   };
 
   getData() {
+    console.log("getting data..." + this.props.type);
     this.setState({
       observations: [],
       selectedMarker: null,
@@ -247,13 +248,20 @@ class CardDisplay extends Component {
         this.props.latlon !== this.state.lastGetProps.latlon ||
         this.props.radius !== this.state.lastGetProps.radius ||
         this.props.unfiltered !== this.state.lastGetProps.unfiltered) &&
-      !this.state.drawerOpen
+      !this.state.drawerOpen &&
+      this.props.isFocused
     ) {
       this.getData();
     }
 
     if (prevState.observations !== this.state.observations) {
       this.generateSpeciesList(this.state.observations);
+    }
+
+    if (!this.props.isFocused && this.state.drawerOpen) {
+      this.setState({
+        drawerOpen: false,
+      });
     }
 
     // if (prevProps.unfiltered !== this.props.unfiltered) {
@@ -270,7 +278,8 @@ class CardDisplay extends Component {
 
     // console.log("display: " + this.props.type);
 
-    // console.log(this.state.lastGetProps);
+    // console.log(this.props.type, this.state.drawerOpen);
+    // console.log(this.props.type, "focus: " + this.props.isFocused);
 
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
@@ -435,4 +444,4 @@ class CardDisplay extends Component {
   }
 }
 
-export default CardDisplay;
+export default withNavigationFocus(CardDisplay);
