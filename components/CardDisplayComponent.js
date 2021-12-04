@@ -10,6 +10,8 @@ import pageBG from "../assets/textures/fabric-dark.png";
 import cardBG from "../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
+import { NavigationEvents } from "react-navigation";
+
 let sortMethodArray = ["dist", "date", "species"];
 
 class CardDisplay extends Component {
@@ -27,6 +29,13 @@ class CardDisplay extends Component {
       acronymArray: ["all"],
       fullnameArray: ["all"],
       sortSpecies: "all",
+      drawerOpen: false,
+      lastGetProps: {
+        latlon: [],
+        type: "none",
+        radius: "0",
+        unfiltered: false,
+      },
     };
   }
 
@@ -126,6 +135,12 @@ class CardDisplay extends Component {
       acronymArray: ["all"],
       fullnameArray: ["all"],
       sortSpecies: "all",
+      lastGetProps: {
+        latlon: this.props.latlon,
+        type: this.props.type,
+        radius: this.props.radius,
+        unfiltered: this.props.unfiltered,
+      },
     });
 
     // console.log(this.props.type);
@@ -206,15 +221,33 @@ class CardDisplay extends Component {
   componentDidMount() {
     // console.log("mounted");
     this.getData();
+
+    const unsubscribe = this.props.navigation.addListener(
+      "action",
+      (action) => {
+        console.log(action.action.type);
+        if (action.action.type === "Navigation/TOGGLE_DRAWER") {
+          this.setState({
+            drawerOpen: true,
+          });
+        } else if (action.action.type === "Navigation/CLOSE_DRAWER") {
+          this.setState({
+            drawerOpen: false,
+          });
+        }
+      }
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
     // console.log("updated");
     // console.log(prevState.selectedMarker, this.state.selectedMarker);
     if (
-      this.props.type !== prevProps.type ||
-      this.props.latlon !== prevProps.latlon ||
-      this.props.radius !== prevProps.radius
+      (this.props.type !== this.state.lastGetProps.type ||
+        this.props.latlon !== this.state.lastGetProps.latlon ||
+        this.props.radius !== this.state.lastGetProps.radius ||
+        this.props.unfiltered !== this.state.lastGetProps.unfiltered) &&
+      !this.state.drawerOpen
     ) {
       this.getData();
     }
@@ -223,9 +256,9 @@ class CardDisplay extends Component {
       this.generateSpeciesList(this.state.observations);
     }
 
-    if (prevProps.unfiltered !== this.props.unfiltered) {
-      this.getData();
-    }
+    // if (prevProps.unfiltered !== this.props.unfiltered) {
+    //   this.getData();
+    // }
   }
 
   render() {
@@ -237,6 +270,8 @@ class CardDisplay extends Component {
 
     // console.log("display: " + this.props.type);
 
+    // console.log(this.state.lastGetProps);
+
     if (this.state.errorMsg) {
       return <Text>{this.state.errorMsg}</Text>;
     }
@@ -244,6 +279,13 @@ class CardDisplay extends Component {
     if (this.state.observations) {
       return (
         <View style={styles.pageBackground}>
+          {/* <NavigationEvents
+            onWillFocus={(payload) => console.log("will focus", payload)}
+            onDidFocus={(payload) => console.log("did focus", payload)}
+            onWillBlur={(payload) => console.log("will blur", payload)}
+            onDidBlur={(payload) => console.log("did blur", payload)}
+            navigation={this.props.navigation}
+          /> */}
           <ImageBackground
             source={pageBG}
             resizeMode="repeat"
