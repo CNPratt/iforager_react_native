@@ -8,6 +8,8 @@ import {
   ImageBackground,
   Image,
   StatusBar,
+  ScrollView,
+  Keyboard,
 } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
@@ -23,6 +25,7 @@ import TaxaInfoClass from "..//secondary/TaxaInfoClassComponent";
 import CustomMapScreen from "./CustomMapScreenComponent";
 import CMapMaster from "./CMapMaster";
 import WebViewerComponent from "./WebViewerComponent";
+import * as Animatable from "react-native-animatable";
 
 import SelectDropdown from "react-native-select-dropdown";
 
@@ -42,11 +45,54 @@ class CustomDrawer extends Component {
 
     this.state = {
       addressText: "",
+      keyboardOffset: 0,
+      keyboardStaticHeight: 0,
     };
   }
 
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this.keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this.keyboardDidHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  componentDidUpdate(prevProps, prevState) {}
+
+  keyboardDidShow = (event) => {
+    // console.log("showed");
+    this.setState({
+      keyboardOffset: event.endCoordinates.height,
+      keyboardStaticHeight: event.endCoordinates.height,
+    });
+  };
+
+  keyboardDidHide = () => {
+    this.setState({
+      keyboardOffset: 0,
+    });
+  };
+
   render() {
     // console.log(this.props.screenProps.unfiltered);
+
+    const heightAnim = {
+      from: {
+        height: this.state.keyboardStaticHeight,
+      },
+      to: {
+        height: 0,
+      },
+    };
 
     return (
       <View>
@@ -59,131 +105,150 @@ class CustomDrawer extends Component {
           }}
         >
           <StatusBar />
-          <DrawerItems {...this.props} />
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
+          <ScrollView
+            bounces={false}
+            ref={(ref) => (this.scrollRef = ref)}
+            onContentSizeChange={() => {
+              if (this.state.keyboardOffset) {
+                this.scrollRef.scrollToEnd();
+              }
             }}
           >
+            <DrawerItems {...this.props} />
             <View
               style={{
-                backgroundColor: "white",
-                margin: 10,
-                borderStyle: "solid",
-                borderColor: "#575046",
-                borderWidth: 3,
-                borderRadius: 15,
-                backgroundColor: "#796d5b",
+                flex: 1,
+                justifyContent: "center",
+                // paddingBottom: this.state.keyboardOffset,
               }}
             >
-              <ImageBackground source={pageBG} resizeMode="repeat" style={{}}>
-                <View
-                  style={{
-                    ...styles.switch,
-                    flexDirection: "row",
-                    // backgroundColor: "white",
-                  }}
-                >
-                  <Switch
-                    value={this.props.screenProps.unfiltered}
-                    onValueChange={() => {
-                      this.props.screenProps.toggleFilter();
-                    }}
-                    trackColor={{ false: "white", true: "black" }}
-                    thumbColor="darkgrey"
-                    ios_backgroundColor="white"
-                  />
-                  <Text
+              <View
+                style={{
+                  backgroundColor: "white",
+                  margin: 10,
+                  borderStyle: "solid",
+                  borderColor: "#575046",
+                  borderWidth: 3,
+                  borderRadius: 15,
+                  backgroundColor: "#796d5b",
+                }}
+              >
+                <ImageBackground source={pageBG} resizeMode="repeat" style={{}}>
+                  <View
                     style={{
-                      flex: 2,
-                      textAlign: "center",
-                      alignSelf: "center",
-                      fontSize: 14,
-                      fontWeight: "bold",
-                      color: "white",
-                      textShadowColor: "black",
-                      textShadowOffset: { width: -1, height: 1 },
-                      textShadowRadius: 3,
-                    }}
-                  >
-                    {"Unfiltered Mode: "}
-                  </Text>
-                  <Text
-                    style={{
-                      flex: 1,
+                      ...styles.switch,
                       flexDirection: "row",
-                      textAlign: "start",
-                      alignSelf: "center",
-                      fontSize: 14,
-                      fontWeight: "bold",
-                      color: "white",
-                      textShadowColor: "black",
-                      textShadowOffset: { width: -1, height: 1 },
-                      textShadowRadius: 3,
+                      // backgroundColor: "white",
                     }}
                   >
-                    {this.props.screenProps.unfiltered ? "On" : "Off"}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexShrink: 1,
-                    flexDirection: "row",
-                    margin: 7,
-                  }}
-                >
-                  <SelectDropdown
-                    data={radiusOptions}
-                    defaultValue={this.props.screenProps.radius}
-                    buttonStyle={{
-                      width: "25%",
-                      borderStyle: "solid",
-                      borderColor: "#575046",
-                      borderWidth: 3,
-                      borderRadius: 15,
+                    <Switch
+                      value={this.props.screenProps.unfiltered}
+                      onValueChange={() => {
+                        this.props.screenProps.toggleFilter();
+                      }}
+                      trackColor={{ false: "white", true: "black" }}
+                      thumbColor="darkgrey"
+                      ios_backgroundColor="white"
+                    />
+                    <Text
+                      style={{
+                        flex: 2,
+                        textAlign: "center",
+                        alignSelf: "center",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 3,
+                      }}
+                    >
+                      {"Unfiltered Mode: "}
+                    </Text>
+                    <Text
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        textAlign: "start",
+                        alignSelf: "center",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 3,
+                      }}
+                    >
+                      {this.props.screenProps.unfiltered ? "On" : "Off"}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexShrink: 1,
+                      flexDirection: "row",
+                      margin: 7,
                     }}
-                    buttonTextStyle={{
-                      fontSize: 12,
-                    }}
-                    onSelect={(value) =>
-                      this.props.screenProps.toggleRadius(value)
+                  >
+                    <SelectDropdown
+                      data={radiusOptions}
+                      defaultValue={this.props.screenProps.radius}
+                      buttonStyle={{
+                        width: "25%",
+                        borderStyle: "solid",
+                        borderColor: "#575046",
+                        borderWidth: 3,
+                        borderRadius: 15,
+                      }}
+                      buttonTextStyle={{
+                        fontSize: 12,
+                      }}
+                      onSelect={(value) =>
+                        this.props.screenProps.toggleRadius(value)
+                      }
+                    />
+                    <Text
+                      style={{
+                        flex: 2,
+                        flexDirection: "row",
+                        textAlign: "center",
+                        alignSelf: "center",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 3,
+                      }}
+                    >
+                      Radius(in miles)
+                    </Text>
+                    <View style={{ flex: 1 }} />
+                  </View>
+                  <TextInput
+                    style={styles.addressInput}
+                    placeholder="Address"
+                    text={this.state.addressText}
+                    onChangeText={(text) =>
+                      this.setState({
+                        addressText: text,
+                      })
+                    }
+                    onSubmitEditing={() =>
+                      this.props.screenProps.relay(this.state.addressText)
                     }
                   />
-                  <Text
-                    style={{
-                      flex: 2,
-                      flexDirection: "row",
-                      textAlign: "center",
-                      alignSelf: "center",
-                      fontSize: 14,
-                      fontWeight: "bold",
-                      color: "white",
-                      textShadowColor: "black",
-                      textShadowOffset: { width: -1, height: 1 },
-                      textShadowRadius: 3,
-                    }}
-                  >
-                    Radius(in miles)
-                  </Text>
-                  <View style={{ flex: 1 }} />
-                </View>
-                <TextInput
-                  style={styles.addressInput}
-                  placeholder="Address"
-                  text={this.state.addressText}
-                  onChangeText={(text) =>
-                    this.setState({
-                      addressText: text,
-                    })
-                  }
-                  onSubmitEditing={() =>
-                    this.props.screenProps.relay(this.state.addressText)
-                  }
-                />
-              </ImageBackground>
+                </ImageBackground>
+              </View>
             </View>
-          </View>
+            {this.state.keyboardOffset ? (
+              <View style={{ height: this.state.keyboardOffset }} />
+            ) : null}
+            {!this.state.keyboardOffset ? (
+              <Animatable.View animation={heightAnim} useNativeDriver={false}>
+                <View style={{ height: this.state.keyboardStaticHeight }} />
+              </Animatable.View>
+            ) : null}
+          </ScrollView>
         </ImageBackground>
       </View>
     );
