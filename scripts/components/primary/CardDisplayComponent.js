@@ -9,6 +9,7 @@ import { styles } from "../../../shared/Styles";
 import pageBG from "../../../assets/textures/fabric-dark.png";
 import cardBG from "../../../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
+import ErrorDisplay from "../secondary/ErrorDisplayComponent";
 
 import { withNavigationFocus } from "react-navigation";
 
@@ -126,6 +127,13 @@ class CardDisplay extends Component {
     }
   };
 
+  errorRefresh = () => {
+    this.setState({
+      errorMsg: null,
+    });
+    this.getData();
+  };
+
   getData() {
     console.log("getting data..." + this.props.type);
     this.setState({
@@ -163,16 +171,18 @@ class CardDisplay extends Component {
       .catch((error) => {
         this.setState({
           errorMsg: (
-            <ScrollView>
-              <Card title={error.name}>
-                {/* Sorry! You have encountered an error. You may have been
-              temporarily blocked by iNaturalist due to request frequency.
-              Please wait a minute or two and try again. */}
-
-                <Text style={{ marginBottom: 20 }}>{error.message}</Text>
-                <Text>{error.stack}</Text>
-              </Card>
-            </ScrollView>
+            // <ScrollView>
+            //   <Card title={error.name}>
+            //     <Text style={{ marginBottom: 20 }}>{error.message}</Text>
+            //     <Text>{error.stack}</Text>
+            //   </Card>
+            // </ScrollView>
+            <ErrorDisplay
+              name={error.name}
+              message={error.message}
+              stack={error.stack}
+              refresh={this.errorRefresh}
+            />
           ),
           loading: false,
         });
@@ -278,8 +288,10 @@ class CardDisplay extends Component {
     // console.log(this.props.type, this.state.drawerOpen);
     // console.log(this.props.type, "focus: " + this.props.isFocused);
 
+    // return <ErrorDisplay />;
+
     if (this.state.errorMsg) {
-      return <Text>{this.state.errorMsg}</Text>;
+      return this.state.errorMsg;
     }
 
     if (this.state.observations) {
