@@ -1,24 +1,11 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  Platform,
-  Image,
-  ImageBackground,
-  TextInput,
-  Button,
-} from "react-native";
-import { Card } from "react-native-elements";
+import { View, ImageBackground, TextInput, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../shared/Styles";
-import cardBG from "../assets/textures/cloth-alike.png";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { styles } from "../../../shared/Styles";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
-
-import { TaxaCard } from "./TaxaCardClass";
-import { taxaSections } from "./data/TaxaSections";
-import { CustomMapCard } from "./CustomMapCardClass";
-import { idObject } from "./data/IDObject";
+import { CustomMapCard } from "../secondary/CustomMapCardClass";
+import { idObject } from "../../data/IDObject";
 
 let idRegex = /^[-,0-9]+$/;
 
@@ -117,7 +104,7 @@ class CustomMapScreen extends Component {
                       (element) => element.title === this.state.newMapName
                     );
 
-                    console.log(customMapFilter);
+                    // console.log(customMapFilter);
                     if (
                       this.state.newMapName &&
                       idRegex.test(this.state.newMapIds) &&

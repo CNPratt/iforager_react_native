@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Text, View, Platform, Image, ImageBackground } from "react-native";
+import { Text, View, ImageBackground } from "react-native";
 import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../shared/Styles";
-import cardBG from "../assets/textures/cloth-alike.png";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { styles } from "../../../shared/Styles";
+import cardBG from "../../../assets/textures/cloth-alike.png";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
 
 class Home extends Component {

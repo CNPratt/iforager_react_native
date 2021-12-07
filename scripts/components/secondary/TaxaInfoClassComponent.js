@@ -2,23 +2,16 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Platform,
   Image,
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../shared/Styles";
-import cardBG from "../assets/textures/cloth-alike.png";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { styles } from "../../../shared/Styles";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
-
 import { withNavigationFocus } from "react-navigation";
-import { taxaPagesObject } from "./data/TaxaPagesObject";
-import { Linking } from "react-native";
-
-import { ActivityIndicator } from "react-native";
+import { taxaPagesObject } from "../../data/TaxaPagesObject";
 
 class TaxaInfoClass extends Component {
   constructor(props) {
@@ -84,10 +77,10 @@ class TaxaInfoClass extends Component {
                         flex: 1,
                         resizeMode: "contain",
                       }}
-                      onLoadStart={(ImageLoadEvent) => console.log("started")}
-                      onLoad={(ImageLoadEvent) => {
-                        console.log("loaded");
-                      }}
+                      // onLoadStart={(ImageLoadEvent) => console.log("started")}
+                      // onLoad={(ImageLoadEvent) => {
+                      //   console.log("loaded");
+                      // }}
                     />
                   </View>
                   <Text

@@ -1,7 +1,7 @@
-import ObsCard from "./ObsCardComponent";
+import ObsCard from "../secondary/ObsCardComponent";
 import { FlatList, View, ActivityIndicator } from "react-native";
-import React, { Component, useRef } from "react";
-import { styles } from "../shared/Styles";
+import React, { Component } from "react";
+import { styles } from "../../../shared/Styles";
 
 // let lastVisibileIndex = 0;
 const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
@@ -42,6 +42,10 @@ const getItemLayout = (data, index) => ({
 export class CardFlatList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      cardArray: [],
+    };
   }
 
   scrollTo() {
@@ -68,6 +72,7 @@ export class CardFlatList extends Component {
     sortedArray = sortSpeciesArray.sort(sortMethod(this.props.sortBy));
 
     let cardStateArray = sortedArray.map((item) => {
+      // console.log(item);
       return [
         <ObsCard
           click={this.props.handleMarkerClick}

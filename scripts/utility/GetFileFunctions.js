@@ -1,6 +1,6 @@
-import { Observation } from "../ObsClass";
+import { Observation } from "../components/secondary/ObsClass";
 import { getDistance } from "./DistanceFunc";
-import { idObject } from "./IDObject";
+import { idObject } from "../data/IDObject";
 
 // let obsArray = [];
 
@@ -32,6 +32,7 @@ function extractObservation(element, lat, lon) {
     element.id
   );
 
+  // console.log(thisObs);
   return thisObs;
 
   // if (!obsArray.includes(thisObs)) {

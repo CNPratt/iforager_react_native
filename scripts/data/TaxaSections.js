@@ -1,6 +1,6 @@
-import { TaxaCard } from "../TaxaCardClass";
-import { Text, View } from "react-native";
-import React, { Component } from "react";
+import { TaxaCard } from "../components/secondary/TaxaCardClass";
+import { View } from "react-native";
+import React from "react";
 
 export const taxaSections = (nav) => [
   {

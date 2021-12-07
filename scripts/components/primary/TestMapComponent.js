@@ -1,10 +1,9 @@
 import * as React from "react";
-import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { View, ImageBackground } from "react-native";
 import { Component } from "react";
-import { render } from "react-dom";
-import { styles } from "../shared/Styles";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { styles } from "../../../shared/Styles";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 
 // let thisMarker;
 

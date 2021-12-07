@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Accordion from "react-native-collapsible/Accordion";
 import { Text, View } from "react-native";
-import { styles } from "../shared/Styles";
+import { styles } from "../../../shared/Styles";
 
 export class AccordionView extends Component {
   state = {

@@ -1,15 +1,11 @@
 import React, { Component } from "react";
-import { Text, View, Platform, Image, ImageBackground } from "react-native";
-import { Card } from "react-native-elements";
+import { View, ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../shared/Styles";
-import cardBG from "../assets/textures/cloth-alike.png";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { styles } from "../../../shared/Styles";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
 import { AccordionView } from "./AccordionView";
-
-import { TaxaCard } from "./TaxaCardClass";
-import { taxaSections } from "./data/TaxaSections";
+import { taxaSections } from "../../data/TaxaSections";
 
 class TaxaDirectoryComponent extends Component {
   constructor(props) {

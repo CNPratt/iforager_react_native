@@ -1,10 +1,10 @@
 import React, { PureComponent } from "react";
-import { Card, Image, withTheme } from "react-native-elements";
+import { Card, Image } from "react-native-elements";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
-import { styles } from "../shared/Styles";
+import { styles } from "../../../shared/Styles";
 import { SwipeRow } from "react-native-swipe-list-view";
 import * as Linking from "expo-linking";
-import cardBG from "../assets/textures/cloth-alike.png";
+import cardBG from "../../../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
 // const cardBG = require("../assets/textures/cloth-alike.png");

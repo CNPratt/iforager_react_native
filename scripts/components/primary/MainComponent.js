@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { View, ImageBackground } from "react-native";
 import * as Location from "expo-location";
-import { inputRelay } from "./data/GetFileFunctions";
-import pageBG from "../assets/textures/fabric-dark.png";
+import { inputRelay } from "../../utility/GetFileFunctions";
+import pageBG from "../../../assets/textures/fabric-dark.png";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppContainer from "./NavsAndScreens";

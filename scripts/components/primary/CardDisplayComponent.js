@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { getFile } from "./data/GetFileFunctions";
+import { getFile } from ".././../utility/GetFileFunctions";
 import { CardFlatList } from "./CardStackComponent";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";
-import { styles } from "../shared/Styles";
-import pageBG from "../assets/textures/fabric-dark.png";
-import cardBG from "../assets/textures/cloth-alike.png";
+import { styles } from "../../../shared/Styles";
+import pageBG from "../../../assets/textures/fabric-dark.png";
+import cardBG from "../../../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 
 import { withNavigationFocus } from "react-navigation";
@@ -90,7 +90,7 @@ class CardDisplay extends Component {
   }
 
   speciesSortMethod = () => {
-    let speciesIndex = this.state.acronymArray.indexOf(this.state.sortSpecies);
+    // let speciesIndex = this.state.acronymArray.indexOf(this.state.sortSpecies);
     if (this.state.sortSpecies !== "all") {
       let speciesIndex = this.state.acronymArray.indexOf(
         this.state.sortSpecies
@@ -226,7 +226,7 @@ class CardDisplay extends Component {
     const unsubscribe = this.props.navigation.addListener(
       "action",
       (action) => {
-        console.log(action.action.type);
+        // console.log(action.action.type);
         if (action.action.type === "Navigation/TOGGLE_DRAWER") {
           this.setState({
             drawerOpen: true,
@@ -273,11 +273,8 @@ class CardDisplay extends Component {
     // if (this.state.observations.length) {
     //   console.log("state obs: " + this.state.observations.length);
     // }
-
     // console.log(this.state.acronymArray);
-
     // console.log("display: " + this.props.type);
-
     // console.log(this.props.type, this.state.drawerOpen);
     // console.log(this.props.type, "focus: " + this.props.isFocused);
 
@@ -288,13 +285,6 @@ class CardDisplay extends Component {
     if (this.state.observations) {
       return (
         <View style={styles.pageBackground}>
-          {/* <NavigationEvents
-            onWillFocus={(payload) => console.log("will focus", payload)}
-            onDidFocus={(payload) => console.log("did focus", payload)}
-            onWillBlur={(payload) => console.log("will blur", payload)}
-            onDidBlur={(payload) => console.log("did blur", payload)}
-            navigation={this.props.navigation}
-          /> */}
           <ImageBackground
             source={pageBG}
             resizeMode="repeat"

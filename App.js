@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LogBox, StyleSheet, Text, View } from "react-native";
-import Main from "./components/MainComponent";
+import Main from "./scripts/components/primary/MainComponent";
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs([""]);
