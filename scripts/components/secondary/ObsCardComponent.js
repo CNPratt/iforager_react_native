@@ -97,6 +97,7 @@ class ObsCard extends PureComponent {
                   onPress={() =>
                     this.props.navigation.navigate("WebViewer", {
                       uri: this.props.observation.url,
+                      back: this.props.navigation.state.routeName,
                     })
                   }
                 >
@@ -115,7 +116,12 @@ class ObsCard extends PureComponent {
             <View style={{ ...styles.swipeButtons }}>
               <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL("https://google.com")}
+                  onPress={() => {
+                    this.props.navigation.state.routeName !== "Favorites Map"
+                      ? this.props.addFavorite()
+                      : this.props.deleteFavorite();
+                    // console.log(this.props.navigation.state);
+                  }}
                 >
                   <Text
                     style={{
@@ -124,7 +130,9 @@ class ObsCard extends PureComponent {
                       padding: 3,
                     }}
                   >
-                    FAVORITE
+                    {this.props.navigation.state.routeName !== "Favorites Map"
+                      ? "FAVORITE"
+                      : "DELETE"}
                   </Text>
                 </TouchableOpacity>
               </ImageBackground>

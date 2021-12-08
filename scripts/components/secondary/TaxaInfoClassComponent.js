@@ -139,6 +139,7 @@ class TaxaInfoClass extends Component {
                       onPress={() =>
                         this.props.navigation.navigate("WebViewer", {
                           uri: `https://www.inaturalist.org/taxa/${taxaPagesObject[taxaNameParameter].id}`,
+                          back: this.props.navigation.state.routeName,
                         })
                       }
                     >

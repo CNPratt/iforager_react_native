@@ -39,6 +39,7 @@ export class CustomMapCard extends Component {
                 this.props.nav.navigate("CMapMaster", {
                   ids: `${this.props.ids}`,
                   mapName: `${this.props.title}`,
+                  back: this.props.nav.state.routeName,
                 });
               }}
               onLongPress={() => {

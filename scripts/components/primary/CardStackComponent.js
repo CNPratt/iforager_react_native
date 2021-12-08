@@ -81,6 +81,8 @@ export class CardFlatList extends Component {
           observation={item}
           selectedMarker={this.props.selectedMarker}
           navigation={this.props.navigation}
+          addFavorite={() => this.props.addFavorite(item)}
+          deleteFavorite={() => this.props.deleteFavorite(item)}
           // color={item.color}
         />,
         item.trueID,

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, ImageBackground, Button } from "react-native";
+import { Text, View, ImageBackground, Button, Platform } from "react-native";
 import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "../../../shared/Styles";
 import cardBG from "../../../assets/textures/cloth-alike.png";
 import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
+import NetInfo from "@react-native-community/netinfo";
 
 class ErrorDisplay extends Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class ErrorDisplay extends Component {
                     title="Try again"
                     color="#8dc08d"
                     style={{ margin: 10 }}
-                    onPress={() => this.props.refresh()}
+                    onPress={() => this.checkConnectivity()}
                   />
                 </ImageBackground>
               </ScrollView>

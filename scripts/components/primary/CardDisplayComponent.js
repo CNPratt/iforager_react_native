@@ -10,6 +10,7 @@ import pageBG from "../../../assets/textures/fabric-dark.png";
 import cardBG from "../../../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 import ErrorDisplay from "../secondary/ErrorDisplayComponent";
+import NetInfo from "@react-native-community/netinfo";
 
 import { withNavigationFocus } from "react-navigation";
 
@@ -131,7 +132,9 @@ class CardDisplay extends Component {
     this.setState({
       errorMsg: null,
     });
-    this.getData();
+    if (this.props.type) {
+      this.getData();
+    }
   };
 
   getData() {
@@ -154,6 +157,8 @@ class CardDisplay extends Component {
 
     // console.log(this.props.type);
 
+    // this.props.toggleBalance();
+
     getFile(
       this.props.latlon,
       this.props.type,
@@ -162,6 +167,7 @@ class CardDisplay extends Component {
     )
       .then((value) => {
         // console.log("value: " + value.length, this.props.type);
+
         this.setState({
           observations: value,
           errorMsg: null,
@@ -231,9 +237,26 @@ class CardDisplay extends Component {
 
   componentDidMount() {
     // console.log("mounted");
-    this.getData();
 
-    const unsubscribe = this.props.navigation.addListener(
+    // const unsubscribeNetInfo = NetInfo.addEventListener((state) => {
+    //   if (state.isConnected !== this.state.isConnected) {
+    //     this.setState({
+    //       isConnected: state.isConnected,
+    //     });
+    //   }
+    // });
+
+    if (this.props.type) {
+      this.getData();
+    }
+
+    if (!this.props.type) {
+      this.setState({
+        observations: this.props.favorites,
+      });
+    }
+
+    const unsubscribeDrawer = this.props.navigation.addListener(
       "action",
       (action) => {
         // console.log(action.action.type);
@@ -261,7 +284,9 @@ class CardDisplay extends Component {
       !this.state.drawerOpen &&
       this.props.isFocused
     ) {
-      this.getData();
+      if (this.props.type) {
+        this.getData();
+      }
     }
 
     if (prevState.observations !== this.state.observations) {
@@ -271,6 +296,13 @@ class CardDisplay extends Component {
     if (!this.props.isFocused && this.state.drawerOpen) {
       this.setState({
         drawerOpen: false,
+      });
+    }
+
+    if (!this.props.type && this.props.favorites !== this.state.observations) {
+      this.generateSpeciesList(this.state.favorites);
+      this.setState({
+        observations: this.props.favorites,
       });
     }
 
@@ -433,6 +465,8 @@ class CardDisplay extends Component {
                     fullnameArray={this.state.fullnameArray}
                     sorted={this.speciesSortMethod()}
                     navigation={this.props.navigation}
+                    addFavorite={this.props.addFavorite}
+                    deleteFavorite={this.props.deleteFavorite}
                   />
                 </View>
               </ImageBackground>

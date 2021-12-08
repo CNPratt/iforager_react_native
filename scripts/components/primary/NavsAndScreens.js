@@ -10,6 +10,8 @@ import {
   StatusBar,
   ScrollView,
   Keyboard,
+  TouchableOpacity,
+  Button,
 } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
@@ -28,6 +30,7 @@ import WebViewerComponent from "./WebViewerComponent";
 import * as Animatable from "react-native-animatable";
 
 import SelectDropdown from "react-native-select-dropdown";
+import FavoritesScreen from "./FavoritesScreen";
 
 const radiusOptions = ["1", "5", "10", "15"];
 
@@ -36,6 +39,38 @@ const statusBarHeight = Constants.statusBarHeight;
 class NullLabel extends Component {
   render() {
     return null;
+  }
+}
+
+class BackButton extends Component {
+  render() {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          this.props.navigation.navigate(
+            this.props.navigation
+              .dangerouslyGetParent()
+              .getParam("back", "none")
+          )
+        }
+      >
+        <Text
+          style={{
+            // backgroundColor: "white",
+            color: "white",
+            textShadowColor: "black",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 3,
+            fontSize: 18,
+            fontWeight: "bold",
+            textAlign: "center",
+            marginRight: 20,
+          }}
+        >
+          BACK
+        </Text>
+      </TouchableOpacity>
+    );
   }
 }
 
@@ -134,6 +169,30 @@ class CustomDrawer extends Component {
                 }}
               >
                 <ImageBackground source={pageBG} resizeMode="repeat" style={{}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderStyle: "solid",
+                      borderWidth: 3,
+                      borderColor: "#575046",
+                      borderRadius: 15,
+                      margin: 10,
+                      backgroundColor: "#AFA392",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <ImageBackground
+                      source={pageBG}
+                      resizeMode="repeat"
+                      style={{}}
+                    >
+                      <Button
+                        title="Get Location"
+                        onPress={() => this.props.screenProps.getLocation()}
+                        color="#fff"
+                      />
+                    </ImageBackground>
+                  </View>
                   <View
                     style={{
                       ...styles.switch,
@@ -397,6 +456,7 @@ const TaxaInfoClassNavigator = createStackNavigator(
           size="45"
         />
       ),
+      headerRight: <BackButton navigation={navigation} />,
     }),
   }
 );
@@ -477,6 +537,7 @@ const CMapMasterNavigator = createStackNavigator(
           size="45"
         />
       ),
+      headerRight: <BackButton navigation={navigation} />,
     }),
   }
 );
@@ -488,6 +549,48 @@ const WebNavigator = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "Web Viewer",
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        textShadowColor: "black",
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 5,
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+          size="45"
+        />
+      ),
+      headerRight: <BackButton navigation={navigation} />,
+    }),
+  }
+);
+
+const FavoritesNavigator = createStackNavigator(
+  {
+    "Favorites Map": {
+      screen: (props) => (
+        <FavoritesScreen {...props.screenProps} navigation={props.navigation} />
+      ),
+    },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "Favorites Map",
       headerStyle: {
         backgroundColor: "#8dc08d",
       },
@@ -597,6 +700,19 @@ const MainNavigator = createDrawerNavigator(
     },
     "Custom Maps": {
       screen: CustomMapScreenNavigator,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#34302A"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    "Favorites Map": {
+      screen: FavoritesNavigator,
       navigationOptions: {
         drawerIcon: () => (
           <Icon

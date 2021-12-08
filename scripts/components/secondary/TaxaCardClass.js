@@ -32,6 +32,7 @@ export class TaxaCard extends Component {
               onPress={() => {
                 this.props.nav.navigate("TaxaInfo", {
                   taxaName: `${this.props.taxaName}`,
+                  back: this.props.nav.state.routeName,
                 });
               }}
               style={{ zIndex: 1 }}

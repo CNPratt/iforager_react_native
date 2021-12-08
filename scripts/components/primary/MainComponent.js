@@ -39,12 +39,17 @@ class Main extends Component {
       unfiltered: false,
       radius: "15",
       customMapsArray: [],
+      favoritesArray: [],
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.customMapsArray !== this.state.customMapsArray) {
       storeData("customMapsArray", JSON.stringify(this.state.customMapsArray));
+    }
+
+    if (prevState.favoritesArray !== this.state.favoritesArray) {
+      storeData("favorites", JSON.stringify(this.state.favoritesArray));
     }
   }
 
@@ -60,6 +65,28 @@ class Main extends Component {
     this.setState({
       radius: value,
     });
+  };
+
+  addFavorite = (observation) => {
+    if (
+      !this.state.favoritesArray.includes(observation) &&
+      this.state.favoritesArray.length < 201
+    )
+      this.setState({
+        favoritesArray: [...this.state.favoritesArray, observation],
+      });
+  };
+
+  deleteFavorite = (observation) => {
+    if (this.state.favoritesArray.includes(observation)) {
+      newArray = this.state.favoritesArray.filter(
+        (obs) => obs.trueID !== observation.trueID
+      );
+
+      this.setState({
+        favoritesArray: newArray,
+      });
+    }
   };
 
   componentDidMount() {
@@ -82,6 +109,14 @@ class Main extends Component {
       if (value) {
         this.setState({
           customMapsArray: JSON.parse(value),
+        });
+      }
+    });
+
+    getData("favorites").then((value) => {
+      if (value) {
+        this.setState({
+          favoritesArray: JSON.parse(value),
         });
       }
     });
@@ -110,6 +145,8 @@ class Main extends Component {
     const positionRelay = (position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
+
+      // console.log(position);
 
       this.setState({
         latlon: [lat, lon],
@@ -149,6 +186,8 @@ class Main extends Component {
 
     // console.log(this.state.radius);
 
+    this.state.favoritesArray.forEach((item) => console.log(item.trueID));
+
     return (
       <View style={{ flex: 1, backgroundColor: "#796d5b" }}>
         <ImageBackground
@@ -168,6 +207,10 @@ class Main extends Component {
               deleteCustomMap: this.deleteCustomMap,
               toggleRadius: this.toggleRadius,
               radius: this.state.radius,
+              getLocation: this.getLocation,
+              addFavorite: this.addFavorite,
+              deleteFavorite: this.deleteFavorite,
+              favorites: this.state.favoritesArray,
             }}
           />
         </ImageBackground>
