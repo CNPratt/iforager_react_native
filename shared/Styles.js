@@ -119,8 +119,8 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   swipeButtons: {
-    marginRight: 20,
-    marginTop: 7,
+    marginRight: 25,
+    // marginTop: 5,
     // height: 106,
     backgroundColor: "#f8ecdb",
     borderStyle: "solid",

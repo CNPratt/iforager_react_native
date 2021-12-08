@@ -55,7 +55,7 @@ class ObsCard extends PureComponent {
     }
 
     return (
-      <SwipeRow rightOpenValue={-100} friction={10}>
+      <SwipeRow rightOpenValue={-100} leftOpenValue={100} friction={10}>
         <Animatable.View
           style={{
             flexShrink: 1,
@@ -68,74 +68,130 @@ class ObsCard extends PureComponent {
           delay={1000}
           useNativeDriver={true}
         >
-          <View style={{ justifyContent: "space-evenly" }}>
-            <View style={styles.swipeButtons}>
-              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
-                <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL(
-                      `https://www.google.com/maps/search/?api=1&query=${this.props.observation.obsLat}%2C${this.props.observation.obsLon}`
-                    )
-                  }
-                >
-                  <Text
-                    style={{
-                      ...styles.swipeBtnText,
-                      backgroundColor: "none",
-                      padding: 3,
-                    }}
-                  >
-                    DROP PIN
-                  </Text>
-                </TouchableOpacity>
-              </ImageBackground>
-            </View>
-            <View style={styles.swipeButtons}>
-              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
-                <TouchableOpacity
-                  // onPress={() => Linking.openURL(this.props.observation.url)}
-                  onPress={() =>
-                    this.props.navigation.navigate("WebViewer", {
-                      uri: this.props.observation.url,
-                      back: this.props.navigation.state.routeName,
-                    })
-                  }
-                >
-                  <Text
-                    style={{
-                      ...styles.swipeBtnText,
-                      backgroundColor: "none",
-                      padding: 3,
-                    }}
-                  >
-                    SOURCE
-                  </Text>
-                </TouchableOpacity>
-              </ImageBackground>
-            </View>
-            <View style={{ ...styles.swipeButtons }}>
-              <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.state.routeName !== "Favorites Map"
-                      ? this.props.addFavorite()
-                      : this.props.deleteFavorite();
-                    // console.log(this.props.navigation.state);
+          <View
+            style={{
+              flex: 1,
+              // backgroundColor: "grey",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{
+                justifyContent: "space-evenly",
+                // backgroundColor: "white",
+                alignSelf: "flex-start",
+                paddingLeft: 15,
+                height: "100%",
+              }}
+            >
+              <View
+                style={{
+                  ...styles.swipeButtons,
+                  height: "80%",
+                  borderRadius: 25,
+                }}
+              >
+                <ImageBackground
+                  source={cardBG}
+                  resizeMode="repeat"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
                   }}
                 >
-                  <Text
-                    style={{
-                      ...styles.swipeBtnText,
-                      backgroundColor: "none",
-                      padding: 3,
+                  <TouchableOpacity onPress={() => this.props.setTarget()}>
+                    <Text
+                      style={{
+                        ...styles.swipeBtnText,
+                        backgroundColor: "none",
+                        padding: 10,
+                      }}
+                    >
+                      TRACK
+                    </Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+            </View>
+            <View
+              style={{
+                justifyContent: "space-evenly",
+                // backgroundColor: "white",
+                alignSelf: "flex-end",
+                height: "100%",
+              }}
+            >
+              <View style={styles.swipeButtons}>
+                <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(
+                        `https://www.google.com/maps/search/?api=1&query=${this.props.observation.obsLat}%2C${this.props.observation.obsLon}`
+                      )
+                    }
+                  >
+                    <Text
+                      style={{
+                        ...styles.swipeBtnText,
+                        backgroundColor: "none",
+                        padding: 3,
+                      }}
+                    >
+                      DROP PIN
+                    </Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+              <View style={styles.swipeButtons}>
+                <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                  <TouchableOpacity
+                    // onPress={() => Linking.openURL(this.props.observation.url)}
+                    onPress={() =>
+                      this.props.navigation.navigate("WebViewer", {
+                        uri: this.props.observation.url,
+                        back: this.props.navigation.state.routeName,
+                      })
+                    }
+                  >
+                    <Text
+                      style={{
+                        ...styles.swipeBtnText,
+                        backgroundColor: "none",
+                        padding: 3,
+                      }}
+                    >
+                      SOURCE
+                    </Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+              <View style={{ ...styles.swipeButtons }}>
+                <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.state.routeName !== "Favorites Map"
+                        ? this.props.addFavorite()
+                        : this.props.deleteFavorite();
+                      // console.log(this.props.navigation.state);
                     }}
                   >
-                    {this.props.navigation.state.routeName !== "Favorites Map"
-                      ? "FAVORITE"
-                      : "DELETE"}
-                  </Text>
-                </TouchableOpacity>
-              </ImageBackground>
+                    <Text
+                      style={{
+                        ...styles.swipeBtnText,
+                        backgroundColor: "none",
+                        padding: 3,
+                      }}
+                    >
+                      {this.props.navigation.state.routeName !== "Favorites Map"
+                        ? "FAVORITE"
+                        : "DELETE"}
+                    </Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
             </View>
           </View>
         </Animatable.View>

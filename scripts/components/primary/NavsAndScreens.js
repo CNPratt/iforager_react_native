@@ -31,6 +31,7 @@ import * as Animatable from "react-native-animatable";
 
 import SelectDropdown from "react-native-select-dropdown";
 import FavoritesScreen from "./FavoritesScreen";
+import CompassComponent from "./CompassComponent";
 
 const radiusOptions = ["1", "5", "10", "15"];
 
@@ -618,6 +619,42 @@ const FavoritesNavigator = createStackNavigator(
   }
 );
 
+const CompassNavigator = createStackNavigator(
+  {
+    Compass: {
+      screen: (props) => <CompassComponent {...props.screenProps} />,
+    },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "Compass",
+      headerStyle: {
+        backgroundColor: "#8dc08d",
+      },
+      headerBackground: () => (
+        <Image
+          source={drawerBG}
+          resizeMode="repeat"
+          style={{ height: "100%", width: "100%" }}
+        />
+      ),
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.toggleDrawer()}
+          name="sprout-outline"
+          type="material-community"
+          iconStyle={styles.stackicon}
+          size="45"
+        />
+      ),
+    }),
+  }
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -713,6 +750,19 @@ const MainNavigator = createDrawerNavigator(
     },
     "Favorites Map": {
       screen: FavoritesNavigator,
+      navigationOptions: {
+        drawerIcon: () => (
+          <Icon
+            name="sprout-outline"
+            color="#34302A"
+            type="material-community"
+            size={24}
+          />
+        ),
+      },
+    },
+    Compass: {
+      screen: CompassNavigator,
       navigationOptions: {
         drawerIcon: () => (
           <Icon

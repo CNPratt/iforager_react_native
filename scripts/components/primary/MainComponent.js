@@ -40,6 +40,7 @@ class Main extends Component {
       radius: "15",
       customMapsArray: [],
       favoritesArray: [],
+      target: null,
     };
   }
 
@@ -75,6 +76,12 @@ class Main extends Component {
       this.setState({
         favoritesArray: [...this.state.favoritesArray, observation],
       });
+  };
+
+  setTarget = (observation) => {
+    if (observation !== this.state.target) {
+      this.setState({ target: observation });
+    }
   };
 
   deleteFavorite = (observation) => {
@@ -186,6 +193,8 @@ class Main extends Component {
 
     // console.log(this.state.radius);
 
+    console.log(this.state.target);
+
     this.state.favoritesArray.forEach((item) => console.log(item.trueID));
 
     return (
@@ -211,6 +220,8 @@ class Main extends Component {
               addFavorite: this.addFavorite,
               deleteFavorite: this.deleteFavorite,
               favorites: this.state.favoritesArray,
+              setTarget: this.setTarget,
+              target: this.state.target,
             }}
           />
         </ImageBackground>
