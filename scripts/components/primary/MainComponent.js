@@ -52,6 +52,10 @@ class Main extends Component {
     if (prevState.favoritesArray !== this.state.favoritesArray) {
       storeData("favorites", JSON.stringify(this.state.favoritesArray));
     }
+
+    if (prevState.target !== this.state.target) {
+      storeData("target", JSON.stringify(this.state.target));
+    }
   }
 
   toggleFilter = () => {
@@ -135,6 +139,14 @@ class Main extends Component {
         });
       }
     });
+
+    getData("target").then((value) => {
+      if (value) {
+        this.setState({
+          target: JSON.parse(value),
+        });
+      }
+    });
   }
 
   handleSubmit = async (text) => {
@@ -193,7 +205,7 @@ class Main extends Component {
 
     // console.log(this.state.radius);
 
-    console.log(this.state.target);
+    // console.log(this.state.target);
 
     this.state.favoritesArray.forEach((item) => console.log(item.trueID));
 
