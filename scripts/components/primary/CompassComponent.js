@@ -433,7 +433,7 @@ CompassWithTarget = (props) => {
                       alignItems: "center",
                       resizeMode: "contain",
                       zIndex: -1,
-                      transform: [{ rotate: magnetometer + "deg" }],
+                      // transform: [{ rotate: magnetometer + "deg" }],
                     }}
                   />
                 </View>
