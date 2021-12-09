@@ -156,6 +156,13 @@ export default class TestMap extends Component {
               latitudeDelta: this.adjustRadiusDelta(this.props.radius),
               longitudeDelta: this.adjustRadiusDelta(this.props.radius),
             }}
+            loadingEnabled={true}
+            loadingBackgroundColor="#8dc08d"
+            loadingIndicatorColor="#796d5b"
+            showsUserLocation={true}
+            // onUserLocationChange={(coords) =>
+            //   console.log("location change detected :" + coords)
+            // }
             // onRegionChange={(region, isGesture) =>
             //   this.setState({
             //     currentRegion: region,

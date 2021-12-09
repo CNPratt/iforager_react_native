@@ -1,10 +1,14 @@
 import React, { useState, useEffect, Component } from "react";
-import { Image, View, Text, Dimensions } from "react-native";
+import { Image, View, Text, Dimensions, ImageBackground } from "react-native";
 import { Magnetometer } from "expo-sensors";
 import * as Location from "expo-location";
 import { withNavigationFocus } from "react-navigation";
 import { styles } from "../../../shared/Styles";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import drawerBG from "../../../assets/textures/black-linen.png";
+import cardBG from "../../../assets/textures/cloth-alike.png";
+import pageBG from "../../../assets/textures/fabric-dark.png";
+import * as Animatable from "react-native-animatable";
 
 // !!! This file is a slightly modified version of a Compass component written by @RahulHaque
 
@@ -241,157 +245,223 @@ CompassWithTarget = (props) => {
   // console.log("perm: " + props.permission);
 
   return (
-    <View style={{ backgroundColor: "black", flex: 1 }}>
-      <View style={{ alignItems: "center", flex: 2 }}>
-        <View
-          style={{
-            flex: 1,
-            margin: 10,
-            backgroundColor: "green",
-            width: "97%",
-          }}
+    <View style={{ ...styles.pageBackground, backgroundColor: "#8dc08d" }}>
+      <ImageBackground
+        source={drawerBG}
+        resizeMode="repeat"
+        style={{ height: "100%", width: "100%" }}
+      >
+        <Animatable.View
+          style={{ flex: 1 }}
+          animation="fadeIn"
+          useNativeDriver={true}
         >
-          <Text
+          <View
             style={{
-              color: "#fff",
-              fontSize: height / 26,
-              fontWeight: "bold",
-              textAlign: "center",
-              marginHorizontal: 20,
+              // backgroundColor: "black",
+              flex: 1,
             }}
-            numberOfLines={1}
-            adjustsFontSizeToFit
           >
-            {props.target ? props.target.species : null}
-          </Text>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: height / 26,
-              fontWeight: "bold",
-              textAlign: "center",
-              marginHorizontal: 20,
-            }}
-            numberOfLines={1}
-            adjustsFontSizeToFit
-          >
-            {props.target ? props.target.name : null}
-          </Text>
-          {props.target ? (
-            <Image
-              source={{
-                uri: props.target.image,
-              }}
-              style={{ height: 100 }}
-            />
-          ) : null}
-        </View>
-      </View>
+            <View style={{ alignItems: "center", flex: 2 }}>
+              <View
+                style={{
+                  flex: 1,
+                  // margin: 10,
+                  backgroundColor: "#796d5b",
+                  width: "100%",
+                  borderColor: "#575046",
+                  borderStyle: "solid",
+                  borderWidth: 3,
+                }}
+              >
+                <ImageBackground
+                  source={pageBG}
+                  resizeMode="repeat"
+                  style={{ height: "100%", width: "100%" }}
+                >
+                  <Text
+                    style={{
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                      color: "#fff",
+                      fontSize: height / 26,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginHorizontal: 20,
+                    }}
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                  >
+                    {props.target ? props.target.species : null}
+                  </Text>
+                  <Text
+                    style={{
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                      color: "#fff",
+                      fontSize: height / 26,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginHorizontal: 20,
+                    }}
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                  >
+                    {props.target ? props.target.name : null}
+                  </Text>
+                  {props.target ? (
+                    <Image
+                      source={{
+                        uri: props.target.image,
+                      }}
+                      style={{
+                        // height: 100
+                        flex: 1,
+                      }}
+                    />
+                  ) : null}
+                </ImageBackground>
+              </View>
+            </View>
 
-      <View style={{ alignItems: "center", flex: 4, backgroundColor: "blue" }}>
-        <View
-          style={{
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: "brown",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute" }}>
-            <Text
+            <View
               style={{
-                color: "#fff",
-                fontSize: height / 27,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              {_degree(magnetometer)}°
-            </Text>
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: height / 27,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              {props.target ? targetDistance.toFixed(3) : 0}m
-            </Text>
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: height / 50,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              Target:
-              {props.target
-                ? _direction(360 - _degree(targetAngle))
-                : "No Target"}
-            </Text>
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: height / 50,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              Facing: {_direction(_degree(magnetometer))}
-            </Text>
-          </View>
-          <Image
-            source={require("../../../assets/compass/compass_pointer.png")}
-            style={{
-              // height: height / 26,
-              resizeMode: "contain",
-            }}
-          />
-          <View style={{ transform: [{ rotate: 360 - magnetometer + "deg" }] }}>
-            <Image
-              source={require("../../../assets/compass/compass_bg.png")}
-              style={{
-                height: width - 80,
-                justifyContent: "center",
                 alignItems: "center",
-                resizeMode: "contain",
+                flex: 4,
+                // backgroundColor: "blue"
               }}
-            />
-            <Image
-              source={require("../../../assets/compass/compass_bg_target.png")}
-              style={{
-                position: "absolute",
-                height: width - 80,
-                justifyContent: "center",
-                alignItems: "center",
-                resizeMode: "contain",
-                transform: [{ rotate: 360 - _degree(targetAngle) + "deg" }],
-              }}
-            />
-          </View>
-          {/* invisible point image to center compass */}
-          <Image
-            source={require("../../../assets/compass/compass_pointer.png")}
-            style={{
-              // height: height / 26,
-              resizeMode: "contain",
-              opacity: 0,
-            }}
-          />
-        </View>
-      </View>
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  // flex: 1,
+                  // backgroundColor: "brown",
+                  justifyContent: "center",
+                }}
+              >
+                <View style={{ position: "absolute", zIndex: 1 }}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: height / 27,
+                      width: width,
+                      // position: "absolute",
+                      textAlign: "center",
+                    }}
+                  >
+                    {_degree(magnetometer)}°
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: height / 27,
+                      width: width,
+                      // position: "absolute",
+                      textAlign: "center",
+                    }}
+                  >
+                    {props.target ? targetDistance.toFixed(3) : 0}m
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: height / 50,
+                      width: width,
+                      // position: "absolute",
+                      textAlign: "center",
+                    }}
+                  >
+                    Target:
+                    {props.target
+                      ? _direction(360 - _degree(targetAngle))
+                      : "No Target"}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: height / 50,
+                      width: width,
+                      // position: "absolute",
+                      textAlign: "center",
+                    }}
+                  >
+                    Facing: {_direction(_degree(magnetometer))}
+                  </Text>
+                </View>
+                <Image
+                  source={require("../../../assets/compass/compass_pointer.png")}
+                  style={{
+                    // height: height / 26,
+                    resizeMode: "contain",
+                  }}
+                />
+                <View
+                  style={{
+                    transform: [{ rotate: 360 - magnetometer + "deg" }],
+                  }}
+                >
+                  <Image
+                    source={require("../../../assets/compass/compass_bg.png")}
+                    style={{
+                      height: width - 80,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      resizeMode: "contain",
+                    }}
+                  />
+                  <Image
+                    source={require("../../../assets/compass/compass_bg_target.png")}
+                    style={{
+                      position: "absolute",
+                      height: width - 80,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      resizeMode: "contain",
+                      transform: [
+                        { rotate: 360 - _degree(targetAngle) + "deg" },
+                      ],
+                    }}
+                  />
+                  <Image
+                    source={require("../../../assets/compass/plain-circle-bg.png")}
+                    style={{
+                      position: "absolute",
+                      height: width - 80,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      resizeMode: "contain",
+                      zIndex: -1,
+                      transform: [{ rotate: magnetometer + "deg" }],
+                    }}
+                  />
+                </View>
+                {/* invisible point image to center compass */}
+                <Image
+                  source={require("../../../assets/compass/compass_pointer.png")}
+                  style={{
+                    // height: height / 26,
+                    resizeMode: "contain",
+                    opacity: 0,
+                  }}
+                />
+              </View>
+            </View>
 
-      <View style={{ alignItems: "center", backgroundColor: "green" }}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ color: "#fff" }}>Copyright @RahulHaque</Text>
-        </View>
-      </View>
+            <View
+              style={{
+                alignItems: "center",
+                // backgroundColor: "green"
+              }}
+            >
+              <View style={{ alignItems: "center" }}>
+                <Text style={{ color: "#fff" }}>Copyright @RahulHaque</Text>
+              </View>
+            </View>
+          </View>
+        </Animatable.View>
+      </ImageBackground>
     </View>
   );
 };
