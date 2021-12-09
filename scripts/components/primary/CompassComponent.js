@@ -29,8 +29,6 @@ function getDistance(lat1, lon1, lat2, lon2) {
   return d;
 }
 
-//archtangent equation
-
 const { height, width } = Dimensions.get("window");
 
 class Screen extends Component {
@@ -69,9 +67,7 @@ class Screen extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    // console.log(this.state.unsub2);
     if (prevProps.isFocused && !this.props.isFocused && this.state.unsub) {
-      //   console.log("unsubbed: " + this.state.unsub);
       this.state.unsub.remove();
       this.setState({
         unsub: null,
@@ -89,185 +85,17 @@ class Screen extends Component {
   render() {
     console.log(this.props.isFocused);
 
-    // if (this.props.isFocused) {
-    if (this.state.permission && this.props.target) {
-      return (
-        <CompassWithTarget
-          target={this.props.target}
-          isFocused={this.props.isFocused}
-          unsub={this.passUnsubscribe}
-          unsub2={this.passUnsubscribe2}
-        />
-      );
-    } else {
-      return <Compass />;
-    }
-    // } else {
-    //   return null;
-    // }
+    return (
+      <CompassWithTarget
+        target={this.props.target}
+        isFocused={this.props.isFocused}
+        unsub={this.passUnsubscribe}
+        unsub2={this.passUnsubscribe2}
+        permission={this.state.permission}
+      />
+    );
   }
 }
-
-Compass = () => {
-  const [subscription, setSubscription] = useState(null);
-
-  const [magnetometer, setMagnetometer] = useState(0);
-
-  useEffect(() => {
-    _toggle();
-    return () => {
-      _unsubscribe();
-    };
-  }, []);
-
-  const _toggle = () => {
-    if (subscription) {
-      _unsubscribe();
-    } else {
-      _subscribe();
-    }
-  };
-
-  const _subscribe = () => {
-    setSubscription(
-      Magnetometer.addListener((data) => {
-        setMagnetometer(_angle(data));
-      })
-    );
-  };
-
-  const _unsubscribe = () => {
-    subscription && subscription.remove();
-    setSubscription(null);
-  };
-
-  const _angle = (magnetometer) => {
-    let angle = 0;
-    if (magnetometer) {
-      let { x, y, z } = magnetometer;
-      if (Math.atan2(y, x) >= 0) {
-        angle = Math.atan2(y, x) * (180 / Math.PI);
-      } else {
-        angle = (Math.atan2(y, x) + 2 * Math.PI) * (180 / Math.PI);
-      }
-    }
-    return Math.round(angle);
-  };
-
-  const _direction = (degree) => {
-    if (degree >= 22.5 && degree < 67.5) {
-      return "NE";
-    } else if (degree >= 67.5 && degree < 112.5) {
-      return "E";
-    } else if (degree >= 112.5 && degree < 157.5) {
-      return "SE";
-    } else if (degree >= 157.5 && degree < 202.5) {
-      return "S";
-    } else if (degree >= 202.5 && degree < 247.5) {
-      return "SW";
-    } else if (degree >= 247.5 && degree < 292.5) {
-      return "W";
-    } else if (degree >= 292.5 && degree < 337.5) {
-      return "NW";
-    } else {
-      return "N";
-    }
-  };
-
-  // Match the device top with pointer 0° degree. (By default 0° starts from the right of the device.)
-  const _degree = (magnetometer) => {
-    return magnetometer - 90 >= 0 ? magnetometer - 90 : magnetometer + 271;
-  };
-
-  return (
-    <View style={{ backgroundColor: "black", flex: 1 }}>
-      <View style={{ alignItems: "center", flex: 1 }}>
-        <View style={{ flex: 2 }}></View>
-        <View style={{ alignItems: "center" }}>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: height / 26,
-              fontWeight: "bold",
-            }}
-          >
-            Target: None
-          </Text>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: height / 26,
-              fontWeight: "bold",
-            }}
-          >
-            Facing: {_direction(_degree(magnetometer))}
-          </Text>
-        </View>
-      </View>
-
-      <View style={{ alignItems: "center", flex: 4, backgroundColor: "blue" }}>
-        <View
-          style={{
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: "brown",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute" }}>
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: height / 27,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              {_degree(magnetometer)}°
-            </Text>
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: height / 27,
-                width: width,
-                // position: "absolute",
-                textAlign: "center",
-              }}
-            >
-              No Target
-            </Text>
-          </View>
-          <Image
-            source={require("../../../assets/compass/compass_pointer.png")}
-            style={{
-              // height: height / 26,
-              resizeMode: "contain",
-            }}
-          />
-          <View style={{ transform: [{ rotate: 360 - magnetometer + "deg" }] }}>
-            <Image
-              source={require("../../../assets/compass/compass_bg.png")}
-              style={{
-                height: width - 80,
-                justifyContent: "center",
-                alignItems: "center",
-                resizeMode: "contain",
-                // transform: [{ rotate: 360 - magnetometer + "deg" }],
-              }}
-            />
-          </View>
-        </View>
-      </View>
-
-      <View style={{ alignItems: "center", backgroundColor: "green" }}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ color: "#fff" }}>Copyright @RahulHaque</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
 
 CompassWithTarget = (props) => {
   const [subscription, setSubscription] = useState(null);
@@ -290,23 +118,25 @@ CompassWithTarget = (props) => {
   positionChange = (positionEvent) => {
     console.log("positionEvent");
 
-    setTargetAngle(
-      arcTan(
-        positionEvent.coords.latitude,
-        positionEvent.coords.longitude,
-        props.target.obsLat,
-        props.target.obsLon
-      )
-    );
+    if (props.target) {
+      setTargetAngle(
+        arcTan(
+          positionEvent.coords.latitude,
+          positionEvent.coords.longitude,
+          props.target.obsLat,
+          props.target.obsLon
+        )
+      );
 
-    setTargetDistance(
-      getDistance(
-        positionEvent.coords.latitude,
-        positionEvent.coords.longitude,
-        props.target.obsLat,
-        props.target.obsLon
-      )
-    );
+      setTargetDistance(
+        getDistance(
+          positionEvent.coords.latitude,
+          positionEvent.coords.longitude,
+          props.target.obsLat,
+          props.target.obsLon
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -318,11 +148,6 @@ CompassWithTarget = (props) => {
   }, [props.isFocused]);
 
   const _toggleWatch = () => {
-    // if (watchSubscription) {
-    //   _watchUnsubscribe();
-    // } else {
-    //   _watchSubscribe();
-    // }
     if (props.isFocused) {
       _watchSubscribe();
     }
@@ -355,12 +180,6 @@ CompassWithTarget = (props) => {
   }, [props.isFocused]);
 
   const _toggle = () => {
-    // if (subscription) {
-    //   _unsubscribe();
-    // } else {
-    //   _subscribe();
-    // }
-
     if (props.isFocused) {
       _subscribe();
     }
@@ -368,7 +187,7 @@ CompassWithTarget = (props) => {
 
   const _subscribe = () => {
     const unsub2 = Magnetometer.addListener((data) => {
-      console.log("magnetometer");
+      // console.log("magnetometer");
       setMagnetometer(_angle(data));
     });
 
@@ -419,10 +238,19 @@ CompassWithTarget = (props) => {
     return magnetometer - 90 >= 0 ? magnetometer - 90 : magnetometer + 271;
   };
 
+  // console.log("perm: " + props.permission);
+
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <View style={{ alignItems: "center", flex: 2 }}>
-        <View style={{ flex: 1, margin: 10, backgroundColor: "green" }}>
+        <View
+          style={{
+            flex: 1,
+            margin: 10,
+            backgroundColor: "green",
+            width: "97%",
+          }}
+        >
           <Text
             style={{
               color: "#fff",
@@ -434,7 +262,7 @@ CompassWithTarget = (props) => {
             numberOfLines={1}
             adjustsFontSizeToFit
           >
-            {props.target.species}
+            {props.target ? props.target.species : null}
           </Text>
           <Text
             style={{
@@ -447,14 +275,16 @@ CompassWithTarget = (props) => {
             numberOfLines={1}
             adjustsFontSizeToFit
           >
-            {props.target.name}
+            {props.target ? props.target.name : null}
           </Text>
-          <Image
-            source={{
-              uri: props.target.image,
-            }}
-            style={{ height: 100 }}
-          />
+          {props.target ? (
+            <Image
+              source={{
+                uri: props.target.image,
+              }}
+              style={{ height: 100 }}
+            />
+          ) : null}
         </View>
       </View>
 
@@ -488,7 +318,7 @@ CompassWithTarget = (props) => {
                 textAlign: "center",
               }}
             >
-              {targetDistance.toFixed(3)}m
+              {props.target ? targetDistance.toFixed(3) : 0}m
             </Text>
             <Text
               style={{
@@ -499,7 +329,10 @@ CompassWithTarget = (props) => {
                 textAlign: "center",
               }}
             >
-              Target: {_direction(360 - _degree(targetAngle))}
+              Target:
+              {props.target
+                ? _direction(360 - _degree(targetAngle))
+                : "No Target"}
             </Text>
             <Text
               style={{
@@ -528,7 +361,6 @@ CompassWithTarget = (props) => {
                 justifyContent: "center",
                 alignItems: "center",
                 resizeMode: "contain",
-                // transform: [{ rotate: 360 - magnetometer + "deg" }],
               }}
             />
             <Image
