@@ -155,6 +155,17 @@ class Main extends Component {
         });
       }
     });
+
+    getData("measurements").then((value) => {
+      if (value) {
+        value === "true"
+          ? this.setState({
+              measurements: true,
+            })
+          : this.setState({
+              measurements: false,
+            });
+      }
   }
 
   handleSubmit = async (text) => {
