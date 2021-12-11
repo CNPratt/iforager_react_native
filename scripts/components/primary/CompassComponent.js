@@ -12,6 +12,14 @@ import * as Animatable from "react-native-animatable";
 
 // !!! This file is a slightly modified version of a Compass component written by @RahulHaque
 
+function milesToKM(miles) {
+  return miles * 1.60934;
+}
+
+function milesToFeet(miles) {
+  return miles * 5280;
+}
+
 function getDistance(lat1, lon1, lat2, lon2) {
   function deg2rad(degrees) {
     var pi = Math.PI;
@@ -96,6 +104,7 @@ class Screen extends Component {
         unsub={this.passUnsubscribe}
         unsub2={this.passUnsubscribe2}
         permission={this.state.permission}
+        measurements={this.props.measurements}
       />
     );
   }
@@ -136,8 +145,10 @@ CompassWithTarget = (props) => {
         getDistance(
           positionEvent.coords.latitude,
           positionEvent.coords.longitude,
-          props.target.obsLat,
-          props.target.obsLon
+          // props.target.obsLat,
+          // props.target.obsLon
+          42.4083456,
+          -83.0472192
         )
       );
     }
@@ -362,7 +373,15 @@ CompassWithTarget = (props) => {
                       textAlign: "center",
                     }}
                   >
-                    {props.target ? targetDistance.toFixed(3) : 0}m
+                    {props.target
+                      ? props.measurements
+                        ? milesToKM(targetDistance) < 0.3
+                          ? (milesToKM(targetDistance) * 1000).toFixed(0) + "m"
+                          : milesToKM(targetDistance).toFixed(3) + "km"
+                        : targetDistance < 0.189394
+                        ? milesToFeet(targetDistance).toFixed(0) + "ft"
+                        : targetDistance.toFixed(3) + "mi"
+                      : 0}
                   </Text>
                   <Text
                     style={{

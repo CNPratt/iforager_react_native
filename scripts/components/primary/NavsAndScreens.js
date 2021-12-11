@@ -87,24 +87,24 @@ class CustomDrawer extends Component {
   }
 
   componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      this.keyboardDidShow
+    this.keyboardWillShowListener = Keyboard.addListener(
+      "keyboardWillShow",
+      this.keyboardWillShow
     );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      this.keyboardDidHide
+    this.keyboardWillHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardWillHide
     );
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
   }
 
   componentDidUpdate(prevProps, prevState) {}
 
-  keyboardDidShow = (event) => {
+  keyboardWillShow = (event) => {
     // console.log("showed");
     this.setState({
       keyboardOffset: event.endCoordinates.height,
@@ -112,7 +112,7 @@ class CustomDrawer extends Component {
     });
   };
 
-  keyboardDidHide = () => {
+  keyboardWillHide = () => {
     this.setState({
       keyboardOffset: 0,
     });
@@ -122,11 +122,29 @@ class CustomDrawer extends Component {
     // console.log(this.props.screenProps.unfiltered);
 
     const heightAnim = {
-      from: {
+      0: {
         height: this.state.keyboardStaticHeight,
       },
-      to: {
+      0.075: {
+        height: 30,
+      },
+      0.1: {
         height: 0,
+      },
+      1: {
+        height: 0,
+      },
+    };
+
+    const inputAnim = {
+      0: {
+        height: 0,
+      },
+      0.1: {
+        height: this.state.keyboardStaticHeight,
+      },
+      1: {
+        height: this.state.keyboardStaticHeight,
       },
     };
 
@@ -193,6 +211,54 @@ class CustomDrawer extends Component {
                         color="#fff"
                       />
                     </ImageBackground>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.switch,
+                      flexDirection: "row",
+                      // backgroundColor: "white",
+                    }}
+                  >
+                    <Switch
+                      value={this.props.screenProps.measurements}
+                      onValueChange={() => {
+                        this.props.screenProps.toggleMeasurements();
+                      }}
+                      trackColor={{ false: "white", true: "black" }}
+                      thumbColor="darkgrey"
+                      ios_backgroundColor="white"
+                    />
+                    <Text
+                      style={{
+                        flex: 2,
+                        textAlign: "center",
+                        alignSelf: "center",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 3,
+                      }}
+                    >
+                      {"Measurements: "}
+                    </Text>
+                    <Text
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        textAlign: "start",
+                        alignSelf: "center",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 3,
+                      }}
+                    >
+                      {!this.props.screenProps.measurements ? "Miles" : "KM"}
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -301,8 +367,10 @@ class CustomDrawer extends Component {
               </View>
             </View>
             {this.state.keyboardOffset ? (
+              // <Animatable.View animation={inputAnim} useNativeDriver={false}>
               <View style={{ height: this.state.keyboardOffset }} />
-            ) : null}
+            ) : // </Animatable.View>
+            null}
             {!this.state.keyboardOffset ? (
               <Animatable.View animation={heightAnim} useNativeDriver={false}>
                 <View style={{ height: this.state.keyboardStaticHeight }} />

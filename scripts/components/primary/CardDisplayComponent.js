@@ -468,6 +468,7 @@ class CardDisplay extends Component {
                     addFavorite={this.props.addFavorite}
                     deleteFavorite={this.props.deleteFavorite}
                     setTarget={this.props.setTarget}
+                    measurements={this.props.measurements}
                   />
                 </View>
               </ImageBackground>

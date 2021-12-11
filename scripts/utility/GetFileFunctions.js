@@ -15,8 +15,8 @@ function extractObservation(element, lat, lon) {
   let thisLon = parseFloat(coordSplit[1]);
 
   let trueDistance = getDistance(thisLat, thisLon, lat, lon);
-  let preDistance = trueDistance.toString();
-  let distance = parseFloat(preDistance.slice(0, 4)) + "mi";
+  // let preDistance = trueDistance.toString();
+  // let distance = parseFloat(preDistance.slice(0, 4)) + "mi";
 
   let thisObs = new Observation(
     element.taxon.name,
@@ -24,7 +24,7 @@ function extractObservation(element, lat, lon) {
     element.place_guess,
     thisLat,
     thisLon,
-    distance,
+    trueDistance,
     element.uri,
     element.observation_photos[0].photo.url,
     element.created_at_details.date,

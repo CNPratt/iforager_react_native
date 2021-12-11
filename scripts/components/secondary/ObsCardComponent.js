@@ -9,6 +9,10 @@ import * as Animatable from "react-native-animatable";
 
 // const cardBG = require("../assets/textures/cloth-alike.png");
 
+function milesToKM(miles) {
+  return miles * 1.60934;
+}
+
 class ObsCard extends PureComponent {
   constructor(props) {
     super(props);
@@ -17,7 +21,8 @@ class ObsCard extends PureComponent {
   shouldComponentUpdate(nextProps) {
     if (
       this.props.obsid === nextProps.selectedMarker ||
-      this.props.obsid === this.props.selectedMarker
+      this.props.obsid === this.props.selectedMarker ||
+      this.props.measurements !== nextProps.measurements
     ) {
       return true;
     } else {
@@ -249,7 +254,11 @@ class ObsCard extends PureComponent {
                           paddingLeft: 10,
                         }}
                       >
-                        {this.props.observation.distance}
+                        {this.props.measurements
+                          ? milesToKM(this.props.observation.distance).toFixed(
+                              2
+                            ) + "km"
+                          : this.props.observation.distance.toFixed(2) + "mi"}
                       </Text>
                       <View style={{ flexGrow: 1 }}></View>
                       <Text

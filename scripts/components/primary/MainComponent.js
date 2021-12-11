@@ -41,6 +41,7 @@ class Main extends Component {
       customMapsArray: [],
       favoritesArray: [],
       target: null,
+      measurements: false,
     };
   }
 
@@ -62,6 +63,13 @@ class Main extends Component {
     storeData("unfiltered", `${!this.state.unfiltered}`);
     this.setState({
       unfiltered: !this.state.unfiltered,
+    });
+  };
+
+  toggleMeasurements = () => {
+    storeData("measurements", `${!this.state.measurements}`);
+    this.setState({
+      measurements: !this.state.measurements,
     });
   };
 
@@ -234,6 +242,8 @@ class Main extends Component {
               favorites: this.state.favoritesArray,
               setTarget: this.setTarget,
               target: this.state.target,
+              measurements: this.state.measurements,
+              toggleMeasurements: this.toggleMeasurements,
             }}
           />
         </ImageBackground>
