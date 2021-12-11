@@ -166,6 +166,7 @@ class Main extends Component {
               measurements: false,
             });
       }
+    });
   }
 
   handleSubmit = async (text) => {
