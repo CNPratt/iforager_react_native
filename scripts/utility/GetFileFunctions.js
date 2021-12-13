@@ -1,6 +1,7 @@
 import { Observation } from "../components/secondary/ObsClass";
 import { getDistance } from "./DistanceFunc";
 import { idObject } from "../data/IDObject";
+import { reverseGeocodeAsync } from "expo-location";
 
 // let obsArray = [];
 

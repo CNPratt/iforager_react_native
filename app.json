@@ -1,15 +1,16 @@
 {
   "expo": {
-    "name": "iforager_react_native debug",
+    "name": "iForager",
     "slug": "iforager_react_native-debug",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/sprouticon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/iforager_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#575046"
     },
+    "backgroundColor": "#796d5b",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -17,7 +18,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBP4mVRP105xN8fOMLVP25Ihw5Oj7YhN3g"
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "iForager uses the user's location to retrieve data about nearby observations of plant and fungi species.",
+        "RCTAsyncStorageExcludeFromBackup": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +37,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "for debugging only"
+    "description": "An educational foraging app built to help you locate and learn about the species in your area."
   }
 }

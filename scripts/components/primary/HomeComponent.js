@@ -6,10 +6,15 @@ import { styles } from "../../../shared/Styles";
 import cardBG from "../../../assets/textures/cloth-alike.png";
 import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
+import * as Location from "expo-location";
 
 class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      location: "",
+    };
   }
 
   static navigationOptions = {
@@ -20,6 +25,21 @@ class Home extends Component {
       textShadowRadius: 5,
     },
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.screenProps.latlon !== this.props.screenProps.latlon)
+      Location.reverseGeocodeAsync({
+        latitude: this.props.screenProps.latlon[0],
+        longitude: this.props.screenProps.latlon[1],
+      })
+        .then((value) => {
+          this.setState({
+            location: `${value[0].street}, ${value[0].city}, ${value[0].region}`,
+          });
+          console.log(value);
+        })
+        .catch((e) => console.log(e));
+  }
 
   render() {
     return (
@@ -120,6 +140,9 @@ class Home extends Component {
                         <Text style={styles.homeCardText}>
                           {this.props.screenProps.latlon[0]},{" "}
                           {this.props.screenProps.latlon[1]}
+                        </Text>
+                        <Text style={styles.homeCardText}>
+                          {this.state.location}
                         </Text>
                       </View>
                     </ImageBackground>

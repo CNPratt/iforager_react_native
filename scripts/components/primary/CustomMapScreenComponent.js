@@ -1,13 +1,89 @@
 import React, { Component } from "react";
-import { View, ImageBackground, TextInput, Button } from "react-native";
+import {
+  View,
+  ImageBackground,
+  TextInput,
+  Button,
+  Image,
+  Text,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "../../../shared/Styles";
 import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
 import { CustomMapCard } from "../secondary/CustomMapCardClass";
 import { idObject } from "../../data/IDObject";
+import { AccordionView } from "../secondary/AccordionView";
 
 let idRegex = /^[-,0-9]+$/;
+
+let helpSection = () => [
+  {
+    title: "Instructions",
+    content: (
+      <View style={{ flex: 1, padding: 20 }}>
+        <Text
+          style={{
+            textAlign: "center",
+            margin: 10,
+            color: "white",
+            textShadowColor: "black",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 3,
+          }}
+        >
+          Go to iNaturalist.org, search for your desired taxa, and select the
+          'About' button.
+        </Text>
+        <Image
+          source={require("../../../assets/images/ui/searchExample.png")}
+          style={{
+            resizeMode: "center",
+            alignSelf: "center",
+            margin: 0,
+            padding: 0,
+            // backgroundColor: "white",
+          }}
+        />
+        <Text
+          style={{
+            textAlign: "center",
+            margin: 10,
+            color: "white",
+            textShadowColor: "black",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 3,
+          }}
+        >
+          Once you are on the about page, the url will look similar to the one
+          pictured below. The taxa ID number in this case is 119817.
+        </Text>
+        <Image
+          source={require("../../../assets/images/ui/urlExample.png")}
+          style={{
+            resizeMode: "contain",
+            alignSelf: "center",
+            margin: 0,
+            padding: 0,
+          }}
+        />
+        <Text
+          style={{
+            textAlign: "center",
+            margin: 10,
+            color: "white",
+            textShadowColor: "black",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 3,
+          }}
+        >
+          To create a custom map, enter a unique name and a string of any number
+          of IDs in this format: id1,id2,id3,id4
+        </Text>
+      </View>
+    ),
+  },
+];
 
 class CustomMapScreen extends Component {
   constructor(props) {
@@ -61,6 +137,7 @@ class CustomMapScreen extends Component {
                 }}
                 bounces={false}
               >
+                <AccordionView sections={helpSection()} />
                 <TextInput
                   style={styles.newMapNameInput}
                   ref={(input) => {
