@@ -7,29 +7,6 @@ import pageBG from "../../../assets/textures/fabric-dark.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppContainer from "./NavsAndScreens";
 
-const storeData = async (key, value) => {
-  try {
-    await AsyncStorage.setItem(key, value);
-  } catch (e) {
-    console.log(e);
-    // saving error
-  }
-};
-
-// const getData = async (key) => {
-//   try {
-//     const value = await AsyncStorage.getItem(key);
-//     if (value !== null) {
-//       // console.log(value);
-//       return value;
-//       // value previously stored
-//     }
-//   } catch (e) {
-//     console.log(e);
-//     // error reading value
-//   }
-// };
-
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -38,69 +15,6 @@ class Main extends Component {
       latlon: [0, 0],
     };
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.customMapsArray !== this.state.customMapsArray) {
-      storeData("customMapsArray", JSON.stringify(this.state.customMapsArray));
-    }
-
-    if (prevState.favoritesArray !== this.state.favoritesArray) {
-      storeData("favorites", JSON.stringify(this.state.favoritesArray));
-    }
-
-    if (prevState.target !== this.state.target) {
-      storeData("target", JSON.stringify(this.state.target));
-    }
-  }
-
-  toggleFilter = () => {
-    storeData("unfiltered", `${!this.state.unfiltered}`);
-    this.setState({
-      unfiltered: !this.state.unfiltered,
-    });
-  };
-
-  toggleMeasurements = () => {
-    storeData("measurements", `${!this.state.measurements}`);
-    this.setState({
-      measurements: !this.state.measurements,
-    });
-  };
-
-  toggleRadius = (value) => {
-    storeData("radius", value);
-    this.setState({
-      radius: value,
-    });
-  };
-
-  addFavorite = (observation) => {
-    if (
-      !this.state.favoritesArray.includes(observation) &&
-      this.state.favoritesArray.length < 201
-    )
-      this.setState({
-        favoritesArray: [...this.state.favoritesArray, observation],
-      });
-  };
-
-  setTarget = (observation) => {
-    if (observation !== this.state.target) {
-      this.setState({ target: observation });
-    }
-  };
-
-  deleteFavorite = (observation) => {
-    if (this.state.favoritesArray.includes(observation)) {
-      newArray = this.state.favoritesArray.filter(
-        (obs) => obs.trueID !== observation.trueID
-      );
-
-      this.setState({
-        favoritesArray: newArray,
-      });
-    }
-  };
 
   componentDidMount() {
     Location.installWebGeolocationPolyfill();
@@ -141,21 +55,6 @@ class Main extends Component {
     }
   };
 
-  addCustomMap = (map) => {
-    this.setState({
-      customMapsArray: [...this.state.customMapsArray, map],
-    });
-  };
-
-  deleteCustomMap = (map) => {
-    console.log(map);
-    this.setState({
-      customMapsArray: this.state.customMapsArray.filter(
-        (element) => element.title !== map.title
-      ),
-    });
-  };
-
   render() {
     // AsyncStorage.getAllKeys()
     //   .then((keys) => AsyncStorage.multiRemove(keys))
@@ -180,20 +79,20 @@ class Main extends Component {
               latlon: this.state.latlon,
               relay: this.handleSubmit,
               unfiltered: this.props.unfiltered,
-              toggleFilter: this.toggleFilter,
+              toggleFilter: this.props.toggleFilter,
               customMapsArray: this.props.customMapsArray,
-              addCustomMap: this.addCustomMap,
-              deleteCustomMap: this.deleteCustomMap,
-              toggleRadius: this.toggleRadius,
+              addCustomMap: this.props.addCustomMap,
+              deleteCustomMap: this.props.deleteCustomMap,
+              toggleRadius: this.props.toggleRadius,
               radius: this.props.radius,
               getLocation: this.getLocation,
-              addFavorite: this.addFavorite,
-              deleteFavorite: this.deleteFavorite,
+              addFavorite: this.props.addFavorite,
+              deleteFavorite: this.props.deleteFavorite,
               favorites: this.props.favoritesArray,
-              setTarget: this.setTarget,
+              setTarget: this.props.setTarget,
               target: this.props.target,
               measurements: this.props.measurements,
-              toggleMeasurements: this.toggleMeasurements,
+              toggleMeasurements: this.props.toggleMeasurements,
             }}
           />
         </ImageBackground>

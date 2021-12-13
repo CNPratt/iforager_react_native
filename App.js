@@ -26,6 +26,15 @@ const getData = async (key) => {
   }
 };
 
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    console.log(e);
+    // saving error
+  }
+};
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +55,70 @@ export default class App extends Component {
       filterLoaded: false,
     };
   }
+
+  toggleFilter = () => {
+    storeData("unfiltered", `${!this.state.unfiltered}`);
+    this.setState({
+      unfiltered: !this.state.unfiltered,
+    });
+  };
+
+  toggleMeasurements = () => {
+    storeData("measurements", `${!this.state.measurements}`);
+    this.setState({
+      measurements: !this.state.measurements,
+    });
+  };
+
+  toggleRadius = (value) => {
+    storeData("radius", value);
+    this.setState({
+      radius: value,
+    });
+  };
+
+  addFavorite = (observation) => {
+    if (
+      !this.state.favoritesArray.includes(observation) &&
+      this.state.favoritesArray.length < 201
+    )
+      this.setState({
+        favoritesArray: [...this.state.favoritesArray, observation],
+      });
+  };
+
+  deleteFavorite = (observation) => {
+    if (this.state.favoritesArray.includes(observation)) {
+      newArray = this.state.favoritesArray.filter(
+        (obs) => obs.trueID !== observation.trueID
+      );
+
+      this.setState({
+        favoritesArray: newArray,
+      });
+    }
+  };
+
+  setTarget = (observation) => {
+    if (observation !== this.state.target) {
+      this.setState({ target: observation });
+    }
+  };
+
+  addCustomMap = (map) => {
+    this.setState({
+      customMapsArray: [...this.state.customMapsArray, map],
+    });
+  };
+
+  deleteCustomMap = (map) => {
+    console.log(map);
+    this.setState({
+      customMapsArray: this.state.customMapsArray.filter(
+        (element) => element.title !== map.title
+      ),
+    });
+  };
 
   retrieveFromLocal = async () => {
     getData("unfiltered").then((value) => {
@@ -118,7 +191,7 @@ export default class App extends Component {
     this.retrieveFromLocal();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (!this.state.isReady) {
       if (
         this.state.customsLoaded &&
@@ -130,6 +203,18 @@ export default class App extends Component {
       ) {
         this.setState({ isReady: true });
       }
+    }
+
+    if (prevState.customMapsArray !== this.state.customMapsArray) {
+      storeData("customMapsArray", JSON.stringify(this.state.customMapsArray));
+    }
+
+    if (prevState.favoritesArray !== this.state.favoritesArray) {
+      storeData("favorites", JSON.stringify(this.state.favoritesArray));
+    }
+
+    if (prevState.target !== this.state.target) {
+      storeData("target", JSON.stringify(this.state.target));
     }
   }
 
@@ -151,6 +236,14 @@ export default class App extends Component {
         radius={this.state.radius}
         favoritesArray={this.state.favoritesArray}
         customMapsArray={this.state.customMapsArray}
+        toggleFilter={this.toggleFilter}
+        toggleMeasurements={this.toggleMeasurements}
+        toggleRadius={this.toggleRadius}
+        setTarget={this.setTarget}
+        addFavorite={this.addFavorite}
+        deleteFavorite={this.deleteFavorite}
+        addCustomMap={this.addCustomMap}
+        deleteCustomMap={this.deleteCustomMap}
       />
     );
   }
