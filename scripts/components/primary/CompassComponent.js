@@ -1,5 +1,12 @@
-import React, { useState, useEffect, Component } from "react";
-import { Image, View, Text, Dimensions, ImageBackground } from "react-native";
+import React, { useState, useEffect, Component, useRef } from "react";
+import {
+  Image,
+  View,
+  Text,
+  Dimensions,
+  ImageBackground,
+  AppState,
+} from "react-native";
 import { Magnetometer } from "expo-sensors";
 import * as Location from "expo-location";
 import { withNavigationFocus } from "react-navigation";
@@ -52,6 +59,7 @@ class Screen extends Component {
     this.state = {
       target: [],
       permission: false,
+      appVisible: true,
       unsub: null,
       unsub2: null,
     };
@@ -78,15 +86,42 @@ class Screen extends Component {
     this.setState({ unsub2: unsub2 });
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.isFocused && !this.props.isFocused && this.state.unsub) {
+  componentDidMount() {
+    appStateUnsub = AppState.addEventListener("change", (nextAppState) => {
+      if (nextAppState.match(/inactive|background/)) {
+        this.setState({ appVisible: false });
+      } else {
+        this.setState({ appVisible: true });
+      }
+
+      // console.log(nextAppState);
+    });
+  }
+
+  componentWillUnmount() {
+    appStateUnsub.remove();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      (prevProps.isFocused && !this.props.isFocused && this.state.unsub) ||
+      (prevState.appVisible === true &&
+        this.state.appVisible === false &&
+        this.state.unsub)
+    ) {
+      console.log("unsubbed1: " + this.state.unsub);
       this.state.unsub.remove();
       this.setState({
         unsub: null,
       });
     }
-    if (prevProps.isFocused && !this.props.isFocused && this.state.unsub2) {
-      console.log("unsubbed: " + this.state.unsub2);
+    if (
+      (prevProps.isFocused && !this.props.isFocused && this.state.unsub2) ||
+      (prevState.appVisible === true &&
+        this.state.appVisible === false &&
+        this.state.unsub2)
+    ) {
+      console.log("unsubbed2: " + this.state.unsub2);
       this.state.unsub2.remove();
       this.setState({
         unsub2: null,
@@ -95,7 +130,7 @@ class Screen extends Component {
   }
 
   render() {
-    console.log(this.props.isFocused);
+    // console.log(this.props.isFocused);
 
     return (
       <CompassWithTarget
@@ -105,6 +140,7 @@ class Screen extends Component {
         unsub2={this.passUnsubscribe2}
         permission={this.state.permission}
         measurements={this.props.measurements}
+        appVisible={this.state.appVisible}
       />
     );
   }
@@ -129,7 +165,7 @@ CompassWithTarget = (props) => {
   };
 
   positionChange = (positionEvent) => {
-    console.log("positionEvent");
+    // console.log("positionEvent");
 
     if (props.target) {
       setTargetAngle(
@@ -160,10 +196,10 @@ CompassWithTarget = (props) => {
     return () => {
       _watchUnsubscribe();
     };
-  }, [props.isFocused]);
+  }, [props.isFocused, props.appVisible]);
 
   const _toggleWatch = () => {
-    if (props.isFocused) {
+    if (props.isFocused && props.appVisible) {
       _watchSubscribe();
     }
   };
@@ -192,10 +228,10 @@ CompassWithTarget = (props) => {
     return () => {
       _unsubscribe();
     };
-  }, [props.isFocused]);
+  }, [props.isFocused, props.appVisible]);
 
   const _toggle = () => {
-    if (props.isFocused) {
+    if (props.isFocused && props.appVisible) {
       _subscribe();
     }
   };
