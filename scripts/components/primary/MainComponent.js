@@ -16,19 +16,19 @@ const storeData = async (key, value) => {
   }
 };
 
-const getData = async (key) => {
-  try {
-    const value = await AsyncStorage.getItem(key);
-    if (value !== null) {
-      // console.log(value);
-      return value;
-      // value previously stored
-    }
-  } catch (e) {
-    console.log(e);
-    // error reading value
-  }
-};
+// const getData = async (key) => {
+//   try {
+//     const value = await AsyncStorage.getItem(key);
+//     if (value !== null) {
+//       // console.log(value);
+//       return value;
+//       // value previously stored
+//     }
+//   } catch (e) {
+//     console.log(e);
+//     // error reading value
+//   }
+// };
 
 class Main extends Component {
   constructor(props) {
@@ -36,12 +36,6 @@ class Main extends Component {
 
     this.state = {
       latlon: [0, 0],
-      unfiltered: false,
-      radius: "15",
-      customMapsArray: [],
-      favoritesArray: [],
-      target: null,
-      measurements: false,
     };
   }
 
@@ -111,62 +105,6 @@ class Main extends Component {
   componentDidMount() {
     Location.installWebGeolocationPolyfill();
     this.getLocation();
-
-    getData("unfiltered").then((value) => {
-      if (value) {
-        value === "true"
-          ? this.setState({
-              unfiltered: true,
-            })
-          : this.setState({
-              unfiltered: false,
-            });
-      }
-    });
-
-    getData("customMapsArray").then((value) => {
-      if (value) {
-        this.setState({
-          customMapsArray: JSON.parse(value),
-        });
-      }
-    });
-
-    getData("favorites").then((value) => {
-      if (value) {
-        this.setState({
-          favoritesArray: JSON.parse(value),
-        });
-      }
-    });
-
-    getData("radius").then((value) => {
-      if (value) {
-        this.setState({
-          radius: value,
-        });
-      }
-    });
-
-    getData("target").then((value) => {
-      if (value) {
-        this.setState({
-          target: JSON.parse(value),
-        });
-      }
-    });
-
-    getData("measurements").then((value) => {
-      if (value) {
-        value === "true"
-          ? this.setState({
-              measurements: true,
-            })
-          : this.setState({
-              measurements: false,
-            });
-      }
-    });
   }
 
   handleSubmit = async (text) => {
@@ -227,7 +165,7 @@ class Main extends Component {
 
     // console.log(this.state.target);
 
-    this.state.favoritesArray.forEach((item) => console.log(item.trueID));
+    this.props.favoritesArray.forEach((item) => console.log(item.trueID));
 
     return (
       <View style={{ flex: 1, backgroundColor: "#796d5b" }}>
@@ -241,20 +179,20 @@ class Main extends Component {
               // type: "berries",
               latlon: this.state.latlon,
               relay: this.handleSubmit,
-              unfiltered: this.state.unfiltered,
+              unfiltered: this.props.unfiltered,
               toggleFilter: this.toggleFilter,
-              customMapsArray: this.state.customMapsArray,
+              customMapsArray: this.props.customMapsArray,
               addCustomMap: this.addCustomMap,
               deleteCustomMap: this.deleteCustomMap,
               toggleRadius: this.toggleRadius,
-              radius: this.state.radius,
+              radius: this.props.radius,
               getLocation: this.getLocation,
               addFavorite: this.addFavorite,
               deleteFavorite: this.deleteFavorite,
-              favorites: this.state.favoritesArray,
+              favorites: this.props.favoritesArray,
               setTarget: this.setTarget,
-              target: this.state.target,
-              measurements: this.state.measurements,
+              target: this.props.target,
+              measurements: this.props.measurements,
               toggleMeasurements: this.toggleMeasurements,
             }}
           />

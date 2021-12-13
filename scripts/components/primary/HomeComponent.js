@@ -7,6 +7,7 @@ import cardBG from "../../../assets/textures/cloth-alike.png";
 import pageBG from "../../../assets/textures/fabric-dark.png";
 import * as Animatable from "react-native-animatable";
 import * as Location from "expo-location";
+import { idObject } from "../../data/IDObject";
 
 class Home extends Component {
   constructor(props) {
@@ -27,6 +28,29 @@ class Home extends Component {
   };
 
   componentDidUpdate(prevProps) {
+    let combinedArray = [];
+    let combinedIds = "";
+
+    for (const property in idObject) {
+      theseIds = idObject[property].ids.split(",");
+
+      theseIds.forEach((id) =>
+        !combinedArray.includes(id) ? combinedArray.push(id) : null
+      );
+    }
+
+    this.props.screenProps.customMapsArray.forEach((obs) => {
+      let idArray = obs.ids.split(",");
+
+      idArray.forEach((element) =>
+        !combinedArray.includes(element) ? combinedArray.push(element) : null
+      );
+    });
+
+    combinedIds = combinedArray.join(",");
+
+    console.log(combinedIds);
+
     if (prevProps.screenProps.latlon !== this.props.screenProps.latlon)
       Location.reverseGeocodeAsync({
         latitude: this.props.screenProps.latlon[0],
@@ -36,7 +60,7 @@ class Home extends Component {
           this.setState({
             location: `${value[0].street}, ${value[0].city}, ${value[0].region}`,
           });
-          console.log(value);
+          // console.log(value);
         })
         .catch((e) => console.log(e));
   }
