@@ -73,6 +73,20 @@ export class CardFlatList extends Component {
 
     let cardStateArray = sortedArray.map((item) => {
       // console.log(item);
+
+      let isFavorite = false;
+
+      this.props.favorites.forEach((favorite) => {
+        // console.log(favorite.trueID, item.trueID);
+
+        if (favorite.trueID === item.trueID) {
+          isFavorite = true;
+        }
+      });
+
+      // if (isFavorite) {
+      //   console.log(item.species, isFavorite);
+      // }
       return [
         <ObsCard
           click={this.props.handleMarkerClick}
@@ -85,6 +99,7 @@ export class CardFlatList extends Component {
           deleteFavorite={() => this.props.deleteFavorite(item)}
           setTarget={() => this.props.setTarget(item)}
           measurements={this.props.measurements}
+          isFavorite={isFavorite}
           // color={item.color}
         />,
         item.trueID,

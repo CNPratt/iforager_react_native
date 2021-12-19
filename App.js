@@ -107,7 +107,7 @@ export default class App extends Component {
 
   addCustomMap = (map) => {
     this.setState({
-      customMapsArray: [...this.state.customMapsArray, map],
+      customMapsArray: [map, ...this.state.customMapsArray],
     });
   };
 

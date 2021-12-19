@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Card, Image } from "react-native-elements";
+import { Card, Icon, Image } from "react-native-elements";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../../shared/Styles";
 import { SwipeRow } from "react-native-swipe-list-view";
@@ -22,7 +22,8 @@ class ObsCard extends PureComponent {
     if (
       this.props.obsid === nextProps.selectedMarker ||
       this.props.obsid === this.props.selectedMarker ||
-      this.props.measurements !== nextProps.measurements
+      this.props.measurements !== nextProps.measurements ||
+      this.props.isFavorite !== nextProps.isFavorite
     ) {
       return true;
     } else {
@@ -58,7 +59,6 @@ class ObsCard extends PureComponent {
       thisColor = "#f8ecdb";
       borderColor = "#575046";
     }
-
     return (
       <SwipeRow rightOpenValue={-100} leftOpenValue={100} friction={10}>
         <Animatable.View
@@ -107,7 +107,12 @@ class ObsCard extends PureComponent {
                     justifyContent: "center",
                   }}
                 >
-                  <TouchableOpacity onPress={() => this.props.setTarget()}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.setTarget();
+                      this.props.navigation.navigate("Compass");
+                    }}
+                  >
                     <Text
                       style={{
                         ...styles.swipeBtnText,
@@ -177,7 +182,7 @@ class ObsCard extends PureComponent {
                 <ImageBackground source={cardBG} resizeMode="repeat" style={{}}>
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.state.routeName !== "Favorites Map"
+                      !this.props.isFavorite
                         ? this.props.addFavorite()
                         : this.props.deleteFavorite();
                       // console.log(this.props.navigation.state);
@@ -190,9 +195,7 @@ class ObsCard extends PureComponent {
                         padding: 3,
                       }}
                     >
-                      {this.props.navigation.state.routeName !== "Favorites Map"
-                        ? "FAVORITE"
-                        : "DELETE"}
+                      {!this.props.isFavorite ? "FAVORITE" : "DELETE"}
                     </Text>
                   </TouchableOpacity>
                 </ImageBackground>

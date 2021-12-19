@@ -11,6 +11,7 @@ import cardBG from "../../../assets/textures/cloth-alike.png";
 import * as Animatable from "react-native-animatable";
 import ErrorDisplay from "../secondary/ErrorDisplayComponent";
 import NetInfo from "@react-native-community/netinfo";
+import SelectDropdown from "react-native-select-dropdown";
 
 import { withNavigationFocus } from "react-navigation";
 
@@ -74,14 +75,14 @@ class CardDisplay extends Component {
     console.log("species switch");
 
     if (
-      this.state.acronymArray[
-        this.state.acronymArray.indexOf(this.state.sortSpecies) + 1
+      this.state.fullnameArray[
+        this.state.fullnameArray.indexOf(this.state.sortSpecies) + 1
       ]
     ) {
       this.setState({
         sortSpecies:
-          this.state.acronymArray[
-            this.state.acronymArray.indexOf(this.state.sortSpecies) + 1
+          this.state.fullnameArray[
+            this.state.fullnameArray.indexOf(this.state.sortSpecies) + 1
           ],
       });
     } else {
@@ -92,9 +93,8 @@ class CardDisplay extends Component {
   }
 
   speciesSortMethod = () => {
-    // let speciesIndex = this.state.acronymArray.indexOf(this.state.sortSpecies);
     if (this.state.sortSpecies !== "all") {
-      let speciesIndex = this.state.acronymArray.indexOf(
+      let speciesIndex = this.state.fullnameArray.indexOf(
         this.state.sortSpecies
       );
 
@@ -360,96 +360,100 @@ class CardDisplay extends Component {
                     flexDirection: "row",
                   }}
                 >
-                  <TouchableOpacity
-                    style={{
+                  <SelectDropdown
+                    data={sortMethodArray}
+                    defaultValue={sortMethodArray[0]}
+                    buttonStyle={{
                       flex: 1,
                       margin: 10,
                       borderStyle: "solid",
                       borderColor: "#575046",
                       borderWidth: 3,
                       borderRadius: 15,
-                      overflow: "hidden",
+                      backgroundColor: "#AFA392",
                     }}
-                    onPress={() => {
-                      if (
-                        sortMethodArray.indexOf(this.state.sortBy) !==
-                        sortMethodArray.length - 1
-                      ) {
-                        this.handleSortSwitch(
-                          sortMethodArray[
-                            sortMethodArray.indexOf(this.state.sortBy) + 1
-                          ]
-                        );
-                      } else {
-                        this.handleSortSwitch("dist");
-                      }
+                    buttonTextStyle={{
+                      ...styles.swipeBtnText,
+                      // margin: 10,
+                      padding: 10,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                      backgroundColor: "none",
                     }}
-                  >
-                    <View style={{ flexGrow: 1, backgroundColor: "#AFA392" }}>
-                      <ImageBackground
-                        source={cardBG}
-                        resizeMode="repeat"
-                        style={{}}
-                      >
-                        <Text
-                          style={{
-                            ...styles.swipeBtnText,
-                            // margin: 10,
-                            padding: 10,
-                            fontSize: 14,
-                            fontWeight: "bold",
-                            color: "white",
-                            textShadowColor: "black",
-                            textShadowOffset: { width: -1, height: 1 },
-                            textShadowRadius: 3,
-                            // backgroundColor: "#AFA392",
-                            backgroundColor: "none",
-                          }}
-                        >
-                          {"Sort: " + this.state.sortBy.toUpperCase()}
-                        </Text>
-                      </ImageBackground>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
+                    dropdownStyle={{
+                      // margin: 10,
+                      borderStyle: "solid",
+                      borderColor: "#575046",
+                      borderWidth: 3,
+                      borderRadius: 15,
+                      backgroundColor: "#AFA392",
+                      color: "#fff",
+                    }}
+                    rowTextStyle={{
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                    }}
+                    onSelect={(value) =>
+                      this.setState({
+                        sortBy: value,
+                      })
+                    }
+                  />
+
+                  <SelectDropdown
+                    data={this.state.fullnameArray}
+                    defaultValue={this.state.fullnameArray[0]}
+                    buttonStyle={{
                       flex: 1,
                       margin: 10,
                       borderStyle: "solid",
                       borderColor: "#575046",
                       borderWidth: 3,
                       borderRadius: 15,
-                      overflow: "hidden",
+                      backgroundColor: "#AFA392",
                     }}
-                    onPress={() => {
-                      this.handleSpeciesSwitch();
+                    buttonTextStyle={{
+                      ...styles.swipeBtnText,
+                      // margin: 10,
+                      padding: 10,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                      backgroundColor: "none",
                     }}
-                  >
-                    <View style={{ flexGrow: 1, backgroundColor: "#AFA392" }}>
-                      <ImageBackground
-                        source={cardBG}
-                        resizeMode="repeat"
-                        style={{}}
-                      >
-                        <Text
-                          style={{
-                            ...styles.swipeBtnText,
-                            // margin: 10,
-                            padding: 10,
-                            fontSize: 14,
-                            fontWeight: "bold",
-                            color: "white",
-                            textShadowColor: "black",
-                            textShadowOffset: { width: -1, height: 1 },
-                            textShadowRadius: 3,
-                            backgroundColor: "none",
-                          }}
-                        >
-                          {"Species: " + this.state.sortSpecies.toUpperCase()}
-                        </Text>
-                      </ImageBackground>
-                    </View>
-                  </TouchableOpacity>
+                    dropdownStyle={{
+                      // margin: 10,
+                      borderStyle: "solid",
+                      borderColor: "#575046",
+                      borderWidth: 3,
+                      borderRadius: 15,
+                      backgroundColor: "#AFA392",
+                    }}
+                    rowTextStyle={{
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                    }}
+                    onSelect={(value) =>
+                      this.setState({
+                        sortSpecies: value,
+                      })
+                    }
+                  />
                 </View>
                 <View style={styles.cardstackContainer}>
                   <CardFlatList
@@ -469,6 +473,7 @@ class CardDisplay extends Component {
                     deleteFavorite={this.props.deleteFavorite}
                     setTarget={this.props.setTarget}
                     measurements={this.props.measurements}
+                    favorites={this.props.favorites}
                   />
                 </View>
               </ImageBackground>

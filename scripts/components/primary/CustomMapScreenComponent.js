@@ -14,6 +14,8 @@ import * as Animatable from "react-native-animatable";
 import { CustomMapCard } from "../secondary/CustomMapCardClass";
 import { idObject } from "../../data/IDObject";
 import { AccordionView } from "../secondary/AccordionView";
+import { taxaSearch } from ".././../utility/GetFileFunctions";
+import SearchResult from "../secondary/SearchResultComponent";
 
 let idRegex = /^[-,0-9]+$/;
 
@@ -92,6 +94,8 @@ class CustomMapScreen extends Component {
     this.state = {
       newMapName: "",
       newMapIds: "",
+      searchText: "",
+      searchResults: [],
     };
   }
 
@@ -104,7 +108,38 @@ class CustomMapScreen extends Component {
     },
   };
 
+  addResultId = (id) => {
+    let idArray = this.state.newMapIds.split(",");
+
+    // console.log(idArray);
+    if (!idArray.includes(id.toString())) {
+      console.log("add: " + id);
+      if (this.state.newMapIds === "") {
+        this.setState({
+          newMapIds: id.toString(),
+        });
+      } else {
+        this.setState({
+          newMapIds: this.state.newMapIds + "," + id,
+        });
+      }
+    }
+  };
+
+  removeResultId = (id) => {
+    let idArray = this.state.newMapIds.split(",");
+
+    console.log("id: " + id);
+    if (idArray.includes(id.toString())) {
+      console.log("remove: " + id);
+      this.setState({
+        newMapIds: idArray.filter((item) => item !== id.toString()).join(","),
+      });
+    }
+  };
+
   render() {
+    // console.log(this.state.newMapIds);
     let mapCardArray = [];
     this.props.customMapsArray.forEach((map) =>
       mapCardArray.push(
@@ -117,6 +152,18 @@ class CustomMapScreen extends Component {
         />
       )
     );
+
+    let searchElements = this.state.searchResults.map((result) => (
+      <SearchResult
+        commonName={result.commonName}
+        taxonId={result.taxonId}
+        add={() => this.addResultId(result.taxonId)}
+        name={result.name}
+        rank={result.rank}
+        newMapIds={this.state.newMapIds}
+        remove={() => this.removeResultId(result.taxonId)}
+      />
+    ));
 
     return (
       <View style={styles.pageBackground}>
@@ -137,7 +184,49 @@ class CustomMapScreen extends Component {
                 }}
                 bounces={false}
               >
-                <AccordionView sections={helpSection()} />
+                {/* <AccordionView sections={helpSection()} /> */}
+
+                <View style={{ ...styles.flatlist, margin: 10 }}>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      margin: 10,
+                      color: "white",
+                      textShadowColor: "black",
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 3,
+                      fontSize: "24",
+                    }}
+                  >
+                    Taxa Search
+                  </Text>
+                  <TextInput
+                    style={styles.newMapNameInput}
+                    ref={(input) => {
+                      this.searchInput = input;
+                    }}
+                    placeholder="Enter search here"
+                    text={this.state.searchText}
+                    onChangeText={(text) =>
+                      this.setState({
+                        searchText: text,
+                      })
+                    }
+                    onSubmitEditing={() => {
+                      if (this.state.searchText !== "") {
+                        taxaSearch(this.state.searchText).then((result) =>
+                          this.setState({
+                            searchResults: result,
+                          })
+                        );
+                      }
+                      this.searchInput.clear();
+                    }}
+                  />
+                  <ScrollView style={{ maxHeight: 100, minHeight: 100 }}>
+                    {searchElements}
+                  </ScrollView>
+                </View>
                 <TextInput
                   style={styles.newMapNameInput}
                   ref={(input) => {
@@ -157,7 +246,7 @@ class CustomMapScreen extends Component {
                     this.idInput = input;
                   }}
                   placeholder="Custom Map Ids"
-                  text={this.state.newMapIds}
+                  defaultValue={this.state.newMapIds}
                   onChangeText={(text) =>
                     this.setState({
                       newMapIds: text,
@@ -200,6 +289,7 @@ class CustomMapScreen extends Component {
                   }}
                   color="#f8ecdb"
                 />
+
                 {mapCardArray}
               </ScrollView>
             </Animatable.View>

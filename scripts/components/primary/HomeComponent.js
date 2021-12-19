@@ -49,7 +49,7 @@ class Home extends Component {
 
     combinedIds = combinedArray.join(",");
 
-    console.log(combinedIds);
+    // console.log(combinedIds);
 
     if (prevProps.screenProps.latlon !== this.props.screenProps.latlon)
       Location.reverseGeocodeAsync({

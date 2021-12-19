@@ -672,7 +672,9 @@ const FavoritesNavigator = createStackNavigator(
       ),
       headerTintColor: "#fff",
       headerTitleStyle: {
-        color: "#fff",
+        textShadowColor: "black",
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 5,
       },
       headerLeft: (
         <Icon
@@ -708,7 +710,9 @@ const CompassNavigator = createStackNavigator(
       ),
       headerTintColor: "#fff",
       headerTitleStyle: {
-        color: "#fff",
+        textShadowColor: "black",
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 5,
       },
       headerLeft: (
         <Icon

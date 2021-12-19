@@ -25,10 +25,7 @@ class Main extends Component {
     const receivedLocation = await inputRelay(text);
 
     this.setState({
-      latlon: [
-        parseFloat(receivedLocation.lat),
-        parseFloat(receivedLocation.lon),
-      ],
+      latlon: [receivedLocation.latitude, receivedLocation.longitude],
     });
   };
 
@@ -64,7 +61,7 @@ class Main extends Component {
 
     // console.log(this.state.target);
 
-    this.props.favoritesArray.forEach((item) => console.log(item.trueID));
+    // this.props.favoritesArray.forEach((item) => console.log(item.trueID));
 
     return (
       <View style={{ flex: 1, backgroundColor: "#796d5b" }}>
