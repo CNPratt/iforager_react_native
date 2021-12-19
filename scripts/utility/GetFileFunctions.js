@@ -135,7 +135,7 @@ export async function taxaSearch(input) {
     })
   );
 
-  // console.log(parsed.results[0]);
+  console.log(parsed.results[0]);
 
   return extractedResults;
 }

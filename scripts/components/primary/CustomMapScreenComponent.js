@@ -16,6 +16,7 @@ import { idObject } from "../../data/IDObject";
 import { AccordionView } from "../secondary/AccordionView";
 import { taxaSearch } from ".././../utility/GetFileFunctions";
 import SearchResult from "../secondary/SearchResultComponent";
+import { Card, Icon } from "react-native-elements";
 
 let idRegex = /^[-,0-9]+$/;
 
@@ -92,6 +93,7 @@ class CustomMapScreen extends Component {
     super(props);
 
     this.state = {
+      mode: "create",
       newMapName: "",
       newMapIds: "",
       searchText: "",
@@ -138,6 +140,18 @@ class CustomMapScreen extends Component {
     }
   };
 
+  modeSwitch = () => {
+    if (this.state.mode === "create") {
+      this.setState({
+        mode: "mymaps",
+      });
+    } else if (this.state.mode === "mymaps") {
+      this.setState({
+        mode: "create",
+      });
+    }
+  };
+
   render() {
     // console.log(this.state.newMapIds);
     let mapCardArray = [];
@@ -157,9 +171,9 @@ class CustomMapScreen extends Component {
       <SearchResult
         commonName={result.commonName}
         taxonId={result.taxonId}
-        add={() => this.addResultId(result.taxonId)}
         name={result.name}
         rank={result.rank}
+        add={() => this.addResultId(result.taxonId)}
         newMapIds={this.state.newMapIds}
         remove={() => this.removeResultId(result.taxonId)}
       />
@@ -172,128 +186,258 @@ class CustomMapScreen extends Component {
           resizeMode="repeat"
           style={{ height: "100%", width: "100%" }}
         >
-          <ScrollView>
-            <Animatable.View
-              style={{ flex: 1 }}
-              animation="fadeIn"
-              useNativeDriver={true}
-            >
-              <ScrollView
-                contentContainerStyle={{
-                  flex: 1,
-                }}
-                bounces={false}
-              >
-                {/* <AccordionView sections={helpSection()} /> */}
+          <Animatable.View
+            style={{ flex: 1 }}
+            animation="fadeIn"
+            useNativeDriver={true}
+          >
+            {/* <AccordionView sections={helpSection()} /> */}
 
-                <View style={{ ...styles.flatlist, margin: 10 }}>
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      margin: 10,
-                      color: "white",
-                      textShadowColor: "black",
-                      textShadowOffset: { width: -1, height: 1 },
-                      textShadowRadius: 3,
-                      fontSize: "24",
+            <View
+              style={{
+                ...styles.flatlist,
+                margin: 10,
+                padding: 5,
+                flex: 1,
+              }}
+            >
+              <Icon
+                name="help-circle"
+                color="#575046"
+                type="material-community"
+                containerStyle={{
+                  position: "absolute",
+                  alignSelf: "flex-end",
+                  marginTop: 7,
+                  paddingRight: 20,
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  textAlign: "start",
+                  margin: 12,
+                  marginBottom: 0,
+                  color: "white",
+                  textShadowColor: "black",
+                  textShadowOffset: { width: -1, height: 1 },
+                  textShadowRadius: 3,
+                  fontSize: "16",
+                  // backgroundColor: "red",
+                }}
+              >
+                New Map Name
+              </Text>
+              <TextInput
+                style={{
+                  ...styles.newMapNameInput,
+                  marginTop: 0,
+                  marginBottom: 0,
+                }}
+                ref={(input) => {
+                  this.nameInput = input;
+                }}
+                placeholder="Custom Map Name"
+                text={this.state.newMapName}
+                onChangeText={(text) =>
+                  this.setState({
+                    newMapName: text,
+                  })
+                }
+              />
+              <Text
+                style={{
+                  textAlign: "start",
+                  margin: 12,
+                  marginBottom: 0,
+                  color: "white",
+                  textShadowColor: "black",
+                  textShadowOffset: { width: -1, height: 1 },
+                  textShadowRadius: 3,
+                  fontSize: "16",
+                  // backgroundColor: "red",
+                }}
+              >
+                New Map IDs
+              </Text>
+              <TextInput
+                style={{
+                  ...styles.newMapNameInput,
+                  marginTop: 0,
+                  marginBottom: 0,
+                }}
+                ref={(input) => {
+                  this.idInput = input;
+                }}
+                placeholder="Custom Map Ids"
+                defaultValue={this.state.newMapIds}
+                onChangeText={(text) =>
+                  this.setState({
+                    newMapIds: text,
+                  })
+                }
+              />
+
+              <Text
+                style={{
+                  textAlign: "start",
+                  margin: 12,
+                  marginBottom: 0,
+                  color: "white",
+                  textShadowColor: "black",
+                  textShadowOffset: { width: -1, height: 1 },
+                  textShadowRadius: 3,
+                  fontSize: "16",
+                  // backgroundColor: "red",
+                }}
+              >
+                Taxa Search
+              </Text>
+              <TextInput
+                style={{
+                  ...styles.newMapNameInput,
+                  marginTop: 0,
+                  marginBottom: 6,
+                }}
+                ref={(input) => {
+                  this.searchInput = input;
+                }}
+                placeholder="Enter search here"
+                text={this.state.searchText}
+                onChangeText={(text) =>
+                  this.setState({
+                    searchText: text,
+                  })
+                }
+              />
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <View
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#575046",
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    flex: 1,
+                    margin: 5,
+                  }}
+                >
+                  <Button
+                    title="Create map"
+                    onPress={() => {
+                      let newMap = {
+                        title: this.state.newMapName,
+                        ids: this.state.newMapIds,
+                      };
+
+                      let staticNameFilter =
+                        idObject[
+                          this.state.newMapName
+                            .split(" ")
+                            .join("")
+                            .toLowerCase()
+                        ];
+
+                      let customMapFilter = this.props.customMapsArray.filter(
+                        (element) => element.title === this.state.newMapName
+                      );
+
+                      // console.log(customMapFilter);
+                      if (
+                        this.state.newMapName &&
+                        idRegex.test(this.state.newMapIds) &&
+                        !staticNameFilter &&
+                        !customMapFilter.length
+                      ) {
+                        this.props.addCustomMap(newMap);
+                        this.setState({
+                          newMapName: "",
+                          newMapIds: "",
+                          mode: "mymaps",
+                        });
+
+                        this.idInput.clear();
+                        this.nameInput.clear();
+                      }
                     }}
-                  >
-                    Taxa Search
-                  </Text>
-                  <TextInput
-                    style={styles.newMapNameInput}
-                    ref={(input) => {
-                      this.searchInput = input;
-                    }}
-                    placeholder="Enter search here"
-                    text={this.state.searchText}
-                    onChangeText={(text) =>
-                      this.setState({
-                        searchText: text,
-                      })
-                    }
-                    onSubmitEditing={() => {
+                    color="#f8ecdb"
+                  />
+                </View>
+                <View
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#575046",
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    flex: 1,
+                    margin: 5,
+                  }}
+                >
+                  <Button
+                    title="Search"
+                    onPress={() => {
                       if (this.state.searchText !== "") {
                         taxaSearch(this.state.searchText).then((result) =>
                           this.setState({
                             searchResults: result,
+                            mode: "create",
                           })
                         );
                       }
-                      this.searchInput.clear();
+                      // this.searchInput.clear();
                     }}
+                    color="#f8ecdb"
                   />
-                  <ScrollView style={{ maxHeight: 100, minHeight: 100 }}>
-                    {searchElements}
-                  </ScrollView>
                 </View>
-                <TextInput
-                  style={styles.newMapNameInput}
-                  ref={(input) => {
-                    this.nameInput = input;
+                <View
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#575046",
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    flex: 1,
+                    margin: 5,
                   }}
-                  placeholder="Custom Map Name"
-                  text={this.state.newMapName}
-                  onChangeText={(text) =>
-                    this.setState({
-                      newMapName: text,
-                    })
-                  }
-                />
-                <TextInput
-                  style={styles.newMapNameInput}
-                  ref={(input) => {
-                    this.idInput = input;
-                  }}
-                  placeholder="Custom Map Ids"
-                  defaultValue={this.state.newMapIds}
-                  onChangeText={(text) =>
-                    this.setState({
-                      newMapIds: text,
-                    })
-                  }
-                />
-                <Button
-                  title="Create map"
-                  onPress={() => {
-                    let newMap = {
-                      title: this.state.newMapName,
-                      ids: this.state.newMapIds,
-                    };
-
-                    let staticNameFilter =
-                      idObject[
-                        this.state.newMapName.split(" ").join("").toLowerCase()
-                      ];
-
-                    let customMapFilter = this.props.customMapsArray.filter(
-                      (element) => element.title === this.state.newMapName
-                    );
-
-                    // console.log(customMapFilter);
-                    if (
-                      this.state.newMapName &&
-                      idRegex.test(this.state.newMapIds) &&
-                      !staticNameFilter &&
-                      !customMapFilter.length
-                    ) {
-                      this.props.addCustomMap(newMap);
-                      this.setState({
-                        newMapName: "",
-                        newMapIds: "",
-                      });
-
-                      this.idInput.clear();
-                      this.nameInput.clear();
-                    }
-                  }}
-                  color="#f8ecdb"
-                />
-
-                {mapCardArray}
-              </ScrollView>
-            </Animatable.View>
-          </ScrollView>
+                >
+                  <Button
+                    title={this.state.mode === "create" ? "My Maps" : "Results"}
+                    onPress={() => {
+                      this.modeSwitch();
+                    }}
+                    color="#f8ecdb"
+                  />
+                </View>
+              </View>
+            </View>
+            {this.state.mode === "create" ? (
+              <View
+                style={{
+                  ...styles.flatlist,
+                  margin: 10,
+                  padding: 5,
+                  flex: 1,
+                }}
+              >
+                <ScrollView style={{ flex: 1 }}>{searchElements}</ScrollView>
+              </View>
+            ) : (
+              <View
+                style={{
+                  ...styles.flatlist,
+                  margin: 10,
+                  padding: 5,
+                  flex: 1,
+                }}
+              >
+                <ScrollView style={{ flex: 1 }}>{mapCardArray}</ScrollView>
+              </View>
+            )}
+          </Animatable.View>
         </ImageBackground>
       </View>
     );

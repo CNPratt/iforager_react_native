@@ -111,7 +111,7 @@ export const styles = StyleSheet.create({
   newMapNameInput: {
     backgroundColor: "white",
     // height: 40,
-    margin: 12,
+    margin: 6,
     borderWidth: 1,
     padding: 10,
   },
