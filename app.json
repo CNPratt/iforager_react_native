@@ -22,7 +22,7 @@
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.cnprojects.iforager",
       "config": {
-        "googleMapsApiKey": "AIzaSyBP4mVRP105xN8fOMLVP25Ihw5Oj7YhN3g"
+        "googleMapsApiKey": ""
       },
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "iForager uses the user's location to retrieve data about nearby observations of plant and fungi species.",
