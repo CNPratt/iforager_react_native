@@ -20,6 +20,7 @@
     "ios": {
       "supportsTablet": false,
       "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.cnprojects.iforager",
       "config": {
         "googleMapsApiKey": "AIzaSyBP4mVRP105xN8fOMLVP25Ihw5Oj7YhN3g"
       },
