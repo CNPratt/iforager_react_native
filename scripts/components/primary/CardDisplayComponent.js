@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { getFile } from ".././../utility/GetFileFunctions";
 import { CardFlatList } from "./CardStackComponent";
-import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+  AppState,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-elements";
 import TestMap from "./TestMapComponent";

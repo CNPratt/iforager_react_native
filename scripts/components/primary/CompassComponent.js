@@ -511,7 +511,9 @@ CompassWithTarget = (props) => {
               }}
             >
               <View style={{ alignItems: "center" }}>
-                <Text style={{ color: "#fff" }}>Copyright @RahulHaque</Text>
+                <Text style={{ color: "#fff", paddingBottom: 20 }}>
+                  Compass Code Copyright @RahulHaque
+                </Text>
               </View>
             </View>
           </View>
