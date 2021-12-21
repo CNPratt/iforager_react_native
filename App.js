@@ -5,8 +5,8 @@ import Main from "./scripts/components/primary/MainComponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 
-LogBox.ignoreAllLogs(true);
-LogBox.ignoreLogs([""]);
+// LogBox.ignoreAllLogs(true);
+// LogBox.ignoreLogs([""]);
 
 // export default function App() {
 //   return <Main />;
@@ -41,6 +41,7 @@ export default class App extends Component {
 
     this.state = {
       isReady: false,
+      // isReady: true,
       unfiltered: false,
       radius: "15",
       customMapsArray: [],
@@ -112,7 +113,7 @@ export default class App extends Component {
   };
 
   deleteCustomMap = (map) => {
-    console.log(map);
+    //    console.log(map);
     this.setState({
       customMapsArray: this.state.customMapsArray.filter(
         (element) => element.title !== map.title
@@ -132,6 +133,8 @@ export default class App extends Component {
               unfiltered: false,
               filterLoaded: true,
             });
+      } else {
+        this.setState({ filterLoaded: true });
       }
     });
 
@@ -141,7 +144,9 @@ export default class App extends Component {
           customMapsArray: JSON.parse(value),
           customsLoaded: true,
         });
-        console.log("customs loaded");
+        //      console.log("customs loaded");
+      } else {
+        this.setState({ customsLoaded: true });
       }
     });
 
@@ -151,6 +156,8 @@ export default class App extends Component {
           favoritesArray: JSON.parse(value),
           favoritesLoaded: true,
         });
+      } else {
+        this.setState({ favoritesLoaded: true });
       }
     });
 
@@ -160,6 +167,8 @@ export default class App extends Component {
           radius: value,
           radiusLoaded: true,
         });
+      } else {
+        this.setState({ radiusLoaded: true });
       }
     });
 
@@ -169,6 +178,8 @@ export default class App extends Component {
           target: JSON.parse(value),
           targetLoaded: true,
         });
+      } else {
+        this.setState({ targetLoaded: true });
       }
     });
 
@@ -183,12 +194,19 @@ export default class App extends Component {
               measurements: false,
               measurementsLoaded: true,
             });
+      } else {
+        this.setState({ measurementsLoaded: true });
       }
     });
   };
-
   componentDidMount() {
     this.retrieveFromLocal();
+  }
+
+  componentDidCatch() {
+    this.setState({
+      isReady: true,
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -206,15 +224,18 @@ export default class App extends Component {
     }
 
     if (prevState.customMapsArray !== this.state.customMapsArray) {
-      storeData("customMapsArray", JSON.stringify(this.state.customMapsArray));
+      string = JSON.stringify(this.state.customMapsArray);
+      storeData("customMapsArray", string);
     }
 
     if (prevState.favoritesArray !== this.state.favoritesArray) {
-      storeData("favorites", JSON.stringify(this.state.favoritesArray));
+      string = JSON.stringify(this.state.favoritesArray);
+      storeData("favorites", string);
     }
 
     if (prevState.target !== this.state.target) {
-      storeData("target", JSON.stringify(this.state.target));
+      string = JSON.stringify(this.state.target);
+      storeData("target", string);
     }
   }
 
@@ -222,9 +243,9 @@ export default class App extends Component {
     if (!this.state.isReady) {
       return (
         <AppLoading
-          // startAsync={this.retrieveFromLocal}
-          // onFinish={() => this.setState({ isReady: true })}
-          onError={console.warn}
+        // startAsync={this.retrieveFromLocal}
+        // onFinish={() => this.setState({ isReady: true })}
+        // onError={console.warn}
         />
       );
     }

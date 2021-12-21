@@ -110,7 +110,7 @@ export async function inputRelay(text) {
 export async function taxaSearch(input) {
   let encoded = encodeURI(input);
 
-  console.log(encoded);
+  // console.log(encoded);
 
   let url;
 
@@ -135,7 +135,7 @@ export async function taxaSearch(input) {
     })
   );
 
-  console.log(parsed.results[0]);
+  //  console.log(parsed.results[0]);
 
   return extractedResults;
 }

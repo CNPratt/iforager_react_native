@@ -247,7 +247,7 @@ class CustomDrawer extends Component {
                       style={{
                         flex: 1,
                         flexDirection: "row",
-                        textAlign: "start",
+                        textAlign: "left",
                         alignSelf: "center",
                         fontSize: 14,
                         fontWeight: "bold",
@@ -295,7 +295,7 @@ class CustomDrawer extends Component {
                       style={{
                         flex: 1,
                         flexDirection: "row",
-                        textAlign: "start",
+                        textAlign: "left",
                         alignSelf: "center",
                         fontSize: 14,
                         fontWeight: "bold",
@@ -409,7 +409,7 @@ const HomeNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
     }),
@@ -456,7 +456,7 @@ export const FinderNav = (type) =>
             color="#796d5b"
             type="material-community"
             iconStyle={styles.stackicon}
-            size="45"
+            size={45}
           />
         ),
       }),
@@ -489,7 +489,7 @@ const TaxaDirectoryNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
     }),
@@ -522,7 +522,7 @@ const TaxaInfoClassNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
       headerRight: <BackButton navigation={navigation} />,
@@ -563,7 +563,7 @@ const CustomMapScreenNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
     }),
@@ -603,7 +603,7 @@ const CMapMasterNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
       headerRight: <BackButton navigation={navigation} />,
@@ -641,7 +641,7 @@ const WebNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
       headerRight: <BackButton navigation={navigation} />,
@@ -682,7 +682,7 @@ const FavoritesNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
     }),
@@ -720,7 +720,7 @@ const CompassNavigator = createStackNavigator(
           name="sprout-outline"
           type="material-community"
           iconStyle={styles.stackicon}
-          size="45"
+          size={45}
         />
       ),
     }),

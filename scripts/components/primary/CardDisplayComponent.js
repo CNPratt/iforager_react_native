@@ -71,14 +71,14 @@ class CardDisplay extends Component {
   };
 
   handleSortSwitch(method) {
-    console.log("sort switch");
+    // console.log("sort switch");
     this.setState({
       sortBy: method,
     });
   }
 
   handleSpeciesSwitch() {
-    console.log("species switch");
+    //  console.log("species switch");
 
     if (
       this.state.fullnameArray[
@@ -144,7 +144,7 @@ class CardDisplay extends Component {
   };
 
   getData() {
-    console.log("getting data..." + this.props.type);
+    //  console.log("getting data..." + this.props.type);
     this.setState({
       observations: [],
       selectedMarker: null,
@@ -199,7 +199,7 @@ class CardDisplay extends Component {
           loading: false,
         });
 
-        console.log(error.stack, error.name, error);
+        //      console.log(error.stack, error.name, error);
       });
   }
 

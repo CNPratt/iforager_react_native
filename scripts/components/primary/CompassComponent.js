@@ -109,7 +109,7 @@ class Screen extends Component {
         this.state.appVisible === false &&
         this.state.unsub)
     ) {
-      console.log("unsubbed1: " + this.state.unsub);
+      //    console.log("unsubbed1: " + this.state.unsub);
       this.state.unsub.remove();
       this.setState({
         unsub: null,
@@ -121,7 +121,7 @@ class Screen extends Component {
         this.state.appVisible === false &&
         this.state.unsub2)
     ) {
-      console.log("unsubbed2: " + this.state.unsub2);
+      //   console.log("unsubbed2: " + this.state.unsub2);
       this.state.unsub2.remove();
       this.setState({
         unsub2: null,
@@ -191,7 +191,7 @@ CompassWithTarget = (props) => {
   };
 
   useEffect(() => {
-    console.log("useeffect");
+    //  console.log("useeffect");
     _toggleWatch();
     return () => {
       _watchUnsubscribe();
@@ -205,7 +205,7 @@ CompassWithTarget = (props) => {
   };
 
   const _watchSubscribe = () => {
-    console.log("watch subscribe");
+    //  console.log("watch subscribe");
 
     Location.watchPositionAsync(
       { accuracy: 6, timeInterval: 100, distanceInterval: 1 },

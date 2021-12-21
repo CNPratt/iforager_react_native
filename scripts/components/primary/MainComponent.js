@@ -46,9 +46,9 @@ class Main extends Component {
     }
 
     function positionError() {
-      console.log(
-        "Geolocation is not enabled. Please enable to use this feature"
-      );
+      //     console.log(
+      //       "Geolocation is not enabled. Please enable to use this feature"
+      //     );
     }
   };
 

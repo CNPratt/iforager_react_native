@@ -19,10 +19,10 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.13",
       "bundleIdentifier": "com.cnprojects.iforager",
       "config": {
-        "googleMapsApiKey": ""
+        "googleMapsApiKey": "AIzaSyAEYygqmxwNq1CRwoY-f1Dj3TTAjfa0CvI"
       },
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "iForager uses the user's location to retrieve data about nearby observations of plant and fungi species.",

@@ -115,7 +115,7 @@ class CustomMapScreen extends Component {
 
     // console.log(idArray);
     if (!idArray.includes(id.toString())) {
-      console.log("add: " + id);
+      //    console.log("add: " + id);
       if (this.state.newMapIds === "") {
         this.setState({
           newMapIds: id.toString(),
@@ -131,9 +131,9 @@ class CustomMapScreen extends Component {
   removeResultId = (id) => {
     let idArray = this.state.newMapIds.split(",");
 
-    console.log("id: " + id);
+    //  console.log("id: " + id);
     if (idArray.includes(id.toString())) {
-      console.log("remove: " + id);
+      //    console.log("remove: " + id);
       this.setState({
         newMapIds: idArray.filter((item) => item !== id.toString()).join(","),
       });
@@ -215,7 +215,7 @@ class CustomMapScreen extends Component {
               />
               <Text
                 style={{
-                  textAlign: "start",
+                  textAlign: "left",
                   margin: 12,
                   marginBottom: 0,
                   color: "white",
@@ -247,7 +247,7 @@ class CustomMapScreen extends Component {
               />
               <Text
                 style={{
-                  textAlign: "start",
+                  textAlign: "left",
                   margin: 12,
                   marginBottom: 0,
                   color: "white",
@@ -280,7 +280,7 @@ class CustomMapScreen extends Component {
 
               <Text
                 style={{
-                  textAlign: "start",
+                  textAlign: "left",
                   margin: 12,
                   marginBottom: 0,
                   color: "white",
